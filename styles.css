@@ -1,0 +1,401 @@
+/* =========================================================
+   ARM ARTISTRY — Shared Stylesheet
+   All pages import this file for consistent design tokens,
+   animations, components, and utilities.
+   ========================================================= */
+
+/* --- Google Fonts (fallback import if pages don't load them) --- */
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap');
+
+/* --- Reset & Base --- */
+*, *::before, *::after { box-sizing: border-box; margin: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Manrope', sans-serif; -webkit-font-smoothing: antialiased; }
+img { display: block; max-width: 100%; }
+a { text-decoration: none; }
+
+/* =========================================================
+   NAVIGATION
+   ========================================================= */
+.nav-link {
+    position: relative;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: color 0.25s ease;
+    padding-bottom: 4px;
+}
+.nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: #f2a65a;
+    border-radius: 2px;
+    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.nav-link:hover::after { width: 100%; }
+.nav-link.active::after { width: 100%; }
+.nav-link.active { color: #f2a65a; }
+
+/* =========================================================
+   MOBILE MENU OVERLAY
+   ========================================================= */
+.mobile-menu {
+    position: fixed;
+    inset: 0;
+    background: rgba(34, 25, 16, 0.97);
+    backdrop-filter: blur(12px);
+    z-index: 200;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 2.5rem;
+    transform: translateX(-100%);
+    transition: transform 0.45s cubic-bezier(0.77, 0, 0.175, 1);
+}
+.mobile-menu.open { transform: translateX(0); }
+.mobile-menu .mobile-nav-link {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2rem, 6vw, 3.5rem);
+    font-weight: 800;
+    color: rgba(245, 242, 237, 0.7);
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    transition: color 0.2s, letter-spacing 0.3s;
+}
+.mobile-menu .mobile-nav-link:hover,
+.mobile-menu .mobile-nav-link.active {
+    color: #f2a65a;
+    letter-spacing: 0.08em;
+}
+.mobile-menu-close {
+    position: absolute;
+    top: 1.5rem;
+    right: 1.5rem;
+    color: rgba(255,255,255,0.6);
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.mobile-menu-close:hover {
+    background: #f2a65a;
+    color: #1b140d;
+    border-color: #f2a65a;
+}
+
+/* =========================================================
+   SCROLL REVEAL ANIMATIONS
+   ========================================================= */
+.reveal {
+    opacity: 0;
+    transform: translateY(48px);
+    transition: opacity 0.75s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.reveal.delay-1 { transition-delay: 0.1s; }
+.reveal.delay-2 { transition-delay: 0.2s; }
+.reveal.delay-3 { transition-delay: 0.3s; }
+.reveal.delay-4 { transition-delay: 0.4s; }
+.reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* =========================================================
+   PAGE ENTER ANIMATION
+   ========================================================= */
+.page-enter {
+    animation: pageEnter 0.55s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+@keyframes pageEnter {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================================================
+   PORTFOLIO — MASONRY GRID
+   ========================================================= */
+.masonry-grid {
+    column-count: 3;
+    column-gap: 1.75rem;
+}
+@media (max-width: 1024px) { .masonry-grid { column-count: 2; } }
+@media (max-width: 560px)  { .masonry-grid { column-count: 1; } }
+.masonry-item {
+    break-inside: avoid;
+    margin-bottom: 1.75rem;
+    display: block;
+}
+
+/* =========================================================
+   PORTFOLIO — GALLERY CARD
+   ========================================================= */
+.gallery-item {
+    transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1),
+                box-shadow 0.35s ease;
+    cursor: pointer;
+    position: relative;
+}
+.gallery-item:hover {
+    transform: scale(1.04) translateY(-8px);
+    box-shadow: 0 24px 48px -10px rgba(0,0,0,0.18),
+                0 0 32px 0px rgba(242, 166, 90, 0.28);
+    z-index: 10;
+}
+.gallery-item .gallery-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(34,25,16,0.85) 0%, transparent 55%);
+    opacity: 0;
+    transition: opacity 0.35s ease;
+    display: flex;
+    align-items: flex-end;
+    padding: 1.25rem;
+    border-radius: inherit;
+}
+.gallery-item:hover .gallery-overlay { opacity: 1; }
+
+/* =========================================================
+   GALLERY — FILTER TABS
+   ========================================================= */
+.filter-tab {
+    position: relative;
+    cursor: pointer;
+    padding: 1.5rem 0 1rem;
+    border-bottom: 3px solid transparent;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    transition: color 0.25s ease, border-color 0.25s ease;
+    white-space: nowrap;
+}
+.filter-tab.active {
+    border-bottom-color: #f2a65a;
+    color: #f2a65a;
+}
+.filter-tab:hover:not(.active) {
+    color: #f2a65a;
+    border-bottom-color: rgba(242,166,90,0.3);
+}
+.gallery-hidden {
+    display: none !important;
+}
+
+/* =========================================================
+   LIGHTBOX MODAL
+   ========================================================= */
+.lightbox {
+    position: fixed;
+    inset: 0;
+    background: rgba(8, 5, 2, 0.94);
+    z-index: 300;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease;
+}
+.lightbox.open {
+    opacity: 1;
+    pointer-events: all;
+}
+.lightbox-img-wrap {
+    position: relative;
+    max-width: min(90vw, 900px);
+    max-height: 88vh;
+    transform: scale(0.88);
+    transition: transform 0.35s cubic-bezier(0.34, 1.3, 0.64, 1);
+}
+.lightbox.open .lightbox-img-wrap { transform: scale(1); }
+.lightbox-img-wrap img {
+    max-width: 100%;
+    max-height: 78vh;
+    border-radius: 1rem;
+    object-fit: contain;
+    box-shadow: 0 40px 80px rgba(0,0,0,0.5);
+}
+.lightbox-close {
+    position: absolute;
+    top: -1rem;
+    right: -1rem;
+    background: #f2a65a;
+    color: #1b140d;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.2s;
+    font-size: 1rem;
+    font-weight: 900;
+}
+.lightbox-close:hover { transform: scale(1.15) rotate(90deg); background: #c97b4a; }
+.lightbox-caption {
+    text-align: center;
+    margin-top: 1rem;
+    color: rgba(255,255,255,0.75);
+    font-size: 0.875rem;
+    letter-spacing: 0.05em;
+}
+.lightbox-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(242,166,90,0.15);
+    border: 1px solid rgba(242,166,90,0.3);
+    color: white;
+    border-radius: 50%;
+    width: 3rem;
+    height: 3rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background 0.2s;
+    z-index: 10;
+}
+.lightbox-nav:hover { background: #f2a65a; }
+.lightbox-nav.prev { left: -4rem; }
+.lightbox-nav.next { right: -4rem; }
+@media (max-width: 768px) {
+    .lightbox-nav.prev { left: 0.5rem; }
+    .lightbox-nav.next { right: 0.5rem; }
+}
+
+/* =========================================================
+   CONTACT FORM
+   ========================================================= */
+.form-input {
+    width: 100%;
+    background: transparent;
+    border: 1.5px solid #e7dbcf;
+    border-radius: 0.625rem;
+    padding: 0.9rem 1rem;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.9375rem;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    outline: none;
+    color: #1b140d;
+}
+.dark .form-input { border-color: #4a3f35; color: #fcfaf8; }
+.form-input:focus {
+    border-color: #f2a65a;
+    box-shadow: 0 0 0 3px rgba(242, 166, 90, 0.15);
+}
+.form-input::placeholder { color: rgba(154, 115, 76, 0.45); }
+.success-banner {
+    display: none;
+    animation: pageEnter 0.4s ease;
+}
+.success-banner.show { display: flex; }
+
+/* =========================================================
+   SERVICE CARDS
+   ========================================================= */
+.service-card {
+    transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+.service-card:hover {
+    border-color: #f2a65a !important;
+    box-shadow: 0 20px 40px -12px rgba(242,166,90,0.2);
+    transform: translateY(-4px);
+}
+
+/* =========================================================
+   SOCIAL ICON GLOW
+   ========================================================= */
+.social-icon-glow {
+    transition: color 0.3s, text-shadow 0.3s, border-color 0.3s;
+}
+.social-icon-glow:hover {
+    color: #f2a65a !important;
+    text-shadow: 0 0 12px rgba(242, 166, 90, 0.55);
+    border-color: #f2a65a !important;
+}
+
+/* =========================================================
+   WATERMARK TEXT
+   ========================================================= */
+.text-watermark {
+    opacity: 0.07;
+    letter-spacing: 0.5em;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* =========================================================
+   SCROLLBAR — Hide
+   ========================================================= */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* =========================================================
+   NEWSLETTER
+   ========================================================= */
+.newsletter-success {
+    display: none;
+    color: #f2a65a;
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+    animation: pageEnter 0.3s ease;
+}
+.newsletter-success.show { display: block; }
+
+/* =========================================================
+   SCROLL DOWN INDICATOR
+   ========================================================= */
+@keyframes scrollBounce {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(8px); }
+}
+.scroll-indicator { animation: scrollBounce 1.8s ease-in-out infinite; }
+
+/* =========================================================
+   LOGO FONT
+   ========================================================= */
+.logo-font {
+    font-family: 'Syne', sans-serif;
+    letter-spacing: -0.04em;
+    font-weight: 800;
+}
+
+/* =========================================================
+   TABS (Service page)
+   ========================================================= */
+.svc-tab {
+    padding: 1rem 0 0.875rem;
+    border-bottom: 3px solid transparent;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: color 0.25s ease, border-color 0.25s ease;
+    white-space: nowrap;
+}
+.svc-tab.active {
+    border-bottom-color: #f2a65a;
+    color: #f2a65a;
+}
+.svc-tab:hover:not(.active) {
+    color: #f2a65a;
+    border-bottom-color: rgba(242,166,90,0.3);
+}
