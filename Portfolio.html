@@ -41,8 +41,7 @@
     <a href="index.html" class="mobile-nav-link" onclick="closeMobileMenu()">Home</a>
     <a href="Portfolio.html" class="mobile-nav-link active" onclick="closeMobileMenu()">Portfolio</a>
     <a href="service.html" class="mobile-nav-link" onclick="closeMobileMenu()">Services</a>
-    <a href="contact.html" class="mobile-nav-link" onclick="closeMobileMenu()">Contact</a>
-    <a href="contact.html" onclick="closeMobileMenu()" style="margin-top:1rem;background:#f2a65a;color:#1b140d;font-weight:700;padding:0.875rem 2.5rem;border-radius:0.5rem;font-size:0.875rem;letter-spacing:0.06em;text-transform:uppercase;">Book Now</a>
+    <a href="booking.html" onclick="closeMobileMenu()" class="header-book-btn">Book Now</a>
 </div>
 
 <!-- ===================== HEADER ===================== -->
@@ -59,10 +58,9 @@
         <a href="index.html" class="nav-link text-[#1b140d] dark:text-white">Home</a>
         <a href="Portfolio.html" class="nav-link active text-[#1b140d] dark:text-white">Portfolio</a>
         <a href="service.html" class="nav-link text-[#1b140d] dark:text-white">Services</a>
-        <a href="contact.html" class="nav-link text-[#1b140d] dark:text-white">Contact</a>
     </nav>
     <div class="flex items-center gap-4">
-        <a href="contact.html" class="hidden md:block bg-primary text-[#1b140d] px-6 py-2.5 rounded-lg text-sm font-bold tracking-wide hover:brightness-110 transition-all uppercase">Book Now</a>
+        <a href="booking.html" class="header-book-btn hidden md:block">Book Now</a>
         <button class="md:hidden text-[#1b140d] dark:text-white p-1" onclick="openMobileMenu()" aria-label="Open menu">
             <span class="material-symbols-outlined" style="font-size:1.75rem">menu</span>
         </button>
@@ -79,20 +77,117 @@
 </section>
 
 <!-- ===================== PORTFOLIO FILTERS ===================== -->
-<section class="pb-12 px-6">
-    <div class="flex flex-wrap justify-center gap-4 reveal" id="filter-container">
-        <button class="filter-btn active" data-filter="all">All</button>
-        <button class="filter-btn" data-filter="bridal">Bridal</button>
-        <button class="filter-btn" data-filter="editorial">Editorial</button>
-        <button class="filter-btn" data-filter="glam">Glamour</button>
+<section class="pb-0 px-6 max-w-7xl mx-auto">
+    <div class="flex flex-wrap justify-center gap-10 border-b border-beige dark:border-[#4a3f35] reveal" id="filter-container">
+        <button class="filter-tab active" data-filter="all">All Work</button>
+        <button class="filter-tab" data-filter="bridal">Bridal</button>
+        <button class="filter-tab" data-filter="editorial">Editorial</button>
+        <button class="filter-tab" data-filter="glam">Glamour</button>
     </div>
 </section>
 
-<!-- ===================== MASONRY GRID ===================== -->
-<section class="pb-32 px-6 max-w-7xl mx-auto">
-    <div class="masonry-grid" id="masonry-grid">
-        <!-- Rendered via JS -->
-    </div>
+<!-- ===================== CASE STUDIES ===================== -->
+<section class="pt-24 pb-32 px-6 max-w-7xl mx-auto" id="case-study-grid">
+
+    <!-- ── Case Study 1: Bridal — Image Left / Text Right ── -->
+    <article class="case-study reveal" data-category="bridal">
+        <div class="case-study-inner">
+            <!-- Image Column -->
+            <div class="case-study-image-col">
+                <div class="case-study-img-wrap">
+                    <img
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBD03oMNqeYPN7P86AfWMYrbimyA2395kBCCPA6ocI8s-HeCQpEUWJfIcqpjTd6SPm_OCSY9trrRSyv5McFS68nDdacBItLQ7Nvj6fY_-Lg1OPVw3kzASwUBfHkZSoT8gAIhtg0umyIbNj0FQrw9yLRbQbvjPYnhxkdLcgitJDKbnS4siqb9DfPdvSYKz1Eq8-E4jU--JVeyuejjyjl3JMP7DR1V5YehhDM4LIqDuuM-oL7uFz2ZkgYGpSFo8RYWlt-UBx0QoFxc6w"
+                        alt="Parisian Destination Bridal — Soft Glam Look by ARM Artistry"
+                        class="case-study-img"
+                    >
+                    <div class="case-study-img-accent"></div>
+                </div>
+            </div>
+            <!-- Text Column -->
+            <div class="case-study-text-col">
+                <span class="case-study-eyebrow">Bridal Artistry</span>
+                <h2 class="case-study-title logo-font">Parisian Destination Wedding</h2>
+                <div class="case-study-tags">
+                    <span>#SoftGlam</span>
+                    <span>#GlassSkin</span>
+                    <span>#BridalLook</span>
+                </div>
+                <p class="case-study-brief">A three-day celebration at Ch&acirc;teau de Vaux-le-Vicomte. The brief called for an effortlessly luminous look &mdash; soft bronze eyes, a flawless glass-skin finish, and featherlight lashes that read beautifully under golden-hour candlelight and into the long evening ahead.</p>
+                <blockquote class="case-study-testimonial">
+                    <p>&ldquo;I wanted to look like the best version of myself on my wedding day. ARM delivered something beyond imagination &mdash; timeless, radiant, and wholly authentic. Every photograph took my breath away.&rdquo;</p>
+                    <cite>&mdash; Camille Rousseau, Bride</cite>
+                </blockquote>
+                <a href="booking.html" class="case-study-cta">Book Bridal Consultation &rarr;</a>
+            </div>
+        </div>
+    </article>
+
+    <!-- ── Case Study 2: Editorial — Text Left / Image Right ── -->
+    <article class="case-study case-study--reverse reveal delay-1" data-category="editorial">
+        <div class="case-study-inner">
+            <!-- Text Column (first in DOM = left on desktop, stacks below image on mobile) -->
+            <div class="case-study-text-col">
+                <span class="case-study-eyebrow">Editorial &amp; Fashion</span>
+                <h2 class="case-study-title logo-font">Vogue Paris &mdash; The Architecture of Beauty</h2>
+                <div class="case-study-tags">
+                    <span>#EditorialMakeup</span>
+                    <span>#AvantGarde</span>
+                    <span>#HighFashion</span>
+                </div>
+                <p class="case-study-brief">A ten-look editorial for Vogue Paris exploring the collision of structural contouring and raw, dewy skin. Each look was a precise sculpture of shadow and light &mdash; demanding technical mastery and an acute fluency in how makeup translates across medium and large format lenses.</p>
+                <blockquote class="case-study-testimonial">
+                    <p>&ldquo;ARM understood the visual language of the project instantly. The precision and artistry on set was unmatched &mdash; every look was exactly what our creative director envisioned, and then some.&rdquo;</p>
+                    <cite>&mdash; &Eacute;lise Fontaine, Creative Director, Vogue Paris</cite>
+                </blockquote>
+                <a href="booking.html" class="case-study-cta">Enquire for Editorial &rarr;</a>
+            </div>
+            <!-- Image Column -->
+            <div class="case-study-image-col">
+                <div class="case-study-img-wrap">
+                    <img
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuBzAUmHYvP_amG0kuhrdcnf60h4-qpELZIbC66KnLnTnFN0oshfV3ke5MVhFkclYGZMhzreaNxreU6QGJlx3vTtBPkkSurws4ivkdsWLOi8qKTigC_W9nKa83HB-baryawOFHql5fRE_NV5qxvQcHPtub8c8t2oUG43iyakwGPnle6bN0CEQQKheF1F6UePH97FEPyo3YaBFozPvm4ndcY9pFVyIIUCXSnue_-uP8g1UdoqBPsNHUaYNyViM27dPS0cGd2YzZEtJfA"
+                        alt="Vogue Paris Editorial — ARM Artistry"
+                        class="case-study-img"
+                    >
+                    <div class="case-study-img-accent case-study-img-accent--left"></div>
+                </div>
+            </div>
+        </div>
+    </article>
+
+    <!-- ── Case Study 3: Glamour — Image Left / Text Right ── -->
+    <article class="case-study reveal delay-2" data-category="glam">
+        <div class="case-study-inner">
+            <!-- Image Column -->
+            <div class="case-study-image-col">
+                <div class="case-study-img-wrap">
+                    <img
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuA_DaNxbRGL68uzSIMQUXDMhElN0wYcceoDbg-TXcyRWZI-A68JEDjHTBmamjSaqFEeynNcc0J1T0HpFDD2fNnlpsRIbgl2E5stM6Al-SPIyR8wiCWb0Uk40sZsC2z8sTvkC0mCo93y4wD6fJu1MFK6C21Adc3DmhshC4cfyhHfEu9_UnyjthvDnKZBg1s92XYvnC9P11lPG81nOG6-l3HYhshE2J7WdVrugNZB4dzdRQCkgFwYvAzdeiPORvgJlRcYICD0W2yNxr8"
+                        alt="Cannes Red Carpet Glamour — ARM Artistry"
+                        class="case-study-img"
+                    >
+                    <div class="case-study-img-accent"></div>
+                </div>
+            </div>
+            <!-- Text Column -->
+            <div class="case-study-text-col">
+                <span class="case-study-eyebrow">Signature Glamour</span>
+                <h2 class="case-study-title logo-font">Cannes Red Carpet &mdash; Evening Opulence</h2>
+                <div class="case-study-tags">
+                    <span>#RedCarpetGlam</span>
+                    <span>#OldHollywood</span>
+                    <span>#EveningLook</span>
+                </div>
+                <p class="case-study-brief">Commissioned for a leading actress attending the Cannes Film Festival. The directive: maximum impact under flash photography without sacrificing wearability across a twelve-hour red carpet day. Classic Old Hollywood glamour, executed with contemporary precision and a modern complexion finish.</p>
+                <blockquote class="case-study-testimonial">
+                    <p>&ldquo;Working with ARM was a revelation. The look held flawlessly from the afternoon press junket through to the post-premiere gala &mdash; and photographed exquisitely under every lighting condition imaginable.&rdquo;</p>
+                    <cite>&mdash; Isabelle Mercier, Talent Manager</cite>
+                </blockquote>
+                <a href="booking.html" class="case-study-cta">Book a Glam Session &rarr;</a>
+            </div>
+        </div>
+    </article>
+
 </section>
 
 <!-- ===================== LIGHTBOX ===================== -->
@@ -120,7 +215,7 @@
                     <a href="https://instagram.com" target="_blank" rel="noopener" class="social-icon-glow w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60">
                         <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"></path></svg>
                     </a>
-                    <a href="contact.html" class="social-icon-glow w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60">
+                    <a href="booking.html" class="social-icon-glow w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60">
                         <span class="material-symbols-outlined" style="font-size:1.1rem;">mail</span>
                     </a>
                     <a href="#" class="social-icon-glow w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60">
@@ -135,7 +230,7 @@
                     <li><a href="index.html" class="hover:text-primary transition-colors">Home</a></li>
                     <li><a href="Portfolio.html" class="hover:text-primary transition-colors">Portfolio</a></li>
                     <li><a href="service.html" class="hover:text-primary transition-colors">Services &amp; Pricing</a></li>
-                    <li><a href="contact.html" class="hover:text-primary transition-colors">Contact</a></li>
+                    <li><a href="booking.html" class="hover:text-primary transition-colors">Book Now</a></li>
                 </ul>
             </div>
             <!-- Contact -->
@@ -170,7 +265,7 @@
 </footer>
 
 <script>
-// Mobile Menu
+// ── Mobile Menu ─────────────────────────────────────────
 function openMobileMenu() {
     document.getElementById('mobileMenu').classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -179,17 +274,20 @@ function closeMobileMenu() {
     document.getElementById('mobileMenu').classList.remove('open');
     document.body.style.overflow = '';
 }
-// Nav shadow
+
+// ── Nav shadow on scroll ─────────────────────────────────
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
     navbar.classList.toggle('shadow-xl', window.scrollY > 60);
 });
-// Scroll reveal
+
+// ── Scroll reveal ────────────────────────────────────────
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
+}, { threshold: 0.08 });
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-// Newsletter
+
+// ── Newsletter ───────────────────────────────────────────
 function nlSubscribe() {
     const el = document.getElementById('nl-email');
     if (el.value && el.value.includes('@')) {
@@ -198,43 +296,35 @@ function nlSubscribe() {
     }
 }
 
-// Portfolio Data & Filtering
-const items = [
-    { cat: 'bridal', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBD03oMNqeYPN7P86AfWMYrbimyA2395kBCCPA6ocI8s-HeCQpEUWJfIcqpjTd6SPm_OCSY9trrRSyv5McFS68nDdacBItLQ7Nvj6fY_-Lg1OPVw3kzASwUBfHkZSoT8gAIhtg0umyIbNj0FQrw9yLRbQbvjPYnhxkdLcgitJDKbnS4siqb9DfPdvSYKz1Eq8-E4jU--JVeyuejjyjl3JMP7DR1V5YehhDM4LIqDuuM-oL7uFz2ZkgYGpSFo8RYWlt-UBx0QoFxc6w' },
-    { cat: 'editorial', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuBzAUmHYvP_amG0kuhrdcnf60h4-qpELZIbC66KnLnTnFN0oshfV3ke5MVhFkclYGZMhzreaNxreU6QGJlx3vTtBPkkSurws4ivkdsWLOi8qKTigC_W9nKa83HB-baryawOFHql5fRE_NV5qxvQcHPtub8c8t2oUG43iyakwGPnle6bN0CEQQKheF1F6UePH97FEPyo3YaBFozPvm4ndcY9pFVyIIUCXSnue_-uP8g1UdoqBPsNHUaYNyViM27dPS0cGd2YzZEtJfA' },
-    { cat: 'glam', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuA_DaNxbRGL68uzSIMQUXDMhElN0wYcceoDbg-TXcyRWZI-A68JEDjHTBmamjSaqFEeynNcc0J1T0HpFDD2fNnlpsRIbgl2E5stM6Al-SPIyR8wiCWb0Uk40sZsC2z8sTvkC0mCo93y4wD6fJu1MFK6C21Adc3DmhshC4cfyhHfEu9_UnyjthvDnKZBg1s92XYvnC9P11lPG81nOG6-l3HYhshE2J7WdVrugNZB4dzdRQCkgFwYvAzdeiPORvgJlRcYICD0W2yNxr8' },
-    { cat: 'bridal', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDPNVroycF8nx_Z-vVVxweuhKTBEAMAHONeifCqCkPO0e9vw2tcFT3KsPGmjR-rK702GNM3hXJq7aqRq5FEuGH-rf_nzFt5c7BCra6UIn6KBVcT6f03U23XTY_RtVfXccwOrSI_4LvjYASZf-vjwLc26nJCbMZNFGQ7bkL1QUc_U48lhdEc9Ulr8ss1J7RKhqPwSJGEdQTp6SlKPZKQ71Xv0Km3q0S0mKjhMhrhdJLMNv4hwpZq6-Pov2jrvTsJSuWbHVfGHy4Nkkw' },
-    { cat: 'editorial', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuD84jWTVa6oI4a7vU2fJmO8Y9Z8Uq8V_0qjQd1v4L2Hn_5a2Wl0C_t9jF9D2v_6d4xH5lG9_UqJ_N7P9W4q7N2eN9L4vD5T3D3vD6v1xJ1R7f5f9_3Y6_U7Q9W5P5B1Q7I2C1B8V4P0P2vL0O1J4_O8W5Y9J3R8I4T3G8E9_9_5_Z2V9H9Z_O4Y0V1Y5M8_M1W_J4_H9X3B4P5G6I4N9A1X9B9Y1P_X0V4H4B1V1P5Z9_G8I8_X6H6M9F9M0H6H8H1_I9Z9L8X6E8Z9I' },
-    { cat: 'glam', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuB_F6F8G4I6_8M1H8_Z3M3R6L8Y2N4V0Z3V6F5_6Z6I8H4Q8Q6H2N7F2Q9Z2H2N5L2Z5M3P4T4L3P9T6T9V4_X8_0B2H2I1M3X1D2N3Z1J4T3_Y6L7N9_3M6Q8E3_Y6N1P8F9O3N7Z0_Q9P4L7H2Y2O2V1V1P8R1G5Z7O9_Y6O6Q8N9_F9H9I8N5I9B8_X8F9V7Q4D9M1_Q6B2_Q8H4F2L8I2N3X9Y1Z9L0X0R1_D5M9P1I4Q6X1I5_4T1L2B0N0Y9T6O9V5_Z6T2H6_Q2J1L' },
-    { cat: 'bridal', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuCHr9778rVXXi4Xj26hA64s1yE9uD1E3L4W_K4O5a0Y5M3P4T4L3P9T6T9V4_X8_0B2H2I1M3X1D2N3Z1J4T3_Y6L7N9_3M6Q8E3_Y6N1P8F9O3N7Z0_Q9P4L7H2Y2O2V1V1P8R1G5Z7O9_Y6O6Q8N9_F9H9I8N5I9B8_X8F9V7Q4D9M1_Q6B2_Q8H4F2L8I2N3X9Y1Z9L0X0R1_D5M9P1I4Q6X1I5_4T1L2B0N0Y9T6O9V5_Z6T2H6_Q2J1L' },
-    { cat: 'editorial', img: 'https://lh3.googleusercontent.com/aida-public/AB6AXuC77GYDkrLuYl5_f7f_3332jzELsn5mVi42ildFl7tT_qq-B9tJZIOs5za4LPIcf3fnBMtqilbnaPZ16_L-fJdSu9_E0sHeZsfJ6lfo4W4FS76KwMxFNbn9t5K0_-CSIBN4kw-3WUVDlX4a8hoU-o_ut6kcCOi14syzMRXBfIa_W-XcmHaGczqo-AvKmD4CmQrbj13u0lnA2EnoR6W8Dofsteu5K7w5-aIc7nkAxhydswWDSsZOZFJjSUBtxYih9J32Nn030xXjbtw' },
-];
-
-const grid = document.getElementById('masonry-grid');
-function renderGrid(filter) {
-    grid.innerHTML = '';
-    const filtered = filter === 'all' ? items : items.filter(i => i.cat === filter);
-    filtered.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'masonry-item reveal';
-        div.innerHTML = `<img src="${item.img}" alt="${item.cat}">`;
-        div.onclick = () => openLightbox(item.img);
-        grid.appendChild(div);
-    });
-    // re-observe
-    setTimeout(() => {
-        document.querySelectorAll('.masonry-item.reveal').forEach(el => observer.observe(el));
-    }, 100);
-}
+// ── Portfolio Filtering (smooth opacity + transform) ─────
+const allStudies = document.querySelectorAll('.case-study');
 
 document.getElementById('filter-container').addEventListener('click', (e) => {
-    if (e.target.classList.contains('filter-btn')) {
-        document.querySelectorAll('.filter-btn').forEach(btn => btn.classList.remove('active'));
-        e.target.classList.add('active');
-        renderGrid(e.target.dataset.filter);
-    }
+    const btn = e.target.closest('.filter-tab');
+    if (!btn) return;
+
+    // Update active tab
+    document.querySelectorAll('.filter-tab').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+
+    const filter = btn.dataset.filter;
+
+    allStudies.forEach(study => {
+        const match = filter === 'all' || study.dataset.category === filter;
+        if (match) {
+            // Restore: remove hidden state so CSS transition plays in
+            study.classList.remove('cs-hidden');
+        } else {
+            // Fade + slide out
+            study.classList.add('cs-hidden');
+        }
+    });
 });
-renderGrid('all');
+
+// ── Case Study Image → Lightbox ──────────────────────────
+document.querySelectorAll('.case-study-img').forEach(img => {
+    img.addEventListener('click', () => openLightbox(img.src));
+});
 
 // Lightbox
 const lightbox = document.getElementById('lightbox');

@@ -43,6 +43,67 @@ a { text-decoration: none; }
 .nav-link.active { color: #f2a65a; }
 
 /* =========================================================
+   HEADER — BOOK NOW CTA (Singular Apex CTA)
+   High-contrast pill button separated visually from all nav
+   text links. Intentionally uses terracotta fill so the eye
+   is drawn to it immediately on page load.
+   ========================================================= */
+.header-book-btn {
+    display: inline-flex;
+    align-items: center;
+    background: #c97b4a;          /* terracotta — stands out from primary #f2a65a */
+    color: #ffffff;
+    padding: 0.625rem 1.5rem;
+    border-radius: 0.5rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    box-shadow: 0 4px 14px -2px rgba(201, 123, 74, 0.45);
+    transition: background 0.22s ease,
+                box-shadow 0.22s ease,
+                transform  0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.header-book-btn:hover {
+    background: #b36840;
+    box-shadow: 0 8px 22px -4px rgba(201, 123, 74, 0.6);
+    transform: translateY(-2px) scale(1.04);
+}
+.header-book-btn:active {
+    transform: translateY(0) scale(0.98);
+    box-shadow: 0 2px 8px -2px rgba(201, 123, 74, 0.4);
+}
+
+/* =========================================================
+   MOBILE MENU — BOOK NOW CTA
+   Isolated at bottom of overlay, full-width pill so it is
+   unmistakably the primary action in the mobile context.
+   ========================================================= */
+.mobile-book-btn {
+    margin-top: 1.5rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: #c97b4a;
+    color: #ffffff;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 0.9375rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    padding: 1rem 3rem;
+    border-radius: 0.625rem;
+    box-shadow: 0 0 28px 0 rgba(201, 123, 74, 0.35);
+    transition: background 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease;
+}
+.mobile-book-btn:hover {
+    background: #b36840;
+    box-shadow: 0 0 38px 0 rgba(201, 123, 74, 0.55);
+    transform: scale(1.03);
+}
+
+/* =========================================================
    MOBILE MENU OVERLAY
    ========================================================= */
 .mobile-menu {
@@ -126,18 +187,211 @@ a { text-decoration: none; }
 }
 
 /* =========================================================
-   PORTFOLIO — MASONRY GRID
+   PORTFOLIO — CASE STUDY (Premium Alternating Split Layout)
+   Replaces the masonry grid. CSS Grid drives the desktop
+   split-screen composition; semantic <img> + object-fit
+   preserves the makeup focal point on all viewports.
    ========================================================= */
-.masonry-grid {
-    column-count: 3;
-    column-gap: 1.75rem;
+
+/* ── Wrapper article ── */
+.case-study {
+    margin-bottom: 8rem;
+    opacity: 1;
+    transform: translateY(0);
+    /* Both properties transition so the filter animation is
+       smooth in both directions (show & hide). */
+    transition: opacity  0.55s cubic-bezier(0.4, 0, 0.2, 1),
+                transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
 }
-@media (max-width: 1024px) { .masonry-grid { column-count: 2; } }
-@media (max-width: 560px)  { .masonry-grid { column-count: 1; } }
-.masonry-item {
-    break-inside: avoid;
-    margin-bottom: 1.75rem;
+/* Filtered-out state — visibility lets the transition finish
+   before the element is removed from accessibility tree. */
+.case-study.cs-hidden {
+    opacity: 0;
+    transform: translateY(28px);
+    pointer-events: none;
+    position: absolute;    /* pull out of normal flow */
+    visibility: hidden;
+}
+
+/* ── Inner Grid: image column (1.1fr) + text column (0.9fr) ── */
+.case-study-inner {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 6rem;
+    align-items: center;
+}
+/* Reversed: text is first in DOM (renders left) / image second (renders right).
+   Column proportions swap so the text side is 0.9fr and image is 1.1fr. */
+.case-study--reverse .case-study-inner {
+    grid-template-columns: 0.9fr 1.1fr;
+}
+
+/* ── Image Column ── */
+.case-study-image-col {
+    position: relative;
+}
+.case-study-img-wrap {
+    position: relative;
+    border-radius: 1.5rem;
+    overflow: hidden;
+    aspect-ratio: 4 / 5;
+    background: #e8e2d8;   /* beige placeholder while loading */
+    box-shadow: 0 40px 72px -16px rgba(27, 20, 13, 0.22),
+                0 12px 24px -8px  rgba(27, 20, 13, 0.12);
+}
+/* Semantic <img> — NO bg-cover. object-position biases upward
+   so the face/eye area is never cropped by the aspect-ratio container. */
+.case-study-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 15%;
     display: block;
+    cursor: zoom-in;
+    transition: transform 0.75s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.case-study-img-wrap:hover .case-study-img {
+    transform: scale(1.05);
+}
+
+/* Decorative primary-coloured border accent — sits behind the image
+   via z-index:-1 so no overflow:visible hack on the parent is needed. */
+.case-study-img-accent {
+    position: absolute;
+    bottom: -1.75rem;
+    right: -1.75rem;
+    width: 55%;
+    height: 38%;
+    border: 2.5px solid rgba(242, 166, 90, 0.42);
+    border-radius: 1.25rem;
+    z-index: -1;
+    pointer-events: none;
+}
+/* Mirror accent for reversed cards (image on right) */
+.case-study-img-accent--left {
+    right: auto;
+    left: -1.75rem;
+}
+
+/* ── Text Column ── */
+.case-study-text-col {
+    padding: 1.5rem 0;
+}
+
+/* Eyebrow / category label */
+.case-study-eyebrow {
+    display: block;
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #f2a65a;
+    margin-bottom: 1rem;
+}
+
+/* Project title */
+.case-study-title {
+    font-size: clamp(1.75rem, 3.2vw, 2.75rem);
+    line-height: 1.08;
+    color: #1b140d;
+    margin-bottom: 1.25rem;
+}
+.dark .case-study-title { color: #fcfaf8; }
+
+/* Style hashtag pills */
+.case-study-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 1.75rem;
+}
+.case-study-tags span {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    color: #9a7a5a;
+    background: rgba(242, 166, 90, 0.09);
+    border: 1px solid rgba(242, 166, 90, 0.3);
+    padding: 0.3rem 0.8rem;
+    border-radius: 9999px;
+    transition: background 0.2s, border-color 0.2s;
+}
+.case-study-tags span:hover {
+    background: rgba(242, 166, 90, 0.18);
+    border-color: #f2a65a;
+}
+
+/* Editorial / project brief body copy */
+.case-study-brief {
+    font-size: 0.9375rem;
+    line-height: 1.85;
+    color: #5a4a3a;
+    margin-bottom: 1.75rem;
+}
+.dark .case-study-brief { color: #a08878; }
+
+/* Testimonial / editorial brief blockquote */
+.case-study-testimonial {
+    position: relative;
+    padding: 1.5rem 1.75rem;
+    background: rgba(242, 166, 90, 0.06);
+    border-left: 3px solid #f2a65a;
+    border-radius: 0 0.875rem 0.875rem 0;
+    margin-bottom: 2.25rem;
+}
+.case-study-testimonial p {
+    font-style: italic;
+    font-size: 0.9375rem;
+    line-height: 1.72;
+    color: #5a4a3a;
+    margin-bottom: 0.75rem;
+}
+.dark .case-study-testimonial p { color: #a08878; }
+.case-study-testimonial cite {
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #f2a65a;
+    font-style: normal;
+}
+
+/* Inline CTA link */
+.case-study-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: #f2a65a;
+    border-bottom: 2px solid #f2a65a;
+    padding-bottom: 3px;
+    transition: color 0.2s ease,
+                border-color 0.2s ease,
+                transform 0.2s ease;
+}
+.case-study-cta:hover {
+    color: #c97b4a;
+    border-color: #c97b4a;
+    transform: translateX(6px);
+}
+
+/* ── Mobile stack: image always above text ── */
+@media (max-width: 768px) {
+    .case-study-inner,
+    .case-study--reverse .case-study-inner {
+        grid-template-columns: 1fr;
+        gap: 2.25rem;
+    }
+    /* Force image above text for both normal & reversed DOM order */
+    .case-study-inner .case-study-image-col { order: 1; }
+    .case-study-inner .case-study-text-col  { order: 2; }
+    .case-study-img-accent { display: none; }
+    .case-study { margin-bottom: 4rem; }
+    .case-study-title { font-size: clamp(1.5rem, 6vw, 2.25rem); }
+    .case-study-inner { gap: 2.25rem; }
 }
 
 /* =========================================================
@@ -398,4 +652,896 @@ a { text-decoration: none; }
 .svc-tab:hover:not(.active) {
     color: #f2a65a;
     border-bottom-color: rgba(242,166,90,0.3);
+}
+
+
+/* =========================================================
+   BOOKING FUNNEL — Component System
+   booking.html exclusive styles. Organised as:
+     1. Step chrome (labels, titles)
+     2. Service selection cards
+     3. Conditional fieldset reveal animation
+     4. Form inputs (labels, inputs, selects, textareas)
+     5. Rate cards (half-day / full-day)
+     6. Submit button + loader
+     7. Error + consent
+     8. Success panel
+     9. Mobile overrides
+   ========================================================= */
+
+
+/* ── 1. Step Chrome ─────────────────────────────────────── */
+
+.bf-step {
+    margin-bottom: 3rem;
+}
+
+.bf-step-label {
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #f2a65a;
+    margin-bottom: 0.75rem;
+}
+
+.bf-step-title {
+    font-size: clamp(1.5rem, 3.5vw, 2.25rem);
+    line-height: 1.1;
+    color: #1b140d;
+    margin-bottom: 0.75rem;
+}
+.dark .bf-step-title { color: #fcfaf8; }
+
+.bf-step-desc {
+    font-size: 0.9375rem;
+    line-height: 1.7;
+    color: #5a4a3a;
+    margin-bottom: 2rem;
+}
+.dark .bf-step-desc { color: #a08878; }
+
+.bf-divider {
+    padding-top: 3rem;
+    margin-bottom: 2rem;
+    border-top: 1px solid #e8e2d8;
+}
+.dark .bf-divider { border-top-color: #3a2f26; }
+
+
+/* ── 2. Service Selection Cards ─────────────────────────── */
+
+.bf-service-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+/* The <label> is the clickable card */
+.service-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    padding: 1.5rem 1.25rem;
+    border: 1.5px solid #d8d0c8;
+    border-radius: 1rem;
+    cursor: pointer;
+    background: #ffffff;
+    transition: border-color 0.25s ease,
+                box-shadow   0.25s ease,
+                transform    0.2s  cubic-bezier(0.34, 1.56, 0.64, 1);
+    user-select: none;
+}
+.dark .service-card {
+    background: #231810;
+    border-color: #4a3f35;
+}
+.service-card:hover {
+    border-color: #f2a65a;
+    box-shadow: 0 8px 24px -6px rgba(242, 166, 90, 0.2);
+    transform: translateY(-3px);
+}
+.service-card.selected {
+    border-color: #f2a65a;
+    background: rgba(242, 166, 90, 0.05);
+    box-shadow: 0 8px 28px -6px rgba(242, 166, 90, 0.3);
+}
+.dark .service-card.selected {
+    background: rgba(242, 166, 90, 0.08);
+}
+
+/* Visually hidden radio — remains accessible to screen readers & keyboard */
+.service-card-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+/* Checkmark badge — top-right, hidden until selected */
+.service-card-check {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 1.375rem;
+    height: 1.375rem;
+    border-radius: 50%;
+    background: #f2a65a;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.service-card.selected .service-card-check {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.service-card-icon {
+    font-size: 1.75rem;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+}
+
+.service-card-name {
+    font-size: 1.0625rem;
+    font-weight: 700;
+    color: #1b140d;
+    line-height: 1.2;
+}
+.dark .service-card-name { color: #fcfaf8; }
+
+.service-card-price {
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: #f2a65a;
+    margin-bottom: 0.25rem;
+}
+
+.service-card-desc {
+    font-size: 0.8125rem;
+    line-height: 1.6;
+    color: #7a6a5a;
+}
+.dark .service-card-desc { color: #8a7a6a; }
+
+/* Focus-visible ring on the hidden radio — for keyboard nav */
+.service-card-input:focus-visible + .service-card-check {
+    outline: 2px solid #f2a65a;
+    outline-offset: 2px;
+}
+/* Broader keyboard focus target on the label itself */
+.service-card:focus-within {
+    outline: 2px solid #f2a65a;
+    outline-offset: 2px;
+}
+
+
+/* ── 3. Conditional Fieldset Reveal Animation ───────────── */
+
+/*
+ * State machine transition:
+ *   hidden → max-height expands (0.5s) → THEN opacity+transform fade in (0.35s, 0.08s delay)
+ * This staggers expansion before content visibility — preventing
+ * content from appearing in a collapsed container.
+ */
+.fieldset-conditional {
+    max-height: 0;
+    opacity: 0;
+    overflow: hidden;
+    transform: translateY(-10px);
+    pointer-events: none;   /* prevents phantom tab-stops while hidden */
+    transition:
+        max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1),
+        opacity    0.35s ease 0.08s,
+        transform  0.35s ease 0.08s;
+}
+.fieldset-conditional.active {
+    max-height: 700px;      /* ceiling above tallest possible fieldset */
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+    overflow: visible;      /* allow box-shadows / accents to bleed out */
+}
+
+.bf-fieldset {
+    margin-bottom: 0;
+}
+
+.bf-fieldset-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 2rem 0 1.5rem;
+    border-top: 1px solid #e8e2d8;
+    margin-bottom: 1.5rem;
+}
+.dark .bf-fieldset-header { border-top-color: #3a2f26; }
+
+.bf-fieldset-icon {
+    font-size: 1.25rem !important;
+    color: #f2a65a;
+}
+
+.bf-fieldset-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1b140d;
+}
+.dark .bf-fieldset-title { color: #fcfaf8; }
+
+
+/* ── 4. Form Inputs ─────────────────────────────────────── */
+
+.bf-input-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+    margin-bottom: 1.25rem;
+}
+
+.bf-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1.25rem;
+    position: relative;
+}
+.bf-input-group.focused .bf-label {
+    color: #f2a65a;
+}
+
+/*
+ * WCAG AAA: #1b140d on #fcfaf8 ≈ 19.1:1 contrast ratio.
+ * In dark mode: #fcfaf8 on #1b140d — same ratio, inverted.
+ */
+.bf-label {
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: #1b140d;
+    text-transform: uppercase;
+    transition: color 0.2s ease;
+}
+.dark .bf-label { color: #e8e2d8; }
+
+/*
+ * Input: bottom-border-only by default (luxury aesthetic).
+ * Full border on focus for clear affordance.
+ * Placeholder: #7a6a5a on #fcfaf8 ≈ 4.7:1 (WCAG AA).
+ */
+.bf-input {
+    width: 100%;
+    font-family: 'Manrope', sans-serif;
+    font-size: 0.9375rem;
+    font-weight: 500;
+    color: #1b140d;
+    background: transparent;
+    border: none;
+    border-bottom: 1.5px solid #c8bfb8;
+    padding: 0.625rem 0;
+    outline: none;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+    -webkit-appearance: none;
+    appearance: none;
+}
+.dark .bf-input {
+    color: #fcfaf8;
+    border-bottom-color: #5a4f47;
+    background: transparent;
+}
+
+.bf-input::placeholder {
+    color: #7a6a5a;          /* ~4.7:1 on light background */
+    font-weight: 400;
+}
+.dark .bf-input::placeholder { color: #6a5a50; }
+
+.bf-input:focus {
+    border-bottom-color: #f2a65a;
+    box-shadow: 0 2px 0 -0.5px rgba(242, 166, 90, 0.35);
+    outline: none;
+}
+
+/* Select: custom arrow via background-image */
+.bf-select {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23f2a65a' stroke-width='1.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 0.25rem center;
+    padding-right: 1.5rem;
+}
+.dark .bf-select option { background: #231810; }
+
+/* Textarea */
+.bf-textarea {
+    border: 1.5px solid #c8bfb8;
+    border-radius: 0.625rem;
+    padding: 0.875rem 1rem;
+    resize: vertical;
+    min-height: 110px;
+    line-height: 1.7;
+}
+.dark .bf-textarea { border-color: #5a4f47; }
+.bf-textarea:focus {
+    border-color: #f2a65a;
+    box-shadow: 0 0 0 3px rgba(242, 166, 90, 0.12);
+}
+
+
+/* ── 5. Rate Cards (Half-Day / Full-Day) ────────────────── */
+
+.rate-card-group {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.875rem;
+    margin-top: 0.5rem;
+}
+
+.rate-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding: 1.25rem;
+    border: 1.5px solid #d8d0c8;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    background: #ffffff;
+    transition: border-color 0.22s ease, box-shadow 0.22s ease, transform 0.18s ease;
+    user-select: none;
+}
+.dark .rate-card { background: #231810; border-color: #4a3f35; }
+.rate-card:hover {
+    border-color: #f2a65a;
+    box-shadow: 0 4px 16px -4px rgba(242, 166, 90, 0.2);
+}
+.rate-card.selected {
+    border-color: #f2a65a;
+    background: rgba(242, 166, 90, 0.05);
+}
+.dark .rate-card.selected { background: rgba(242, 166, 90, 0.08); }
+
+.rate-card-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+.rate-card:focus-within {
+    outline: 2px solid #f2a65a;
+    outline-offset: 2px;
+}
+
+.rate-card-check {
+    position: absolute;
+    top: 0.625rem;
+    right: 0.625rem;
+    width: 1.125rem;
+    height: 1.125rem;
+    border-radius: 50%;
+    background: #f2a65a;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transform: scale(0.5);
+    transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.rate-card.selected .rate-card-check {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.rate-card-name {
+    font-size: 0.9375rem;
+    font-weight: 700;
+    color: #1b140d;
+}
+.dark .rate-card-name { color: #fcfaf8; }
+
+.rate-card-detail {
+    font-size: 0.75rem;
+    color: #7a6a5a;
+}
+.dark .rate-card-detail { color: #8a7a6a; }
+
+
+/* ── 6. Submit Button + Loader ──────────────────────────── */
+
+.bf-submit-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.25rem;
+    width: 100%;
+    padding: 1rem 2.5rem;
+    margin-top: 1.75rem;
+    background: #1b140d;
+    color: #f2a65a;
+    font-family: 'Syne', sans-serif;
+    font-size: 0.875rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 0.75rem;
+    cursor: pointer;
+    box-shadow: 0 8px 24px -6px rgba(27, 20, 13, 0.35);
+    transition: background 0.25s ease,
+                color      0.25s ease,
+                box-shadow 0.25s ease,
+                transform  0.2s  cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+.dark .bf-submit-btn {
+    background: #f2a65a;
+    color: #1b140d;
+    box-shadow: 0 8px 28px -6px rgba(242, 166, 90, 0.45);
+}
+.bf-submit-btn:hover:not(:disabled) {
+    background: #c97b4a;
+    color: #ffffff;
+    box-shadow: 0 12px 32px -8px rgba(201, 123, 74, 0.5);
+    transform: translateY(-2px);
+}
+.bf-submit-btn:active:not(:disabled) {
+    transform: translateY(0) scale(0.98);
+}
+.bf-submit-btn:disabled {
+    cursor: not-allowed;
+}
+
+/* CSS-only spinner */
+.bf-loader {
+    display: inline-block;
+    width: 1rem;
+    height: 1rem;
+    border: 2px solid rgba(242, 166, 90, 0.3);
+    border-top-color: #f2a65a;
+    border-radius: 50%;
+    animation: bf-spin 0.75s linear infinite;
+    margin-left: 0.5rem;
+}
+@keyframes bf-spin {
+    to { transform: rotate(360deg); }
+}
+
+
+/* ── 7. Error Message + Consent Row ─────────────────────── */
+
+.bf-error-msg {
+    display: none;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: #c0392b;
+    background: rgba(192, 57, 43, 0.07);
+    border-left: 3px solid #c0392b;
+    padding: 0.75rem 1rem;
+    border-radius: 0 0.5rem 0.5rem 0;
+    margin-top: 1rem;
+}
+.dark .bf-error-msg {
+    color: #e57373;
+    background: rgba(229, 115, 115, 0.09);
+    border-left-color: #e57373;
+}
+.bf-error-msg.visible { display: block; }
+
+.bf-consent-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.875rem;
+    margin-top: 1.5rem;
+}
+
+/* Custom checkbox — retains full keyboard accessibility */
+.bf-checkbox {
+    flex-shrink: 0;
+    width: 1.125rem;
+    height: 1.125rem;
+    margin-top: 0.15rem;
+    border: 1.5px solid #c8bfb8;
+    border-radius: 0.25rem;
+    background: transparent;
+    cursor: pointer;
+    accent-color: #f2a65a;   /* native checkbox tint */
+    transition: border-color 0.2s ease;
+}
+.bf-checkbox:focus-visible {
+    outline: 2px solid #f2a65a;
+    outline-offset: 2px;
+}
+
+.bf-consent-label {
+    font-size: 0.8125rem;
+    line-height: 1.65;
+    color: #5a4a3a;
+    cursor: pointer;
+}
+.dark .bf-consent-label { color: #a08878; }
+
+
+/* ── 8. Success Panel ───────────────────────────────────── */
+
+.bf-success {
+    text-align: center;
+    padding: 4rem 2rem;
+}
+
+.bf-success-inner {
+    max-width: 28rem;
+    margin: 0 auto;
+}
+
+.bf-success-icon {
+    width: 3.5rem;
+    height: 3.5rem;
+    margin: 0 auto 2rem;
+    color: #f2a65a;
+    animation: bf-pulse 2.5s ease-in-out infinite;
+}
+
+@keyframes bf-pulse {
+    0%, 100% { transform: scale(1);    opacity: 1; }
+    50%       { transform: scale(1.12); opacity: 0.75; }
+}
+
+
+/* ── 9. Mobile Overrides ────────────────────────────────── */
+
+@media (max-width: 640px) {
+    .bf-service-grid {
+        grid-template-columns: 1fr;
+    }
+    .bf-input-row {
+        grid-template-columns: 1fr;
+    }
+    .rate-card-group {
+        grid-template-columns: 1fr;
+    }
+    .service-card {
+        flex-direction: row;
+        align-items: center;
+        padding: 1.25rem;
+        gap: 0.875rem;
+    }
+    .service-card-icon {
+        font-size: 2rem;
+        margin-bottom: 0;
+        flex-shrink: 0;
+    }
+    .service-card-desc { display: none; }
+}
+
+
+/* =========================================================
+   BOOKING FUNNEL — Stage 3 Refactor Components
+   Finish-type toggle pills, counter widget, price ticker
+   ========================================================= */
+
+
+/* ── Service grid: 4 columns on desktop (was 3) ─────────── */
+.bf-service-grid {
+    grid-template-columns: repeat(4, 1fr);
+}
+@media (max-width: 768px) {
+    .bf-service-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 480px) {
+    .bf-service-grid { grid-template-columns: 1fr; }
+}
+
+
+/* ── Finish Type Toggle Pills ────────────────────────────── */
+
+.finish-toggle-group {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.75rem;
+    margin-top: 0.5rem;
+    margin-bottom: 1.25rem;
+}
+
+.finish-toggle {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+    padding: 1rem 0.5rem;
+    border: 1.5px solid #d8d0c8;
+    border-radius: 0.875rem;
+    cursor: pointer;
+    background: #ffffff;
+    text-align: center;
+    transition: border-color 0.2s ease,
+                box-shadow   0.2s ease,
+                background   0.2s ease,
+                transform    0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+    user-select: none;
+}
+.dark .finish-toggle {
+    background: #231810;
+    border-color: #4a3f35;
+}
+.finish-toggle:hover {
+    border-color: #f2a65a;
+    box-shadow: 0 6px 20px -6px rgba(242, 166, 90, 0.22);
+    transform: translateY(-2px);
+}
+.finish-toggle.selected {
+    border-color: #f2a65a;
+    background: rgba(242, 166, 90, 0.06);
+    box-shadow: 0 6px 20px -6px rgba(242, 166, 90, 0.3);
+}
+.dark .finish-toggle.selected {
+    background: rgba(242, 166, 90, 0.1);
+}
+
+.finish-toggle-input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+.finish-toggle:focus-within {
+    outline: 2px solid #f2a65a;
+    outline-offset: 2px;
+}
+
+.finish-toggle-label {
+    font-size: 0.9375rem;
+    font-weight: 800;
+    color: #1b140d;
+    font-family: 'Syne', sans-serif;
+    letter-spacing: 0.02em;
+    transition: color 0.2s ease;
+}
+.dark .finish-toggle-label { color: #fcfaf8; }
+.finish-toggle.selected .finish-toggle-label { color: #f2a65a; }
+
+.finish-toggle-sub {
+    font-size: 0.6875rem;
+    font-weight: 700;
+    color: #7a6a5a;
+    letter-spacing: 0.04em;
+    min-height: 1rem;          /* reserves space while JS populates it */
+    transition: color 0.2s ease;
+}
+.dark .finish-toggle-sub { color: #8a7a6a; }
+.finish-toggle.selected .finish-toggle-sub { color: #c97b4a; }
+
+@media (max-width: 480px) {
+    .finish-toggle-group { grid-template-columns: repeat(2, 1fr); }
+}
+
+
+/* ── Counter (stepper) widget ────────────────────────────── */
+
+.bf-counter-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    width: fit-content;
+    border: 1.5px solid #c8bfb8;
+    border-radius: 0.625rem;
+    overflow: hidden;
+    transition: border-color 0.25s ease;
+}
+.bf-counter-wrap:focus-within {
+    border-color: #f2a65a;
+    box-shadow: 0 0 0 3px rgba(242, 166, 90, 0.12);
+}
+.dark .bf-counter-wrap { border-color: #5a4f47; }
+
+.bf-counter-btn {
+    flex-shrink: 0;
+    width: 2.75rem;
+    height: 2.75rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: transparent;
+    border: none;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #f2a65a;
+    cursor: pointer;
+    transition: background 0.18s ease, color 0.18s ease;
+    line-height: 1;
+    /* 44×44px minimum tap target (WCAG 2.5.5) */
+    min-width: 44px;
+    min-height: 44px;
+}
+.bf-counter-btn:hover {
+    background: rgba(242, 166, 90, 0.1);
+    color: #c97b4a;
+}
+.bf-counter-btn:active {
+    background: rgba(242, 166, 90, 0.2);
+    transform: scale(0.92);
+}
+
+.bf-counter-input {
+    /* Override bf-input bottom-border-only style for counter context */
+    width: 4.5rem;
+    border: none !important;
+    border-left: 1.5px solid #c8bfb8 !important;
+    border-right: 1.5px solid #c8bfb8 !important;
+    border-radius: 0 !important;
+    padding: 0.625rem 0.5rem !important;
+    text-align: center;
+    font-weight: 700;
+    font-size: 1rem;
+    box-shadow: none !important;
+    -moz-appearance: textfield;   /* Firefox: hide native spinners */
+}
+.bf-counter-input::-webkit-inner-spin-button,
+.bf-counter-input::-webkit-outer-spin-button { -webkit-appearance: none; }
+.dark .bf-counter-input {
+    border-left-color: #5a4f47 !important;
+    border-right-color: #5a4f47 !important;
+}
+
+
+/* ── Live Price Estimate Card ────────────────────────────── */
+
+.bf-price-card {
+    background: linear-gradient(135deg,
+        rgba(242, 166, 90, 0.10) 0%,
+        rgba(242, 166, 90, 0.04) 100%);
+    border: 1.5px solid rgba(242, 166, 90, 0.35);
+    border-radius: 1.25rem;
+    padding: 2rem 2rem 1.75rem;
+    text-align: center;
+    margin: 0.5rem 0 1rem;
+    position: relative;
+    overflow: hidden;
+}
+.bf-price-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(242,166,90,0.12), transparent 70%);
+    pointer-events: none;
+}
+.dark .bf-price-card {
+    background: linear-gradient(135deg,
+        rgba(242, 166, 90, 0.08) 0%,
+        rgba(242, 166, 90, 0.02) 100%);
+}
+
+.bf-price-card-label {
+    font-size: 0.6875rem;
+    font-weight: 800;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: #f2a65a;
+    margin-bottom: 0.5rem;
+}
+
+.bf-price-card-amount {
+    font-family: 'Syne', sans-serif;
+    font-size: clamp(2.25rem, 7vw, 3.5rem);
+    font-weight: 800;
+    color: #1b140d;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1),
+                opacity   0.2s ease;
+}
+.dark .bf-price-card-amount { color: #fcfaf8; }
+
+/* Pop keyframe — triggered by JS adding .bf-price-pop */
+.bf-price-card-amount.bf-price-pop {
+    animation: pricePop 0.38s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+@keyframes pricePop {
+    0%   { transform: scale(1); }
+    40%  { transform: scale(1.06); }
+    100% { transform: scale(1); }
+}
+
+.bf-price-card-note {
+    font-size: 0.8125rem;
+    color: #7a6a5a;
+    margin-top: 0.5rem;
+    min-height: 1.25rem;
+    transition: opacity 0.2s ease;
+}
+.dark .bf-price-card-note { color: #8a7a6a; }
+
+
+/* ── fieldset-conditional max-height ceiling increase ───── */
+/* Party + Finish = more content; bump ceiling to avoid clip */
+.fieldset-conditional.active {
+    max-height: 900px;
+}
+
+
+/* =========================================================
+   STAGE 4: Mobile UX & Accessibility
+   ========================================================= */
+
+/* ── Directive 1: Mobile Portfolio Carousel (Scroll Snap) ── */
+@media (max-width: 768px) {
+    #case-study-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        gap: 1.5rem;
+        padding-bottom: 2rem;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    #case-study-grid::-webkit-scrollbar {
+        display: none;
+    }
+
+    .case-study {
+        flex: 0 0 85vw;
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+    }
+}
+
+/* ── Directive 2: Form Accessibility & Contrast (WCAG AAA) ── */
+.bf-input::placeholder,
+.bf-textarea::placeholder {
+    color: #614a36; 
+    opacity: 1;
+}
+
+.dark .bf-input::placeholder,
+.dark .bf-textarea::placeholder {
+    color: #a89c92;
+}
+
+.bf-input,
+.bf-textarea {
+    border-bottom: 1.5px solid #8e7a68; 
+}
+.dark .bf-input,
+.dark .bf-textarea {
+    border-bottom-color: #8a7a6a;
+}
+
+/* ── Directive 3: Mobile Touch Targets (44x44px minimum) ── */
+@media (max-width: 768px) {
+    .bf-input,
+    .bf-textarea,
+    .bf-submit-btn,
+    .bf-counter-btn,
+    .header-book-btn,
+    .mobile-menu-close,
+    .filter-tab,
+    .finish-toggle,
+    .lightbox-close {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    .bf-input {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+    
+    .bf-consent-label {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+    }
 }
