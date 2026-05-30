@@ -1,41 +1,183 @@
 <!DOCTYPE html>
-<html class="light" lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
-<meta charset="utf-8">
-<meta content="width=device-width, initial-scale=1.0" name="viewport">
-<title>Services | ARM - Artistry Refined & Modern</title>
-<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
-<link href="styles.css" rel="stylesheet">
-<script>
-    tailwind.config = {
-        darkMode: "class",
-        theme: {
-            extend: {
-                colors: {
-                    "primary": "#f2a65a",
-                    "terracotta": "#c97b4a",
-                    "sage": "#6F8F72",
-                    "beige": "#E8E2D8",
-                    "background-light": "#f5f2ed",
-                    "background-dark": "#221910",
-                },
-                fontFamily: {
-                    "display": ["Manrope", "sans-serif"],
-                    "interlope": ["Syne", "sans-serif"],
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Services &amp; Pricing — ARM Artistry | Luxury Makeup Atelier</title>
+    <meta name="description" content="ARM Artistry service menu and pricing. Bridal Artistry, Engagement & Roka, Premium Party Looks, and Pre-Wedding Conceptual Shoots. HD & Airbrush finish options.">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#f2a65a',
+                        terracotta: '#c97b4a',
+                        sage: '#8fa68e',
+                        beige: '#e8e2d8',
+                        bone: '#f5f2ed',
+                        stone: '#1c1917',
+                    },
+                    fontFamily: {
+                        display: ['Manrope', 'sans-serif'],
+                        headline: ['Syne', 'sans-serif'],
+                    },
                 },
             },
-        },
-    }
-</script>
-</head>
-<body class="bg-background-light dark:bg-background-dark font-display text-[#1b140d] dark:text-[#fcfaf8] page-enter">
+        };
+        if (localStorage.getItem('darkMode') === 'true') {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 
-<!-- ===================== MOBILE MENU ===================== -->
+    <style>
+        /* ── Service Row Matrix ───────────────────────────────── */
+
+        /*
+         * Each service is a horizontal row on a 12-col grid.
+         * No shadow containers, no card boxes.
+         * Separation is achieved purely through thin rules and
+         * controlled vertical whitespace.
+         */
+        .svc-row {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0;
+            padding: clamp(2.5rem, 5vw, 4.5rem) 0;
+            border-top: 1px solid rgba(28, 25, 23, 0.1);
+            transition: background 0.3s ease;
+        }
+        .dark .svc-row {
+            border-top-color: rgba(255, 255, 255, 0.07);
+        }
+        .svc-row:last-child {
+            border-bottom: 1px solid rgba(28, 25, 23, 0.1);
+        }
+        .dark .svc-row:last-child {
+            border-bottom-color: rgba(255, 255, 255, 0.07);
+        }
+        @media (min-width: 768px) {
+            .svc-row {
+                grid-template-columns: repeat(12, 1fr);
+                align-items: baseline;
+                gap: 0 2rem;
+            }
+        }
+
+        .svc-index {
+            grid-column: 1 / -1;
+            margin-bottom: 0.75rem;
+        }
+        @media (min-width: 768px) {
+            .svc-index { grid-column: 1 / 2; margin-bottom: 0; }
+        }
+
+        .svc-name-col {
+            grid-column: 1 / -1;
+            margin-bottom: 1rem;
+        }
+        @media (min-width: 768px) {
+            .svc-name-col { grid-column: 2 / 6; margin-bottom: 0; }
+        }
+
+        .svc-desc-col {
+            grid-column: 1 / -1;
+            margin-bottom: 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .svc-desc-col { grid-column: 6 / 10; margin-bottom: 0; }
+        }
+
+        .svc-price-col {
+            grid-column: 1 / -1;
+        }
+        @media (min-width: 768px) {
+            .svc-price-col { grid-column: 10 / 13; }
+        }
+
+        /* Hover shimmer — very subtle, only on the row background */
+        .svc-row:hover {
+            background: rgba(242, 166, 90, 0.025);
+        }
+        .dark .svc-row:hover {
+            background: rgba(242, 166, 90, 0.04);
+        }
+
+        /* ── Finish Tier Badges ───────────────────────────────── */
+        .tier-block {
+            display: flex;
+            flex-direction: column;
+            gap: 0.625rem;
+        }
+        .tier-line {
+            display: flex;
+            align-items: baseline;
+            gap: 0.75rem;
+        }
+        .tier-label {
+            font-size: 0.6rem;
+            font-weight: 700;
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            color: #8a7a6a;
+            flex-shrink: 0;
+            white-space: nowrap;
+        }
+        .dark .tier-label { color: #9a8a7a; }
+        .tier-price {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.0625rem;
+            font-weight: 700;
+            color: #1c1917;
+            letter-spacing: -0.01em;
+        }
+        .dark .tier-price { color: #f5f2ed; }
+
+        /* Dividing dash between label and price */
+        .tier-dash {
+            flex: 1;
+            height: 1px;
+            background: rgba(28, 25, 23, 0.08);
+            min-width: 1rem;
+            align-self: center;
+        }
+        .dark .tier-dash { background: rgba(255, 255, 255, 0.08); }
+
+        /* ── Hero Stat Bar ────────────────────────────────────── */
+        .stat-rule {
+            width: 1px;
+            height: 2.5rem;
+            background: rgba(28, 25, 23, 0.12);
+            flex-shrink: 0;
+        }
+        .dark .stat-rule { background: rgba(255, 255, 255, 0.1); }
+
+        /* ── HD vs. Airbrush Explainer ────────────────────────── */
+        .finish-explainer {
+            border-top: 1px solid rgba(28, 25, 23, 0.08);
+            border-bottom: 1px solid rgba(28, 25, 23, 0.08);
+        }
+        .dark .finish-explainer {
+            border-color: rgba(255, 255, 255, 0.06);
+        }
+        .finish-col {
+            padding: clamp(2.5rem, 4vw, 3.5rem) 0;
+        }
+    </style>
+</head>
+<body class="bg-bone dark:bg-stone text-stone dark:text-[#f5f2ed] font-display page-enter">
+
+
+<!-- ═══════════════════════ MOBILE MENU ═══════════════════════ -->
 <div class="mobile-menu" id="mobileMenu">
-    <button class="mobile-menu-close" onclick="closeMobileMenu()" aria-label="Close menu">
+    <button class="mobile-menu-close" onclick="closeMobileMenu()" aria-label="Close navigation menu">
         <span class="material-symbols-outlined" style="font-size:1.25rem">close</span>
     </button>
     <a href="index.html" class="mobile-nav-link" onclick="closeMobileMenu()">Home</a>
@@ -44,116 +186,390 @@
     <a href="booking.html" onclick="closeMobileMenu()" class="mobile-book-btn">Book Now</a>
 </div>
 
-<!-- ===================== HEADER ===================== -->
-<header class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-6 md:px-20 py-4 bg-background-light/90 dark:bg-background-dark/90 backdrop-blur-lg border-b border-black/5 dark:border-[#4a3f35] transition-all duration-300" id="navbar">
-    <a href="index.html" class="flex items-center gap-3" style="text-decoration:none;">
-        <div class="size-6 text-primary">
-            <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                <path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
-            </svg>
+
+<!-- ═══════════════════════ HEADER ═══════════════════════ -->
+<header id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-bone/90 dark:bg-stone/90 backdrop-blur-md border-b border-stone/5 dark:border-white/5 transition-all duration-300">
+    <div class="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 py-4 flex items-center justify-between">
+        <a href="index.html" class="flex items-center gap-3" aria-label="ARM Artistry — Home">
+            <div class="w-5 h-5 text-primary">
+                <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+                </svg>
+            </div>
+            <span class="font-headline text-xl font-bold tracking-tight">ARM</span>
+        </a>
+
+        <nav class="hidden md:flex items-center gap-10" aria-label="Primary navigation">
+            <a href="index.html" class="nav-link text-stone dark:text-white">Home</a>
+            <a href="Portfolio.html" class="nav-link text-stone dark:text-white">Portfolio</a>
+            <a href="service.html" class="nav-link active text-stone dark:text-white">Services</a>
+        </nav>
+
+        <div class="flex items-center gap-4">
+            <button id="darkToggle" aria-label="Toggle dark mode" class="w-9 h-9 rounded-full border border-stone/15 dark:border-white/15 flex items-center justify-center hover:bg-stone/5 dark:hover:bg-white/10 transition-colors">
+                <span class="material-symbols-outlined" style="font-size:1.1rem">dark_mode</span>
+            </button>
+            <a href="booking.html" class="header-book-btn hidden md:block">Book Now</a>
+            <button class="md:hidden p-1" onclick="openMobileMenu()" aria-label="Open navigation menu" style="min-width:44px;min-height:44px;display:flex;align-items:center;justify-content:center;">
+                <span class="material-symbols-outlined" style="font-size:1.75rem">menu</span>
+            </button>
         </div>
-        <span class="logo-font text-xl text-[#1b140d] dark:text-white">ARM</span>
-    </a>
-    <nav class="hidden md:flex items-center gap-10">
-        <a href="index.html" class="nav-link text-[#1b140d] dark:text-white">Home</a>
-        <a href="Portfolio.html" class="nav-link text-[#1b140d] dark:text-white">Portfolio</a>
-        <a href="service.html" class="nav-link active text-[#1b140d] dark:text-white">Services</a>
-    </nav>
-    <div class="flex items-center gap-4">
-        <a href="booking.html" class="header-book-btn hidden md:block">Book Now</a>
-        <button class="md:hidden text-[#1b140d] dark:text-white p-1" onclick="openMobileMenu()" aria-label="Open menu">
-            <span class="material-symbols-outlined" style="font-size:1.75rem">menu</span>
-        </button>
     </div>
 </header>
 
-<!-- ===================== HEADER BANNER ===================== -->
-<section class="pt-32 pb-16 px-6 md:px-20 bg-background-light dark:bg-background-dark text-center">
-    <div class="max-w-3xl mx-auto reveal">
-        <span class="text-primary font-bold tracking-[0.25em] uppercase text-xs mb-4 block">What We Offer</span>
-        <h1 class="text-4xl md:text-6xl font-bold logo-font mb-6">Services &amp; Pricing</h1>
-        <p class="text-base text-gray-600 dark:text-gray-400">Premium makeup artistry tailored to your unique features, ensuring you look and feel your absolute best.</p>
-    </div>
-</section>
 
-<!-- ===================== PRICING TABS ===================== -->
-<section class="pb-32 px-6 max-w-5xl mx-auto">
-    <div class="flex flex-wrap justify-center gap-4 mb-16 reveal" id="service-tabs">
-        <button class="filter-btn active" data-svc="bridal">Bridal</button>
-        <button class="filter-btn" data-svc="event">Special Event</button>
-        <button class="filter-btn" data-svc="edu">Education</button>
-    </div>
-    
-    <!-- BRIDAL SERVICES -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pricing-category reveal delay-1" data-pricing="bridal">
-        <div class="bg-white dark:bg-[#2a1f16] p-8 rounded-2xl shadow-lg border-t-4 border-primary hover:shadow-2xl transition-all hover:-translate-y-2">
-            <h3 class="text-2xl font-bold logo-font mb-2">Bridal Preview</h3>
-            <p class="text-primary font-bold text-xl mb-4">$150</p>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">A 2-hour consultation to perfect your look before the big day. We try 2 distinct styles to find your perfect match.</p>
-            <ul class="space-y-3 text-sm font-semibold mb-8">
-                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> In-studio session</li>
-                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-primary text-sm">check_circle</span> Skin prep plan</li>
-            </ul>
-            <a href="booking.html" class="block text-center bg-transparent border border-primary text-primary hover:bg-primary hover:text-white py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors">Book Now</a>
-        </div>
-        <div class="bg-primary p-8 rounded-2xl shadow-xl text-[#1b140d] transform md:scale-105 relative hover:-translate-y-2 transition-all">
-            <div class="absolute top-0 right-0 bg-black text-white text-[0.65rem] font-bold uppercase tracking-widest py-1 px-3 rounded-bl-lg rounded-tr-2xl">Popular</div>
-            <h3 class="text-2xl font-bold logo-font mb-2">Day-Of Bridal</h3>
-            <p class="font-bold text-xl mb-4">$250+</p>
-            <p class="text-sm mb-6 leading-relaxed opacity-90">Luxury skin prep, long-wearing signature application, and a touch-up kit to keep you flawless all night.</p>
-            <ul class="space-y-3 text-sm font-semibold mb-8">
-                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-black text-sm">check_circle</span> On-location service</li>
-                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-black text-sm">check_circle</span> Faux lashes included</li>
-                <li class="flex items-center gap-2"><span class="material-symbols-outlined text-black text-sm">check_circle</span> Bridal touch-up kit</li>
-            </ul>
-            <a href="booking.html" class="block text-center bg-black text-white hover:bg-white hover:text-black py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors">Book Now</a>
-        </div>
-    </div>
-    
-    <!-- EVENT SERVICES -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 pricing-category hidden" data-pricing="event">
-        <div class="bg-white dark:bg-[#2a1f16] p-8 rounded-2xl shadow-lg border-t-4 border-primary hover:shadow-2xl transition-all hover:-translate-y-2">
-            <h3 class="text-2xl font-bold logo-font mb-2">Signature Glam</h3>
-            <p class="text-primary font-bold text-xl mb-4">$130</p>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">Perfect for galas, dates, or photoshoots. Enhancing your features with premium long-wear products.</p>
-            <a href="booking.html" class="block text-center bg-transparent border border-primary text-primary hover:bg-primary hover:text-white py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors">Book Now</a>
-        </div>
-        <div class="bg-white dark:bg-[#2a1f16] p-8 rounded-2xl shadow-lg border-t-4 border-primary hover:shadow-2xl transition-all hover:-translate-y-2">
-            <h3 class="text-2xl font-bold logo-font mb-2">Editorial</h3>
-            <p class="text-primary font-bold text-xl mb-4">Half/Full Day Rates</p>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed">Available for commercial shoots, lookbooks, and fashion shows. Please contact for a custom quote.</p>
-            <a href="booking.html" class="block text-center bg-transparent border border-primary text-primary hover:bg-primary hover:text-white py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors">Book Now</a>
-        </div>
-    </div>
+<!-- ═══════════════════════ PAGE HERO ═══════════════════════ -->
+<section class="pt-36 pb-20 px-6 md:px-12 lg:px-20" aria-label="Page introduction">
+    <div class="max-w-[1400px] mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-8 items-end">
 
-    <!-- EDU SERVICES -->
-    <div class="grid grid-cols-1 gap-8 pricing-category hidden max-w-2xl mx-auto" data-pricing="edu">
-        <div class="bg-white dark:bg-[#2a1f16] p-8 rounded-2xl shadow-lg border-t-4 border-primary hover:shadow-2xl transition-all hover:-translate-y-2 text-center">
-            <h3 class="text-2xl font-bold logo-font mb-2">1-on-1 Masterclass</h3>
-            <p class="text-primary font-bold text-xl mb-4">$300 / 3 Hours</p>
-            <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 leading-relaxed mx-auto max-w-md">Learn my signature techniques tailored to your face shape and skill level. We'll audit your makeup bag and focus on techniques you can replicate daily.</p>
-            <a href="booking.html" class="inline-block px-10 bg-transparent border border-primary text-primary hover:bg-primary hover:text-white py-3 rounded-lg font-bold text-xs uppercase tracking-widest transition-colors">Book Now</a>
+            <!-- Title block (8 cols) -->
+            <div class="md:col-span-8 reveal">
+                <span class="block text-[0.625rem] font-bold tracking-[0.35em] uppercase text-primary mb-6">The Experience Menu</span>
+                <h1 class="font-headline font-light uppercase leading-[0.95]" style="font-size:clamp(2.5rem, 6vw, 5.5rem); letter-spacing:0.03em;">
+                    Services<br>
+                    <span class="font-bold">&amp; Pricing</span>
+                </h1>
+            </div>
+
+            <!-- Descriptor paragraph (4 cols) -->
+            <div class="md:col-span-4 reveal delay-1">
+                <p class="text-[0.9375rem] leading-[1.85]" style="color:#5a4a3a;">
+                    Premium makeup artistry delivered with clinical precision and creative intuition. Every tier is designed to perform flawlessly under your specific lighting conditions, lens formats, and event duration requirements.
+                </p>
+            </div>
+
+        </div>
+
+        <!-- Stat Bar -->
+        <div class="flex flex-wrap items-center gap-6 md:gap-0 mt-16 pt-10 border-t border-stone/[0.08] dark:border-white/[0.06] reveal delay-2">
+            <div class="flex-1 min-w-[8rem]">
+                <p class="font-headline text-3xl font-bold text-primary">500+</p>
+                <p class="text-[0.625rem] font-bold tracking-[0.2em] uppercase mt-1" style="color:#8a7a6a;">Brides Served</p>
+            </div>
+            <div class="stat-rule hidden md:block"></div>
+            <div class="flex-1 min-w-[8rem] md:pl-10">
+                <p class="font-headline text-3xl font-bold text-primary">10+</p>
+                <p class="text-[0.625rem] font-bold tracking-[0.2em] uppercase mt-1" style="color:#8a7a6a;">Years of Mastery</p>
+            </div>
+            <div class="stat-rule hidden md:block"></div>
+            <div class="flex-1 min-w-[8rem] md:pl-10">
+                <p class="font-headline text-3xl font-bold text-primary">4</p>
+                <p class="text-[0.625rem] font-bold tracking-[0.2em] uppercase mt-1" style="color:#8a7a6a;">Bespoke Service Tiers</p>
+            </div>
+            <div class="stat-rule hidden md:block"></div>
+            <div class="flex-1 min-w-[8rem] md:pl-10">
+                <p class="font-headline text-3xl font-bold text-primary">2</p>
+                <p class="text-[0.625rem] font-bold tracking-[0.2em] uppercase mt-1" style="color:#8a7a6a;">Finish Techniques</p>
+            </div>
         </div>
     </div>
 </section>
 
-<!-- ===================== FOOTER ===================== -->
-<footer class="bg-[#1a1109] text-white py-20 px-6 md:px-20">
-    <!-- Same footer as home -->
-    <div class="max-w-7xl mx-auto">
+
+<!-- ═══════════════════════ HD vs AIRBRUSH EXPLAINER ═══════════════════════ -->
+<section class="finish-explainer px-6 md:px-12 lg:px-20" aria-labelledby="finish-heading">
+    <div class="max-w-[1400px] mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-px" style="background:rgba(28,25,23,0.08);" role="group" aria-labelledby="finish-heading">
+
+            <h2 id="finish-heading" class="sr-only">Understanding Finish Techniques</h2>
+
+            <!-- HD Finish -->
+            <div class="finish-col bg-bone dark:bg-stone pr-0 md:pr-12 lg:pr-20 reveal">
+                <span class="block text-[0.5625rem] font-bold tracking-[0.3em] uppercase text-primary mb-4">Technique 01</span>
+                <h3 class="font-headline text-xl md:text-2xl font-bold uppercase mb-4" style="letter-spacing:0.02em;">High Definition (HD) Finish</h3>
+                <p class="text-[0.875rem] leading-[1.8]" style="color:#5a4a3a;">
+                    Engineered for high-resolution cameras and close-range photography. HD Makeup uses ultra-fine, microscopically milled pigments that are invisible to DSLR and broadcast lenses, ensuring your skin texture reads as flawlessly smooth and luminous under flash and studio lighting. The finish is buildable, long-wearing, and adapts beautifully from natural daylight to dramatic evening settings. Ideal for brides who want an elevated, camera-ready look that also feels lightweight on the skin.
+                </p>
+            </div>
+
+            <!-- Airbrush Finish -->
+            <div class="finish-col bg-bone dark:bg-stone pl-0 md:pl-12 lg:pl-20 reveal delay-1">
+                <span class="block text-[0.5625rem] font-bold tracking-[0.3em] uppercase text-primary mb-4">Technique 02</span>
+                <h3 class="font-headline text-xl md:text-2xl font-bold uppercase mb-4" style="letter-spacing:0.02em;">Premium Airbrush Finish</h3>
+                <p class="text-[0.875rem] leading-[1.8]" style="color:#5a4a3a;">
+                    Applied via a precision-calibrated compressed-air system, Airbrush makeup delivers an impossibly thin, skin-fused veil of pigment that conventional brush techniques cannot replicate. The result is a second-skin finish with extraordinary longevity — waterproof, sweat-resistant, and tested to endure 12–18 hours of sustained wear without touch-ups. The flawless, seamless coverage is particularly prized for multi-day celebrations, outdoor ceremonies, and high-humidity venues. Our premium tier for clients demanding total confidence from dawn to dusk.
+                </p>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════ SERVICE PRICING MATRIX ═══════════════════════ -->
+<section class="py-16 md:py-24 px-6 md:px-12 lg:px-20" aria-labelledby="pricing-heading">
+    <div class="max-w-[1400px] mx-auto">
+
+        <!-- Column headers — desktop only -->
+        <div class="hidden md:grid md:grid-cols-12 gap-x-8 pb-5 mb-0 border-b border-stone/[0.12] dark:border-white/[0.07]" aria-hidden="true">
+            <div class="col-span-1">
+                <span class="text-[0.5625rem] font-bold tracking-[0.25em] uppercase" style="color:#9a8a7a;">#</span>
+            </div>
+            <div class="col-span-4">
+                <span class="text-[0.5625rem] font-bold tracking-[0.25em] uppercase" style="color:#9a8a7a;">Service</span>
+            </div>
+            <div class="col-span-4">
+                <span class="text-[0.5625rem] font-bold tracking-[0.25em] uppercase" style="color:#9a8a7a;">Description</span>
+            </div>
+            <div class="col-span-3">
+                <span class="text-[0.5625rem] font-bold tracking-[0.25em] uppercase" style="color:#9a8a7a;">Investment</span>
+            </div>
+        </div>
+
+        <h2 id="pricing-heading" class="sr-only">Complete Service &amp; Pricing Matrix</h2>
+
+
+        <!-- ── ROW 01: Bridal Artistry Masterclass ── -->
+        <article class="svc-row reveal" aria-labelledby="svc-bridal-name">
+
+            <!-- Index -->
+            <div class="svc-index">
+                <span class="font-headline text-[0.5625rem] font-bold tracking-[0.3em] uppercase text-primary">01</span>
+            </div>
+
+            <!-- Name -->
+            <div class="svc-name-col">
+                <h3 id="svc-bridal-name" class="font-headline font-bold uppercase leading-[1.1]" style="font-size:clamp(1.125rem, 2.2vw, 1.625rem); letter-spacing:0.02em;">
+                    Bridal Artistry<br>Masterclass
+                </h3>
+                <a href="booking.html" class="inline-flex items-center gap-1.5 mt-4 text-[0.5625rem] font-bold tracking-[0.18em] uppercase text-primary hover:text-terracotta transition-colors" style="min-height:44px;">
+                    <span>Book This Service</span>
+                    <span class="material-symbols-outlined" style="font-size:0.75rem">arrow_forward</span>
+                </a>
+            </div>
+
+            <!-- Description -->
+            <div class="svc-desc-col">
+                <p class="text-[0.875rem] leading-[1.8]" style="color:#5a4a3a;">
+                    The complete elite styling experience. Encompasses specialized hair design, premium outfit draping, and a personalized pre-event beauty consultation. Our highest service tier is calibrated for full wedding-day coverage, with Ayushi Rai available on-location from the first look through the ceremony.
+                </p>
+            </div>
+
+            <!-- Pricing -->
+            <div class="svc-price-col">
+                <div class="tier-block">
+                    <div class="tier-line">
+                        <span class="tier-label">HD Finish</span>
+                        <span class="tier-dash" aria-hidden="true"></span>
+                        <span class="tier-price">&#8377;15,000</span>
+                    </div>
+                    <div class="tier-line">
+                        <span class="tier-label">Airbrush</span>
+                        <span class="tier-dash" aria-hidden="true"></span>
+                        <span class="tier-price">&#8377;18,000</span>
+                    </div>
+                </div>
+            </div>
+
+        </article>
+
+
+        <!-- ── ROW 02: Engagement & Roka Elegance ── -->
+        <article class="svc-row reveal delay-1" aria-labelledby="svc-engagement-name">
+
+            <!-- Index -->
+            <div class="svc-index">
+                <span class="font-headline text-[0.5625rem] font-bold tracking-[0.3em] uppercase text-primary">02</span>
+            </div>
+
+            <!-- Name -->
+            <div class="svc-name-col">
+                <h3 id="svc-engagement-name" class="font-headline font-bold uppercase leading-[1.1]" style="font-size:clamp(1.125rem, 2.2vw, 1.625rem); letter-spacing:0.02em;">
+                    Engagement &amp;<br>Roka Elegance
+                </h3>
+                <a href="booking.html" class="inline-flex items-center gap-1.5 mt-4 text-[0.5625rem] font-bold tracking-[0.18em] uppercase text-primary hover:text-terracotta transition-colors" style="min-height:44px;">
+                    <span>Book This Service</span>
+                    <span class="material-symbols-outlined" style="font-size:0.75rem">arrow_forward</span>
+                </a>
+            </div>
+
+            <!-- Description -->
+            <div class="svc-desc-col">
+                <p class="text-[0.875rem] leading-[1.8]" style="color:#5a4a3a;">
+                    Tailored, high-end look optimization designed specifically for camera clarity and venue lighting balance. Your engagement or Roka ceremony is a milestone that lives permanently in photography — we engineer a look that is as breathtaking in person as it is in every frame of your photographer&rsquo;s memory card.
+                </p>
+            </div>
+
+            <!-- Pricing -->
+            <div class="svc-price-col">
+                <div class="tier-block">
+                    <div class="tier-line">
+                        <span class="tier-label">HD Finish</span>
+                        <span class="tier-dash" aria-hidden="true"></span>
+                        <span class="tier-price">&#8377;8,000</span>
+                    </div>
+                    <div class="tier-line">
+                        <span class="tier-label">Airbrush</span>
+                        <span class="tier-dash" aria-hidden="true"></span>
+                        <span class="tier-price">&#8377;10,000</span>
+                    </div>
+                </div>
+            </div>
+
+        </article>
+
+
+        <!-- ── ROW 03: Premium Party Artistry ── -->
+        <article class="svc-row reveal delay-2" aria-labelledby="svc-party-name">
+
+            <!-- Index -->
+            <div class="svc-index">
+                <span class="font-headline text-[0.5625rem] font-bold tracking-[0.3em] uppercase text-primary">03</span>
+            </div>
+
+            <!-- Name -->
+            <div class="svc-name-col">
+                <h3 id="svc-party-name" class="font-headline font-bold uppercase leading-[1.1]" style="font-size:clamp(1.125rem, 2.2vw, 1.625rem); letter-spacing:0.02em;">
+                    Premium Party<br>Artistry
+                </h3>
+                <a href="booking.html" class="inline-flex items-center gap-1.5 mt-4 text-[0.5625rem] font-bold tracking-[0.18em] uppercase text-primary hover:text-terracotta transition-colors" style="min-height:44px;">
+                    <span>Book This Service</span>
+                    <span class="material-symbols-outlined" style="font-size:0.75rem">arrow_forward</span>
+                </a>
+            </div>
+
+            <!-- Description -->
+            <div class="svc-desc-col">
+                <p class="text-[0.875rem] leading-[1.8]" style="color:#5a4a3a;">
+                    Refined individual beauty optimization for high-profile gatherings and signature events. Priced per person, this service scales elegantly for bridal parties, family groups, and corporate events where every guest deserves an elevated, polished finish. All finishes are designed to hold for the full duration of your event without the need for mid-event touch-ups.
+                </p>
+            </div>
+
+            <!-- Pricing -->
+            <div class="svc-price-col">
+                <div class="tier-block">
+                    <div class="tier-line">
+                        <span class="tier-label">HD / person</span>
+                        <span class="tier-dash" aria-hidden="true"></span>
+                        <span class="tier-price">&#8377;3,500</span>
+                    </div>
+                    <div class="tier-line">
+                        <span class="tier-label">Airbrush / person</span>
+                        <span class="tier-dash" aria-hidden="true"></span>
+                        <span class="tier-price">&#8377;4,500</span>
+                    </div>
+                </div>
+            </div>
+
+        </article>
+
+
+        <!-- ── ROW 04: Pre-Wedding Conceptual Shoots ── -->
+        <article class="svc-row reveal delay-3" aria-labelledby="svc-prewedding-name">
+
+            <!-- Index -->
+            <div class="svc-index">
+                <span class="font-headline text-[0.5625rem] font-bold tracking-[0.3em] uppercase text-primary">04</span>
+            </div>
+
+            <!-- Name -->
+            <div class="svc-name-col">
+                <h3 id="svc-prewedding-name" class="font-headline font-bold uppercase leading-[1.1]" style="font-size:clamp(1.125rem, 2.2vw, 1.625rem); letter-spacing:0.02em;">
+                    Pre-Wedding<br>Conceptual Shoots
+                </h3>
+                <a href="booking.html" class="inline-flex items-center gap-1.5 mt-4 text-[0.5625rem] font-bold tracking-[0.18em] uppercase text-primary hover:text-terracotta transition-colors" style="min-height:44px;">
+                    <span>Book This Service</span>
+                    <span class="material-symbols-outlined" style="font-size:0.75rem">arrow_forward</span>
+                </a>
+            </div>
+
+            <!-- Description -->
+            <div class="svc-desc-col">
+                <p class="text-[0.875rem] leading-[1.8]" style="color:#5a4a3a;">
+                    On-location editorial makeup management designed to adapt across multiple layout motifs and style frames. Each look is individually conceptualized to complement the location, wardrobe palette, and creative direction of your shoot. Whether you are planning one defining look or a full cinematic narrative across multiple settings, pricing is clear, simple, and transparent.
+                </p>
+            </div>
+
+            <!-- Pricing -->
+            <div class="svc-price-col">
+                <div class="tier-block">
+                    <div class="tier-line">
+                        <span class="tier-label">Base rate / look</span>
+                        <span class="tier-dash" aria-hidden="true"></span>
+                        <span class="tier-price">&#8377;5,000</span>
+                    </div>
+                    <div class="tier-line">
+                        <span class="tier-label">Min. 1 look</span>
+                        <span class="tier-dash" aria-hidden="true"></span>
+                        <span class="tier-price" style="font-size:0.8125rem; color:#7a6a5a;">No cap</span>
+                    </div>
+                </div>
+            </div>
+
+        </article>
+
+    </div>
+</section>
+
+
+<!-- ═══════════════════════ BOOKING CTA STRIP ═══════════════════════ -->
+<section class="py-20 md:py-28 px-6 md:px-12 lg:px-20 bg-stone text-white" aria-labelledby="cta-heading">
+    <div class="max-w-[1400px] mx-auto">
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-10 items-center reveal">
+
+            <div class="md:col-span-8">
+                <span class="block text-[0.625rem] font-bold tracking-[0.35em] uppercase text-primary mb-5">Reserve Your Session</span>
+                <h2 id="cta-heading" class="font-headline font-light uppercase leading-[1.05]" style="font-size:clamp(1.75rem, 4vw, 3rem); letter-spacing:0.025em;">
+                    Ready to begin?<br>
+                    <span class="font-bold">Every great look starts with a conversation.</span>
+                </h2>
+                <p class="mt-6 text-[0.9375rem] leading-[1.8] text-white/60 max-w-xl">
+                    Use our interactive booking funnel to select your service, choose your preferred finish, and receive an instant price estimate. Ayushi personally reviews every request within 48 hours.
+                </p>
+            </div>
+
+            <div class="md:col-span-4 flex flex-col gap-4 md:items-end">
+                <a href="booking.html" class="inline-flex items-center justify-center bg-primary text-stone px-10 py-4 text-[0.6875rem] font-bold tracking-[0.2em] uppercase transition-all hover:bg-white hover:text-stone" style="min-height:48px;">
+                    Begin Booking &nbsp;&rarr;
+                </a>
+                <div class="flex flex-col gap-2 text-[0.75rem] text-white/40 md:text-right">
+                    <span class="flex items-center gap-2 md:justify-end">
+                        <span class="material-symbols-outlined text-primary" style="font-size:0.875rem">call</span>
+                        <a href="tel:+918707660651" class="hover:text-white transition-colors">+91 87076 60651</a>
+                    </span>
+                    <span class="flex items-center gap-2 md:justify-end">
+                        <span class="material-symbols-outlined text-primary" style="font-size:0.875rem">mail</span>
+                        <a href="mailto:ayushiraimua@gmail.com" class="hover:text-white transition-colors">ayushiraimua@gmail.com</a>
+                    </span>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+
+
+<!-- ═══════════════════════ FOOTER ═══════════════════════ -->
+<footer class="bg-[#1a1109] text-white py-20 px-6 md:px-12 lg:px-20">
+    <div class="max-w-[1400px] mx-auto">
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-16 border-b border-white/10">
+
+            <!-- Brand -->
             <div>
                 <div class="flex items-center gap-3 mb-6">
-                    <div class="size-5 text-primary">
+                    <div class="w-5 h-5 text-primary">
                         <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
                             <path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
                         </svg>
                     </div>
-                    <span class="logo-font text-2xl">ARM</span>
+                    <span class="font-headline text-2xl font-bold">ARM</span>
                 </div>
-                <p class="text-white/50 text-sm leading-relaxed max-w-xs mb-6">Artistry Refined &amp; Modern. Professional makeup services for weddings, editorial, and private education.</p>
+                <p class="text-white/50 text-sm leading-relaxed max-w-xs mb-6">Artistry Refined &amp; Modern. Professional makeup services for weddings, events, and pre-wedding shoots.</p>
+                <div class="flex gap-3">
+                    <a href="https://instagram.com" target="_blank" rel="noopener" class="social-icon-glow w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60" aria-label="Follow on Instagram">
+                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"></path></svg>
+                    </a>
+                    <a href="mailto:ayushiraimua@gmail.com" class="social-icon-glow w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60" aria-label="Send email">
+                        <span class="material-symbols-outlined" style="font-size:1.1rem;">mail</span>
+                    </a>
+                    <a href="tel:+918707660651" class="social-icon-glow w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60" aria-label="Call us">
+                        <span class="material-symbols-outlined" style="font-size:1.1rem;">call</span>
+                    </a>
+                </div>
             </div>
-            <!-- Links -->
+
+            <!-- Quick Links -->
             <div>
                 <h4 class="text-xs font-bold uppercase tracking-widest mb-6 text-white/80">Quick Links</h4>
                 <ul class="space-y-4 text-sm text-white/50">
@@ -163,70 +579,84 @@
                     <li><a href="booking.html" class="hover:text-primary transition-colors">Book Now</a></li>
                 </ul>
             </div>
+
             <!-- Contact -->
             <div>
                 <h4 class="text-xs font-bold uppercase tracking-widest mb-6 text-white/80">Contact</h4>
                 <ul class="space-y-4 text-sm text-white/50">
-                    <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" style="font-size:1rem;">call</span><span>+33 6 12 34 56 78</span></li>
-                    <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" style="font-size:1rem;">mail</span><span>hello@arm-makeup.com</span></li>
-                    <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" style="font-size:1rem;">location_on</span><span>Paris, France</span></li>
+                    <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" style="font-size:1rem;">call</span><a href="tel:+918707660651" class="hover:text-primary transition-colors">+91 87076 60651</a></li>
+                    <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" style="font-size:1rem;">mail</span><a href="mailto:ayushiraimua@gmail.com" class="hover:text-primary transition-colors">ayushiraimua@gmail.com</a></li>
+                    <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" style="font-size:1rem;">location_on</span><span>Available on-location</span></li>
+                    <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" style="font-size:1rem;">schedule</span><span>Mon &ndash; Sun: By Appointment</span></li>
                 </ul>
             </div>
+
             <!-- Newsletter -->
             <div>
                 <h4 class="text-xs font-bold uppercase tracking-widest mb-6 text-white/80">Newsletter</h4>
-                <p class="text-sm text-white/50 mb-4">Stay updated on beauty tips and seasonal masterclasses.</p>
+                <p class="text-sm text-white/50 mb-4">Stay updated on beauty tips and seasonal offers.</p>
                 <div class="flex">
-                    <input id="nl-email" type="email" placeholder="Your email" class="bg-white/5 border border-white/10 rounded-l-lg px-4 py-2.5 text-sm text-white placeholder-white/30 w-full outline-none focus:border-primary transition-colors">
-                    <button onclick="nlSubscribe()" class="bg-primary text-[#1b140d] px-4 py-2.5 rounded-r-lg font-bold text-xs uppercase hover:bg-terracotta transition-colors whitespace-nowrap">Join</button>
+                    <label for="nl-email" class="sr-only">Email address for newsletter</label>
+                    <input id="nl-email" type="email" placeholder="Your email" class="bg-white/5 border border-white/10 rounded-l-lg px-4 py-2.5 text-sm text-white placeholder-white/30 w-full outline-none focus:border-primary transition-colors" style="min-height:44px;">
+                    <button onclick="nlSubscribe()" class="bg-primary text-stone px-4 py-2.5 rounded-r-lg font-bold text-xs uppercase hover:bg-terracotta hover:text-white transition-colors whitespace-nowrap" style="min-height:44px;">Join</button>
                 </div>
                 <p id="nl-ok" class="newsletter-success">Thanks for subscribing! &#10003;</p>
+            </div>
+
+        </div>
+
+        <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-white/30 text-xs uppercase tracking-widest">
+            <p>&copy; 2025 ARM Artistry. All rights reserved.</p>
+            <div class="flex gap-8">
+                <a href="#" class="hover:text-white transition-colors">Privacy Policy</a>
+                <a href="#" class="hover:text-white transition-colors">Terms of Service</a>
             </div>
         </div>
     </div>
 </footer>
 
-<script>
-function openMobileMenu() {
-    document.getElementById('mobileMenu').classList.add('open');
-    document.body.style.overflow = 'hidden';
-}
-function closeMobileMenu() {
-    document.getElementById('mobileMenu').classList.remove('open');
-    document.body.style.overflow = '';
-}
-const navbar = document.getElementById('navbar');
-window.addEventListener('scroll', () => {
-    navbar.classList.toggle('shadow-xl', window.scrollY > 60);
-});
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-function nlSubscribe() {
-    const el = document.getElementById('nl-email');
-    if (el.value && el.value.includes('@')) {
-        document.getElementById('nl-ok').classList.add('show');
-        el.value = '';
-    }
-}
 
-// Services Tabs
-function filterServices(category) {
-    document.querySelectorAll('.pricing-category').forEach(el => {
-        el.classList.add('hidden');
-        if (el.dataset.pricing === category) {
-            el.classList.remove('hidden');
-        }
+<script>
+(function () {
+    'use strict';
+
+    window.openMobileMenu = function () {
+        document.getElementById('mobileMenu').classList.add('open');
+        document.body.style.overflow = 'hidden';
+    };
+    window.closeMobileMenu = function () {
+        document.getElementById('mobileMenu').classList.remove('open');
+        document.body.style.overflow = '';
+    };
+
+    document.getElementById('darkToggle').addEventListener('click', function () {
+        document.documentElement.classList.toggle('dark');
+        localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
     });
-}
-document.getElementById('service-tabs').addEventListener('click', (e) => {
-    if (e.target.classList.contains('filter-btn')) {
-        document.querySelectorAll('#service-tabs .filter-btn').forEach(btn => btn.classList.remove('active'));
-        e.target.classList.add('active');
-        filterServices(e.target.dataset.svc);
-    }
-});
+
+    var navbar = document.getElementById('navbar');
+    window.addEventListener('scroll', function () {
+        navbar.classList.toggle('shadow-xl', window.scrollY > 60);
+    }, { passive: true });
+
+    var revealObserver = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+            if (e.isIntersecting) e.target.classList.add('visible');
+        });
+    }, { threshold: 0.07 });
+    document.querySelectorAll('.reveal').forEach(function (el) {
+        revealObserver.observe(el);
+    });
+
+    window.nlSubscribe = function () {
+        var el = document.getElementById('nl-email');
+        if (el.value && el.value.includes('@')) {
+            document.getElementById('nl-ok').classList.add('show');
+            el.value = '';
+        }
+    };
+
+}());
 </script>
 </body>
 </html>
