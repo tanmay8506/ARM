@@ -37,7 +37,7 @@
 <body class="bg-background-light dark:bg-background-dark font-display text-[#1b140d] dark:text-[#fcfaf8] page-enter">
 
 <!-- ═══════════════════════ MOBILE MENU ═══════════════════════ -->
-<div id="mobileMenu" class="fixed inset-0 bg-stone-900/95 backdrop-blur-md z-[200] flex flex-col items-center justify-center gap-8 translate-x-full transition-transform duration-500 ease-[cubic-bezier(0.77,0,0.175,1)]">
+<div id="mobileMenu" class="fixed inset-0 z-[200] bg-stone-900/95 backdrop-blur-md flex flex-col items-center justify-center gap-8 transition-all duration-300 opacity-0 pointer-events-none invisible">
     <button onclick="closeMobileMenu()" aria-label="Close navigation menu" class="absolute top-6 right-6 w-[44px] h-[44px] flex items-center justify-center rounded-full border border-stone-600 bg-stone-800 text-stone-100 hover:bg-primary hover:text-stone-900 hover:border-primary transition-all">
         <span class="material-symbols-outlined" style="font-size:1.5rem">close</span>
     </button>
@@ -278,14 +278,14 @@
 // ── Mobile Menu ─────────────────────────────────────────
 function openMobileMenu() {
     const menu = document.getElementById('mobileMenu');
-    menu.classList.remove('translate-x-full');
-    menu.classList.add('translate-x-0');
+    menu.classList.remove('opacity-0', 'pointer-events-none', 'invisible');
+    menu.classList.add('opacity-100', 'pointer-events-auto', 'visible');
     document.body.style.overflow = 'hidden';
 }
 function closeMobileMenu() {
     const menu = document.getElementById('mobileMenu');
-    menu.classList.remove('translate-x-0');
-    menu.classList.add('translate-x-full');
+    menu.classList.remove('opacity-100', 'pointer-events-auto', 'visible');
+    menu.classList.add('opacity-0', 'pointer-events-none', 'invisible');
     document.body.style.overflow = '';
 }
 
