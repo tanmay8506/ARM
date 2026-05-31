@@ -37,7 +37,8 @@
 <body class="bg-background-light dark:bg-background-dark font-display text-[#1b140d] dark:text-[#fcfaf8] page-enter">
 
 <!-- ═══════════════════════ MOBILE MENU ═══════════════════════ -->
-<div id="mobileMenu" class="nav-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+<div id="mobileMenu" class="nav-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu"
+     style="display:none;opacity:0;">
     <button class="nav-drawer-close" onclick="closeMobileMenu()" aria-label="Close navigation menu">
         <span class="material-symbols-outlined" style="font-size:1.5rem">close</span>
     </button>
@@ -277,11 +278,24 @@
 <script>
 // ── Mobile Menu ─────────────────────────────────────────
 function openMobileMenu() {
-    document.getElementById('mobileMenu').classList.add('is-open');
+    var menu = document.getElementById('mobileMenu');
+    menu.style.display = 'flex';
+    menu.style.position = 'fixed';
+    menu.style.inset = '0';
+    menu.style.zIndex = '9999';
+    menu.style.background = 'rgba(22,15,8,0.98)';
+    menu.style.flexDirection = 'column';
+    menu.style.alignItems = 'center';
+    menu.style.justifyContent = 'center';
+    menu.style.gap = '2.25rem';
+    menu.style.backdropFilter = 'blur(18px)';
+    setTimeout(function() { menu.style.opacity = '1'; }, 10);
     document.body.style.overflow = 'hidden';
 }
 function closeMobileMenu() {
-    document.getElementById('mobileMenu').classList.remove('is-open');
+    var menu = document.getElementById('mobileMenu');
+    menu.style.opacity = '0';
+    setTimeout(function() { menu.style.display = 'none'; }, 320);
     document.body.style.overflow = '';
 }
 
