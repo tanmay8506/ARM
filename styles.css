@@ -1685,3 +1685,228 @@ a { text-decoration: none; }
         align-items: center;
     }
 }
+
+/* =========================================================
+   MOBILE OVERHAUL — Stage 5 Comprehensive Mobile UX
+   All rules below are additive mobile-first overrides.
+   Desktop layouts (md+) remain completely untouched.
+   ========================================================= */
+
+
+/* ── Editorial Portrait Section Mobile Fix ──────────────────
+   Eliminates the 50vh rigid height wasted on a single-sentence
+   quote. On mobile: image stacks above with natural aspect-ratio,
+   quote panel flows cleanly beneath — zero wasted space.
+   ─────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+    .editorial-portrait-grid {
+        display: flex !important;
+        flex-direction: column !important;
+    }
+    .editorial-portrait-img-col {
+        min-height: unset !important;
+        width: 100% !important;
+        aspect-ratio: 5 / 4;
+        overflow: hidden;
+        position: relative;
+    }
+    .editorial-portrait-img-col img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center 15%;
+        display: block;
+    }
+    .editorial-portrait-quote-col {
+        margin-left: 0 !important;
+        width: 100% !important;
+        max-width: 100% !important;
+        display: block !important;
+    }
+    .editorial-portrait-quote-col > div {
+        padding: 2.5rem 1.5rem !important;
+    }
+}
+
+
+/* ── Service Matrix Cards → Horizontal Snap (mobile only) ───
+   Converts the 2×2 stacking cards into a native swipeable
+   carousel. 85vw width gives a peek-through so users know
+   more cards exist. Desktop keeps the existing 2-column grid.
+   ─────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+    #service-scroll-track {
+        display: flex !important;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        gap: 0 !important;
+        padding-bottom: 1.5rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        background: transparent !important;
+    }
+    #service-scroll-track::-webkit-scrollbar { display: none; }
+
+    #service-scroll-track .service-matrix-card {
+        flex: 0 0 85vw !important;
+        max-width: 85vw;
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+        margin: 0 0.5rem;
+        border: 1px solid rgba(28, 25, 23, 0.08) !important;
+    }
+    #service-scroll-track .service-matrix-card:first-child {
+        margin-left: calc((100vw - 85vw) / 2);
+    }
+    #service-scroll-track .service-matrix-card:last-child {
+        margin-right: calc((100vw - 85vw) / 2);
+    }
+}
+
+
+/* ── Portfolio Preview Grid → Horizontal Snap (mobile only) ─
+   The home-page 12-column portfolio preview grid collapses to
+   a 2-column that squishes portraits on mobile. Override to a
+   smooth swipe carousel matching the case-study experience.
+   ─────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+    #portfolio-preview-grid {
+        display: flex !important;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        gap: 0.75rem !important;
+        padding-bottom: 1.5rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    #portfolio-preview-grid::-webkit-scrollbar { display: none; }
+
+    #portfolio-preview-grid > * {
+        flex: 0 0 75vw !important;
+        max-width: 75vw !important;
+        width: 75vw !important;
+        scroll-snap-align: center;
+        scroll-snap-stop: always;
+        aspect-ratio: 4 / 5 !important;
+        height: auto !important;
+    }
+    /* Centre stacked-pair wrapper: becomes a single snap slide */
+    #portfolio-preview-grid > div {
+        display: flex !important;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    #portfolio-preview-grid > div > a {
+        aspect-ratio: 4 / 3;
+        flex: 1;
+    }
+}
+
+
+/* ── Filter Tabs Row → Horizontal Scroll on Mobile ──────────
+   On mobile the filter tab row overflows into 2+ lines which
+   pushes all content down. Force a single-row scrollable strip.
+   ─────────────────────────────────────────────────────────── */
+@media (max-width: 767px) {
+    .filter-tabs-row {
+        display: flex !important;
+        flex-wrap: nowrap !important;
+        overflow-x: auto !important;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+        gap: 1rem;
+        padding-bottom: 0.25rem;
+    }
+    .filter-tabs-row::-webkit-scrollbar { display: none; }
+    .filter-tabs-row .filter-tab {
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+}
+
+
+/* ── Nav Drawer Links — Minimum Touch Targets ─────────────── */
+.nav-drawer-link,
+.nav-drawer-cta {
+    min-height: 44px;
+    display: inline-flex !important;
+    align-items: center;
+}
+
+
+/* ── Body Scroll Lock ─────────────────────────────────────── */
+/* Applied via JS (document.body.style.overflow='hidden') when
+   the mobile menu overlay is open. position:fixed prevents the
+   elastic scroll-bounce on iOS from leaking through. */
+body.menu-open {
+    overflow: hidden !important;
+    position: fixed;
+    width: 100%;
+}
+
+
+/* ── Service Page: Finish Explainer Grid Reflow ──────────── */
+@media (max-width: 1023px) and (min-width: 481px) {
+    .finish-explainer-grid {
+        grid-template-columns: repeat(2, 1fr) !important;
+    }
+}
+@media (max-width: 480px) {
+    .finish-explainer-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+
+/* ── Hero Text Clamp at 320px ─────────────────────────────── */
+@media (max-width: 380px) {
+    .hero-text-col h1 {
+        font-size: clamp(1.875rem, 10vw, 2.75rem) !important;
+    }
+}
+
+
+/* ── Booking: Service Cards collapse to 1 col at 380px ────── */
+@media (max-width: 380px) {
+    .bf-service-grid {
+        grid-template-columns: 1fr !important;
+    }
+}
+
+
+/* ── Swipe Hint Caption ─────────────────────────────────────
+   Shows below snap-scroll carousels on mobile so users know
+   they can swipe. Hidden on desktop.
+   ─────────────────────────────────────────────────────────── */
+.swipe-hint {
+    display: none;
+}
+@media (max-width: 767px) {
+    .swipe-hint {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        padding-top: 0.75rem;
+        font-size: 0.625rem;
+        font-weight: 700;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+        opacity: 0.45;
+        color: currentColor;
+    }
+    .swipe-hint::before,
+    .swipe-hint::after {
+        content: '';
+        display: block;
+        width: 1.25rem;
+        height: 1.5px;
+        background: currentColor;
+        border-radius: 9999px;
+    }
+}

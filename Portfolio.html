@@ -15,15 +15,19 @@
         theme: {
             extend: {
                 colors: {
-                    "primary": "#f2a65a",
+                    "primary":    "#f2a65a",
                     "terracotta": "#c97b4a",
-                    "sage": "#6F8F72",
-                    "beige": "#E8E2D8",
+                    "sage":       "#8fa68e",
+                    "beige":      "#e8e2d8",
+                    "bone":       "#f5f2ed",
+                    "stone":      "#1c1917",
+                    /* Legacy aliases kept for backward compatibility */
                     "background-light": "#f5f2ed",
-                    "background-dark": "#221910",
+                    "background-dark":  "#221910",
                 },
                 fontFamily: {
-                    "display": ["Manrope", "sans-serif"],
+                    "display":  ["Manrope", "sans-serif"],
+                    "headline": ["Syne", "sans-serif"],
                     "interlope": ["Syne", "sans-serif"],
                 },
             },
@@ -89,7 +93,7 @@
 
 <!-- ===================== PORTFOLIO FILTERS ===================== -->
 <section class="pb-0 px-6 max-w-7xl mx-auto">
-    <div class="flex flex-wrap justify-center gap-10 border-b border-beige dark:border-[#4a3f35] reveal" id="filter-container">
+    <div class="filter-tabs-row flex flex-wrap justify-center gap-10 border-b border-beige dark:border-[#4a3f35] reveal" id="filter-container">
         <button class="filter-tab active" data-filter="all">All Work</button>
         <button class="filter-tab" data-filter="bridal">Bridal</button>
         <button class="filter-tab" data-filter="editorial">Editorial</button>
@@ -200,6 +204,10 @@
     </article>
 
 </section>
+
+<!-- Swipe hint on mobile -->
+<p class="swipe-hint text-[#1b140d]/40 dark:text-white/30 px-6 max-w-7xl mx-auto" aria-hidden="true">Swipe to browse</p>
+
 
 <!-- ===================== LIGHTBOX ===================== -->
 <div class="lightbox" id="lightbox">

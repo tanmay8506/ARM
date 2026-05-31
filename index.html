@@ -367,20 +367,22 @@
 
 <!-- ═══════════════════════ EDITORIAL PORTRAIT BREAK ═══════════════════════ -->
 <section class="relative overflow-hidden" aria-label="Editorial portrait">
-    <div class="grid grid-cols-1 md:grid-cols-12">
-        <!-- Full-bleed image with overlapping text block -->
-        <div class="md:col-span-8 relative min-h-[50vh] md:min-h-[80vh]">
+    <!-- editorial-portrait-grid class enables the mobile CSS reflow -->
+    <div class="editorial-portrait-grid grid grid-cols-1 md:grid-cols-12">
+
+        <!-- Full-bleed image: rigid heights removed — aspect-ratio handles it -->
+        <div class="editorial-portrait-img-col md:col-span-8 relative" style="min-height:clamp(240px,40vw,55vh);">
             <img
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuCg_POZGPuOW710j3GPuVTL8OSzRGAC6yN1gWe6KOuY2-DHd835eoSwAVCMPT6DM3hc0fGzVRp63vF_Q1F7KeVcn4S4mlbsR0wmKAx1gWcD_OKQUbXmiTQLSNwTrAR-uQWVmaKgA6TAtETB5XReMeFTIXmVpU0sD9eG9GocCD6AM53ZeCDmCdEbpISx7FwGKAhhA6XEVCl_h0WQ9rrO47q548PilgZcdb_IPucUTuwBYpd2uMxjip8SZXfS4vZo5vbaAZcNYHQwa4c"
                 alt="Ayushi Rai — natural glam bridal artistry closeup"
-                class="w-full h-full object-cover object-[center_15%] block"
+                class="w-full h-full object-cover object-[center_15%] block absolute inset-0"
                 loading="lazy"
             >
             <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-bone/40 dark:to-stone/40 pointer-events-none hidden md:block" aria-hidden="true"></div>
         </div>
 
-        <!-- Overlapping quote panel — bleeds into the image area -->
-        <div class="md:col-span-4 flex items-center md:-ml-20 relative z-10">
+        <!-- Quote panel: md:-ml-20 only applies on desktop via CSS -->
+        <div class="editorial-portrait-quote-col md:col-span-4 flex items-center md:-ml-20 relative z-10">
             <div class="bg-bone dark:bg-stone p-8 md:p-12 lg:p-16 reveal">
                 <blockquote>
                     <svg class="w-8 h-8 text-primary/30 mb-6" viewBox="0 0 48 48" fill="currentColor" aria-hidden="true">
@@ -414,8 +416,8 @@
             </p>
         </div>
 
-        <!-- Service Grid: Asymmetric 2×2 -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-px bg-stone/[0.04] dark:bg-white/[0.04]">
+        <!-- Service Grid: Horizontal snap on mobile, 2×2 on desktop -->
+        <div id="service-scroll-track" class="grid grid-cols-1 md:grid-cols-2 gap-px bg-stone/[0.04] dark:bg-white/[0.04]">
 
             <!-- 1. Bridal Artistry -->
             <article class="service-matrix-card reveal">
@@ -512,9 +514,12 @@
 
         </div>
 
+        <!-- Swipe hint — visible on mobile only -->
+        <p class="swipe-hint text-stone/50 dark:text-white/40 mt-2" aria-hidden="true">Swipe to explore</p>
+
         <!-- CTA below matrix -->
-        <div class="mt-16 text-center reveal">
-            <a href="service.html" class="inline-flex items-center gap-3 text-[0.6875rem] font-bold tracking-[0.2em] uppercase text-stone dark:text-white border-b border-stone/20 dark:border-white/20 pb-1 hover:border-primary hover:text-primary transition-all">
+        <div class="mt-8 md:mt-16 text-center reveal">
+            <a href="service.html" class="inline-flex items-center gap-3 text-[0.6875rem] font-bold tracking-[0.2em] uppercase text-stone dark:text-white border-b border-stone/20 dark:border-white/20 pb-1 hover:border-primary hover:text-primary transition-all" style="min-height:44px;">
                 <span>View Complete Service Details</span>
                 <span class="material-symbols-outlined" style="font-size:0.875rem">arrow_forward</span>
             </a>
@@ -540,8 +545,8 @@
             </a>
         </div>
 
-        <!-- Asymmetric image grid: 2 tall + 2 short stacked -->
-        <div class="grid grid-cols-2 md:grid-cols-12 gap-4 md:gap-5">
+        <!-- Portfolio preview: horizontal snap on mobile, 12-col grid on desktop -->
+        <div id="portfolio-preview-grid" class="grid grid-cols-2 md:grid-cols-12 gap-4 md:gap-5">
 
             <!-- Large portrait 1 -->
             <a href="Portfolio.html" class="md:col-span-5 block overflow-hidden group reveal" style="aspect-ratio:3/4;">
@@ -584,6 +589,10 @@
             </a>
 
         </div>
+
+        <!-- Swipe hint — visible on mobile only -->
+        <p class="swipe-hint text-stone/50 dark:text-white/40 mt-2" aria-hidden="true">Swipe to explore</p>
+
     </div>
 </section>
 
