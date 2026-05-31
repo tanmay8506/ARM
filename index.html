@@ -755,27 +755,20 @@
     'use strict';
 
     // ── Mobile Menu ──────────────────────────────────────────
+    var _menu = document.getElementById('mobileMenu');
     window.openMobileMenu = function () {
-        var menu = document.getElementById('mobileMenu');
-        menu.style.display = 'flex';
-        menu.style.position = 'fixed';
-        menu.style.inset = '0';
-        menu.style.zIndex = '9999';
-        menu.style.background = 'rgba(22,15,8,0.98)';
-        menu.style.flexDirection = 'column';
-        menu.style.alignItems = 'center';
-        menu.style.justifyContent = 'center';
-        menu.style.gap = '2.25rem';
-        menu.style.backdropFilter = 'blur(18px)';
-        setTimeout(function() { menu.style.opacity = '1'; }, 10);
-        document.body.style.overflow = 'hidden';
+        _menu.classList.add('nav-open');
+        _menu.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('menu-open');
     };
     window.closeMobileMenu = function () {
-        var menu = document.getElementById('mobileMenu');
-        menu.style.opacity = '0';
-        setTimeout(function() { menu.style.display = 'none'; }, 320);
-        document.body.style.overflow = '';
+        _menu.classList.remove('nav-open');
+        _menu.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('menu-open');
     };
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') window.closeMobileMenu();
+    });
 
     // ── Dark Mode Toggle ─────────────────────────────────────
     document.getElementById('darkToggle').addEventListener('click', function () {

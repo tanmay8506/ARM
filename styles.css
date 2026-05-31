@@ -119,9 +119,8 @@ a { text-decoration: none; }
     position: fixed;
     inset: 0;
     z-index: 9999;
-    /* Non-interactive when closed */
     pointer-events: none;
-    /* Allow children to transition */
+    overflow: hidden; /* clips the drawer when translateX(100%) pushes it off-screen */
     visibility: visible;
 }
 #mobileMenu.nav-open {
