@@ -176,14 +176,14 @@
 
 
 <!-- ═══════════════════════ MOBILE MENU ═══════════════════════ -->
-<div id="mobileMenu" class="fixed inset-0 z-[200] bg-stone-900/95 backdrop-blur-md flex flex-col items-center justify-center gap-8 transition-all duration-300 opacity-0 pointer-events-none invisible">
-    <button onclick="closeMobileMenu()" aria-label="Close navigation menu" class="absolute top-6 right-6 w-[44px] h-[44px] flex items-center justify-center rounded-full border border-stone-600 bg-stone-800 text-stone-100 hover:bg-primary hover:text-stone-900 hover:border-primary transition-all">
+<div id="mobileMenu" class="nav-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu">
+    <button class="nav-drawer-close" onclick="closeMobileMenu()" aria-label="Close navigation menu">
         <span class="material-symbols-outlined" style="font-size:1.5rem">close</span>
     </button>
-    <a href="index.html" class="font-headline text-3xl font-bold uppercase tracking-[0.05em] text-stone-100 hover:text-primary transition-colors" onclick="closeMobileMenu()">Home</a>
-    <a href="Portfolio.html" class="font-headline text-3xl font-bold uppercase tracking-[0.05em] text-stone-100 hover:text-primary transition-colors" onclick="closeMobileMenu()">Portfolio</a>
-    <a href="service.html" class="font-headline text-3xl font-bold uppercase tracking-[0.05em] text-stone-100 hover:text-primary transition-colors" onclick="closeMobileMenu()">Services</a>
-    <a href="booking.html" class="mt-4 flex items-center justify-center bg-primary text-stone-900 px-8 py-4 text-[0.6875rem] font-bold tracking-[0.2em] uppercase hover:bg-white transition-colors" onclick="closeMobileMenu()" style="min-height:44px;">Book Now</a>
+    <a href="index.html" class="nav-drawer-link" onclick="closeMobileMenu()">Home</a>
+    <a href="Portfolio.html" class="nav-drawer-link" onclick="closeMobileMenu()">Portfolio</a>
+    <a href="service.html" class="nav-drawer-link active" onclick="closeMobileMenu()">Services</a>
+    <a href="booking.html" class="nav-drawer-cta" onclick="closeMobileMenu()">Book Now</a>
 </div>
 
 
@@ -621,15 +621,11 @@
     'use strict';
 
     window.openMobileMenu = function () {
-        const menu = document.getElementById('mobileMenu');
-        menu.classList.remove('opacity-0', 'pointer-events-none', 'invisible');
-        menu.classList.add('opacity-100', 'pointer-events-auto', 'visible');
+        document.getElementById('mobileMenu').classList.add('is-open');
         document.body.style.overflow = 'hidden';
     };
     window.closeMobileMenu = function () {
-        const menu = document.getElementById('mobileMenu');
-        menu.classList.remove('opacity-100', 'pointer-events-auto', 'visible');
-        menu.classList.add('opacity-0', 'pointer-events-none', 'invisible');
+        document.getElementById('mobileMenu').classList.remove('is-open');
         document.body.style.overflow = '';
     };
 
