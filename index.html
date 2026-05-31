@@ -216,16 +216,38 @@
 <body class="bg-bone dark:bg-stone text-stone dark:text-[#f5f2ed] font-display page-enter">
 
 
-<!-- ═══════════════════════ MOBILE MENU ═══════════════════════ -->
-<div id="mobileMenu" class="nav-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu"
-     style="display:none;opacity:0;">
-    <button class="nav-drawer-close" onclick="closeMobileMenu()" aria-label="Close navigation menu" style="position:absolute; top:2rem; right:2rem; color:#fcfaf8; background:none; border:none; cursor:pointer; padding:0.5rem; display:flex; align-items:center; justify-content:center;">
-        <span class="material-symbols-outlined" style="font-size:2.25rem">close</span>
-    </button>
-    <a href="index.html" class="nav-drawer-link active" onclick="closeMobileMenu()" style="color:#c47a30; font-family:'Syne', sans-serif; font-size:1.75rem; font-weight:800; text-transform:uppercase; text-decoration:none; letter-spacing:0.05em;">Home</a>
-    <a href="Portfolio.html" class="nav-drawer-link" onclick="closeMobileMenu()" style="color:#fcfaf8; font-family:'Syne', sans-serif; font-size:1.75rem; font-weight:800; text-transform:uppercase; text-decoration:none; letter-spacing:0.05em;">Portfolio</a>
-    <a href="service.html" class="nav-drawer-link" onclick="closeMobileMenu()" style="color:#fcfaf8; font-family:'Syne', sans-serif; font-size:1.75rem; font-weight:800; text-transform:uppercase; text-decoration:none; letter-spacing:0.05em;">Services</a>
-    <a href="booking.html" class="nav-drawer-cta" onclick="closeMobileMenu()" style="color:#1b140d; background-color:#c47a30; font-family:'Syne', sans-serif; font-size:1rem; font-weight:700; text-transform:uppercase; text-decoration:none; letter-spacing:0.1em; padding:1rem 2.5rem; margin-top:1rem;">Book Now</a>
+<!-- ═══════════════════════ MOBILE NAV DRAWER ═══════════════════════ -->
+<div id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true">
+
+    <!-- Backdrop: tap anywhere outside drawer to close -->
+    <div class="mob-backdrop" onclick="closeMobileMenu()" aria-hidden="true"></div>
+
+    <!-- Slide-in drawer panel -->
+    <div class="mob-drawer">
+
+        <!-- Header -->
+        <div class="mob-drawer-header">
+            <a href="index.html" class="mob-drawer-brand" onclick="closeMobileMenu()">
+                ARM <span>Artistry</span>
+            </a>
+            <button class="mob-close-btn" onclick="closeMobileMenu()" aria-label="Close navigation menu">
+                <span class="material-symbols-outlined" style="font-size:1.375rem">close</span>
+            </button>
+        </div>
+
+        <!-- Nav links -->
+        <nav class="mob-nav" aria-label="Mobile navigation">
+            <a href="index.html" class="mob-nav-link active" onclick="closeMobileMenu()">Home</a>
+            <a href="Portfolio.html" class="mob-nav-link" onclick="closeMobileMenu()">Portfolio</a>
+            <a href="service.html" class="mob-nav-link" onclick="closeMobileMenu()">Services</a>
+        </nav>
+
+        <!-- Book Now CTA -->
+        <div class="mob-drawer-footer">
+            <a href="booking.html" class="mob-book-cta" onclick="closeMobileMenu()">Book Now &rarr;</a>
+        </div>
+
+    </div>
 </div>
 
 

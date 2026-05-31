@@ -108,114 +108,154 @@ a { text-decoration: none; }
    No translateX involved; zero risk of desktop text bleed.
    ========================================================= */
 
-/* ── Drawer shell ──────────────────────────────────────── */
-.nav-drawer {
+/* =========================================================
+   MOBILE NAV DRAWER — Clean Rebuild
+   Controlled entirely by the .nav-open class.
+   JS only adds/removes that class — zero inline style overrides.
+   ========================================================= */
+
+/* ── Overlay container — always in DOM, inert when closed ── */
+#mobileMenu {
     position: fixed;
     inset: 0;
-    z-index: 500;
-    background: rgba(22, 15, 8, 0.98);
-    backdrop-filter: blur(18px);
-    -webkit-backdrop-filter: blur(18px);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    gap: 2.25rem;
-
-    /* Hidden by default — opacity + visibility together so
-       transitions play on open, and element is fully inert when closed */
-    opacity: 0;
-    visibility: hidden;
+    z-index: 9999;
+    /* Non-interactive when closed */
     pointer-events: none;
-    transition: opacity 0.35s cubic-bezier(0.4, 0, 0.2, 1),
-                visibility 0.35s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* ── Open state ────────────────────────────────────────── */
-.nav-drawer.is-open {
-    opacity: 1;
+    /* Allow children to transition */
     visibility: visible;
+}
+#mobileMenu.nav-open {
     pointer-events: auto;
 }
 
-/* ── Decorative rule above links ───────────────────────── */
-.nav-drawer::before {
-    content: '';
+/* ── Translucent backdrop — fade in/out ─────────────────── */
+.mob-backdrop {
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 3px;
-    background: linear-gradient(90deg, transparent, #f2a65a 50%, transparent);
-    opacity: 0.6;
+    inset: 0;
+    background: rgba(10, 5, 2, 0.55);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    opacity: 0;
+    transition: opacity 0.32s ease;
+    cursor: pointer;
+}
+#mobileMenu.nav-open .mob-backdrop {
+    opacity: 1;
 }
 
-/* ── Close button ──────────────────────────────────────── */
-.nav-drawer-close {
+/* ── Slide-in drawer panel ──────────────────────────────── */
+.mob-drawer {
     position: absolute;
-    top: 1.5rem;
-    right: 1.5rem;
-    width: 48px;
-    height: 48px;
-    min-width: 48px;
-    min-height: 48px;
+    top: 0;
+    right: 0;
+    width: min(82vw, 320px);
+    height: 100%;
+    background: #160e07;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    /* Slide out to the right by default */
+    transform: translateX(100%);
+    transition: transform 0.36s cubic-bezier(0.4, 0, 0.2, 1);
+    /* Decorative left border */
+    border-left: 1px solid rgba(242, 166, 90, 0.2);
+}
+#mobileMenu.nav-open .mob-drawer {
+    transform: translateX(0);
+}
+
+/* ── Drawer header row (brand + close button) ───────────── */
+.mob-drawer-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.5rem 1.5rem 1.25rem;
+    border-bottom: 1px solid rgba(255,255,255,0.07);
+}
+.mob-drawer-brand {
+    font-family: 'Syne', sans-serif;
+    font-size: 1.375rem;
+    font-weight: 800;
+    color: #f5f2ed;
+    letter-spacing: 0.04em;
+    text-decoration: none;
+}
+.mob-drawer-brand span {
+    color: #f2a65a;
+}
+
+/* ── Close button ───────────────────────────────────────── */
+.mob-close-btn {
+    width: 44px;
+    height: 44px;
+    min-width: 44px;
+    min-height: 44px;
     display: flex;
     align-items: center;
     justify-content: center;
     border-radius: 50%;
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    background: rgba(255, 255, 255, 0.06);
-    color: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(255,255,255,0.15);
+    background: rgba(255,255,255,0.05);
+    color: rgba(255,255,255,0.7);
     cursor: pointer;
-    transition: background 0.2s, border-color 0.2s, color 0.2s, transform 0.2s;
+    transition: background 0.2s, color 0.2s, transform 0.25s;
+    flex-shrink: 0;
 }
-.nav-drawer-close:hover {
+.mob-close-btn:hover,
+.mob-close-btn:active {
     background: #f2a65a;
-    border-color: #f2a65a;
     color: #1b140d;
+    border-color: #f2a65a;
     transform: rotate(90deg);
 }
 
-/* ── Nav links ─────────────────────────────────────────── */
-.nav-drawer-link {
+/* ── Nav links inside the drawer ────────────────────────── */
+.mob-nav {
+    display: flex;
+    flex-direction: column;
+    padding: 2rem 1.5rem;
+    gap: 0;
+    flex: 1;
+}
+.mob-nav-link {
     font-family: 'Syne', sans-serif;
-    font-size: clamp(2rem, 7vw, 3.75rem);
+    font-size: 1.625rem;
     font-weight: 800;
-    color: rgba(245, 242, 237, 0.65);
+    color: rgba(245,242,237,0.6);
     text-transform: uppercase;
-    letter-spacing: 0.06em;
+    letter-spacing: 0.05em;
     text-decoration: none;
     line-height: 1;
-    transition: color 0.25s ease, letter-spacing 0.35s ease;
-    position: relative;
+    padding: 1rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    transition: color 0.2s ease, padding-left 0.2s ease;
+    display: flex;
+    align-items: center;
+    min-height: 44px;
 }
-.nav-drawer-link::after {
-    content: '';
-    position: absolute;
-    bottom: -4px;
-    left: 0;
-    width: 0;
-    height: 2px;
-    background: #f2a65a;
-    transition: width 0.3s ease;
+.mob-nav-link:last-of-type {
+    border-bottom: none;
 }
-.nav-drawer-link:hover,
-.nav-drawer-link.active {
+.mob-nav-link:hover,
+.mob-nav-link.active {
     color: #f2a65a;
-    letter-spacing: 0.1em;
-}
-.nav-drawer-link:hover::after,
-.nav-drawer-link.active::after {
-    width: 100%;
+    padding-left: 0.5rem;
 }
 
-/* ── Book Now CTA inside drawer ────────────────────────── */
-.nav-drawer-cta {
-    display: inline-flex;
+/* ── Book Now CTA at the bottom of the drawer ───────────── */
+.mob-drawer-footer {
+    padding: 1.5rem;
+    border-top: 1px solid rgba(255,255,255,0.07);
+}
+.mob-book-cta {
+    display: flex;
     align-items: center;
     justify-content: center;
-    margin-top: 1rem;
-    padding: 1rem 2.5rem;
+    width: 100%;
+    padding: 1rem 2rem;
+    min-height: 52px;
     background: #f2a65a;
     color: #1b140d;
     font-family: 'Manrope', sans-serif;
@@ -224,15 +264,23 @@ a { text-decoration: none; }
     letter-spacing: 0.2em;
     text-transform: uppercase;
     text-decoration: none;
-    min-height: 48px;
-    border: 2px solid #f2a65a;
-    transition: background 0.25s, color 0.25s, border-color 0.25s;
+    transition: background 0.2s, color 0.2s;
 }
-.nav-drawer-cta:hover {
-    background: transparent;
-    color: #f2a65a;
-    border-color: #f2a65a;
+.mob-book-cta:hover,
+.mob-book-cta:active {
+    background: #c97b4a;
+    color: #fff;
 }
+
+/* ── Body scroll lock ───────────────────────────────────── */
+body.menu-open {
+    overflow: hidden !important;
+    /* iOS Safari: prevent background scroll-through */
+    touch-action: none;
+}
+
+/* ── Legacy classes kept as no-ops for safety ───────────── */
+.nav-drawer { display: none !important; }
 
 /* ── Legacy .mobile-menu kept for backwards compat ─────── */
 .mobile-menu {

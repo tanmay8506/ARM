@@ -32,16 +32,25 @@
 </head>
 <body class="bg-[#fcfaf8] dark:bg-[#1b140d] text-[#1b140d] dark:text-[#fcfaf8] transition-colors duration-300">
 
-<!-- ===================== MOBILE MENU ===================== -->
-<div id="mobileMenu" class="nav-drawer" role="dialog" aria-modal="true" aria-label="Navigation menu"
-     style="display:none;opacity:0;">
-    <button class="nav-drawer-close" onclick="closeMobileMenu()" aria-label="Close navigation menu" style="position:absolute; top:2rem; right:2rem; color:#fcfaf8; background:none; border:none; cursor:pointer; padding:0.5rem; display:flex; align-items:center; justify-content:center;">
-        <span class="material-symbols-outlined" style="font-size:2.25rem">close</span>
-    </button>
-    <a href="index.html" class="nav-drawer-link" onclick="closeMobileMenu()" style="color:#fcfaf8; font-family:'Syne', sans-serif; font-size:1.75rem; font-weight:800; text-transform:uppercase; text-decoration:none; letter-spacing:0.05em;">Home</a>
-    <a href="Portfolio.html" class="nav-drawer-link" onclick="closeMobileMenu()" style="color:#fcfaf8; font-family:'Syne', sans-serif; font-size:1.75rem; font-weight:800; text-transform:uppercase; text-decoration:none; letter-spacing:0.05em;">Portfolio</a>
-    <a href="service.html" class="nav-drawer-link" onclick="closeMobileMenu()" style="color:#fcfaf8; font-family:'Syne', sans-serif; font-size:1.75rem; font-weight:800; text-transform:uppercase; text-decoration:none; letter-spacing:0.05em;">Services</a>
-    <a href="booking.html" class="nav-drawer-cta active" onclick="closeMobileMenu()" style="color:#1b140d; background-color:#c47a30; font-family:'Syne', sans-serif; font-size:1rem; font-weight:700; text-transform:uppercase; text-decoration:none; letter-spacing:0.1em; padding:1rem 2.5rem; margin-top:1rem;">Book Now</a>
+<!-- ===================== MOBILE NAV DRAWER ===================== -->
+<div id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true">
+    <div class="mob-backdrop" onclick="closeMobileMenu()" aria-hidden="true"></div>
+    <div class="mob-drawer">
+        <div class="mob-drawer-header">
+            <a href="index.html" class="mob-drawer-brand" onclick="closeMobileMenu()">ARM <span>Artistry</span></a>
+            <button class="mob-close-btn" onclick="closeMobileMenu()" aria-label="Close navigation menu">
+                <span class="material-symbols-outlined" style="font-size:1.375rem">close</span>
+            </button>
+        </div>
+        <nav class="mob-nav" aria-label="Mobile navigation">
+            <a href="index.html" class="mob-nav-link" onclick="closeMobileMenu()">Home</a>
+            <a href="Portfolio.html" class="mob-nav-link" onclick="closeMobileMenu()">Portfolio</a>
+            <a href="service.html" class="mob-nav-link" onclick="closeMobileMenu()">Services</a>
+        </nav>
+        <div class="mob-drawer-footer">
+            <a href="booking.html" class="mob-book-cta active" onclick="closeMobileMenu()">Book Now &rarr;</a>
+        </div>
+    </div>
 </div>
 
 <!-- ===================== HEADER ===================== -->
@@ -420,25 +429,19 @@
 // ─────────────────────────────────────────────────────────────────
 function openMobileMenu() {
     var menu = document.getElementById('mobileMenu');
-    menu.style.display = 'flex';
-    menu.style.position = 'fixed';
-    menu.style.inset = '0';
-    menu.style.zIndex = '9999';
-    menu.style.background = 'rgba(22,15,8,0.98)';
-    menu.style.flexDirection = 'column';
-    menu.style.alignItems = 'center';
-    menu.style.justifyContent = 'center';
-    menu.style.gap = '2.25rem';
-    menu.style.backdropFilter = 'blur(18px)';
-    setTimeout(function() { menu.style.opacity = '1'; }, 10);
-    document.body.style.overflow = 'hidden';
+    menu.classList.add('nav-open');
+    menu.setAttribute('aria-hidden', 'false');
+    document.body.classList.add('menu-open');
 }
 function closeMobileMenu() {
     var menu = document.getElementById('mobileMenu');
-    menu.style.opacity = '0';
-    setTimeout(function() { menu.style.display = 'none'; }, 320);
-    document.body.style.overflow = '';
+    menu.classList.remove('nav-open');
+    menu.setAttribute('aria-hidden', 'true');
+    document.body.classList.remove('menu-open');
 }
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeMobileMenu();
+});
 function nlSubscribe() {
     const el = document.getElementById('nl-email');
     if (el.value && el.value.includes('@')) {
