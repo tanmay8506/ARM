@@ -98,6 +98,7 @@
         }
         .dark .bf-consent-label { color: #a08878; }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 
 <body class="bg-[#fcfaf8] dark:bg-[#1b140d] text-[#1b140d] dark:text-[#fcfaf8] transition-colors duration-300">
@@ -579,6 +580,9 @@
         (function () {
             'use strict';
 
+            // ── EmailJS init ──────────────────────────────────────────────
+            emailjs.init({ publicKey: "1Gr7fog8fBBYjpcll" });
+
             // ── Pricing matrix ────────────────────────────────────────────
             const PRICES = {
                 bridal: { sd: 12000, hd: 14000, airbrush: 16500, luxury: 20000 },
@@ -820,75 +824,51 @@
                 submitBtn.disabled = true;
                 submitBtn.style.opacity = '0.8';
 
-                // ── Build clean, service-aware payload ───────────────────
-                const formData = new FormData();
-
-                // ── Web3Forms config ──────────────────────────────────────
-                formData.append("access_key", "477e68fc-a7ae-4163-a06f-a812d8ca2df3");
-                formData.append("from_name", "ARM Artistry Booking Portal");
-
-                // Capitalise service name for subject line
+                // ── Build service-aware EmailJS template params ───────────
                 const serviceLabel = {
-                    bridal: 'Bridal Makeup',
+                    bridal:     'Bridal Makeup',
                     engagement: 'Engagement / Roka',
-                    party: 'Party Makeup',
+                    party:      'Party Makeup',
                     prewedding: 'Pre-Wedding Shoot'
                 }[currentService] || currentService;
 
-                formData.append("subject", "New Booking Request — " + serviceLabel + " | " + document.getElementById('clientName').value);
-
-                // ── Contact details (always sent) ─────────────────────────
-                formData.append("Full Name",        document.getElementById('clientName').value.trim());
-                formData.append("Email",            document.getElementById('clientEmail').value.trim());
-                formData.append("Phone / WhatsApp", document.getElementById('clientPhone').value.trim());
-                formData.append("Service",          serviceLabel);
-
-                // ── Service-specific fields ───────────────────────────────
                 const finishLabel = { sd: 'SD', hd: 'HD', airbrush: 'Airbrush', luxury: 'Luxury' }[currentFinish] || '';
 
-                if (currentService === 'prewedding') {
-                    const shootDate     = document.getElementById('shootDate').value;
-                    const shootLocation = document.getElementById('shootLocation').value.trim();
-                    const numLooks      = document.getElementById('numLooks').value;
-                    if (shootDate)     formData.append("Shoot Date",     shootDate);
-                    if (shootLocation) formData.append("Shoot Location", shootLocation);
-                    formData.append("Number of Looks", numLooks);
+                const templateParams = {
+                    to_email:        'tanmay8506@gmail.com',
+                    full_name:       document.getElementById('clientName').value.trim(),
+                    email:           document.getElementById('clientEmail').value.trim(),
+                    phone:           document.getElementById('clientPhone').value.trim(),
+                    service:         serviceLabel,
+                    estimated_total: priceDisplay.textContent,
+                    additional_notes: document.getElementById('additionalNotes').value.trim() || ''
+                };
 
+                if (currentService === 'prewedding') {
+                    const sd = document.getElementById('shootDate').value;
+                    const sl = document.getElementById('shootLocation').value.trim();
+                    if (sd) templateParams.shoot_date     = sd;
+                    if (sl) templateParams.shoot_location = sl;
+                    templateParams.num_looks = document.getElementById('numLooks').value;
                 } else {
-                    const eventDate  = document.getElementById('eventDate').value;
-                    const eventVenue = document.getElementById('eventVenue').value.trim();
-                    if (eventDate)  formData.append("Event Date",           eventDate);
-                    if (eventVenue) formData.append("Venue / Location",     eventVenue);
-                    formData.append("Finish Type", finishLabel);
+                    const ed = document.getElementById('eventDate').value;
+                    const ev = document.getElementById('eventVenue').value.trim();
+                    if (ed) templateParams.event_date = ed;
+                    if (ev) templateParams.venue       = ev;
+                    templateParams.finish_type = finishLabel;
                     if (currentService === 'party') {
-                        formData.append("Number of People", document.getElementById('numPeople').value);
+                        templateParams.num_people = document.getElementById('numPeople').value;
                     }
                 }
 
-                // ── Estimated total ───────────────────────────────────────
-                formData.append("Estimated Total", priceDisplay.textContent);
-
-                // ── Additional notes (only if filled) ────────────────────
-                const notes = document.getElementById('additionalNotes').value.trim();
-                if (notes) formData.append("Additional Notes", notes);
-
-                // ── Live API transmission ─────────────────────────────────
+                // ── Send via EmailJS ──────────────────────────────────────
                 try {
-                    const response = await fetch("https://api.web3forms.com/submit", {
-                        method: "POST",
-                        body: formData
-                    });
-
-                    const result = await response.json();
-
-                    if (!response.ok || result.success !== true) {
-                        throw new Error(result.message || "Submission failed. Please try again.");
-                    }
+                    await emailjs.send('service_14i0o5u', 'template_gdaoaj9', templateParams);
 
                     // ── Success: fade form out, reveal success panel ──────
                     form.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
-                    form.style.opacity = '0';
-                    form.style.transform = 'translateY(-14px)';
+                    form.style.opacity    = '0';
+                    form.style.transform  = 'translateY(-14px)';
 
                     setTimeout(() => {
                         form.hidden = true;
@@ -896,23 +876,22 @@
                         successPanel.style.cssText = 'opacity:0;transform:translateY(20px);transition:none';
                         requestAnimationFrame(() => requestAnimationFrame(() => {
                             successPanel.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
-                            successPanel.style.opacity = '1';
-                            successPanel.style.transform = 'translateY(0)';
+                            successPanel.style.opacity    = '1';
+                            successPanel.style.transform  = 'translateY(0)';
                         }));
                     }, 380);
 
                 } catch (err) {
-                    // ── Failure: surface error, fully restore button state ─
-                    formError.textContent = err.message || "A network error occurred. Please check your connection and try again.";
+                    // ── Failure: surface error, restore button ────────────
+                    formError.textContent = 'Something went wrong. Please try again or contact us directly.';
                     formError.classList.add('visible');
                     formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
-                    // Restore submission button to its interactive state
                     submitBtnText.textContent = 'Send My Request';
-                    submitBtnArrow.hidden = false;
-                    submitBtnLoader.hidden = true;
-                    submitBtn.disabled = false;
-                    submitBtn.style.opacity = '1';
+                    submitBtnArrow.hidden     = false;
+                    submitBtnLoader.hidden    = true;
+                    submitBtn.disabled        = false;
+                    submitBtn.style.opacity   = '1';
                 }
             });
 
