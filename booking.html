@@ -840,26 +840,50 @@
                     email:           document.getElementById('clientEmail').value.trim(),
                     phone:           document.getElementById('clientPhone').value.trim(),
                     service:         serviceLabel,
-                    estimated_total: priceDisplay.textContent,
-                    additional_notes: document.getElementById('additionalNotes').value.trim() || ''
+                    estimated_total: priceDisplay.textContent
                 };
+
+                const labelStyle = 'font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#c97b4a;margin-bottom:5px;';
+                const valStyle = 'font-size:14px;font-weight:bold;color:#1a0f06;';
+                const makeField = (label, val) => `<div style="${labelStyle}">${label}</div><div style="${valStyle}">${val}</div>`;
+                const col1 = '<td width="50%" style="vertical-align:top;padding:0 10px 22px 0;">';
+                const col2 = '<td width="50%" style="vertical-align:top;padding:0 0 22px 10px;">';
+                const fullCol = '<td colspan="2" style="padding:0 0 22px 0;vertical-align:top;">';
+
+                let dynamicRows = '';
 
                 if (currentService === 'prewedding') {
                     const sd = document.getElementById('shootDate').value;
                     const sl = document.getElementById('shootLocation').value.trim();
-                    if (sd) templateParams.shoot_date     = sd;
-                    if (sl) templateParams.shoot_location = sl;
-                    templateParams.num_looks = document.getElementById('numLooks').value;
+                    if (sd || sl) {
+                        dynamicRows += '<tr>' + col1 + (sd ? makeField('Shoot Date', sd) : '') + '</td>';
+                        dynamicRows += col2 + (sl ? makeField('Shoot Location', sl) : '') + '</td></tr>';
+                    }
+                    const numLooks = document.getElementById('numLooks').value;
+                    dynamicRows += '<tr>' + fullCol + makeField('Number of Looks', numLooks) + '</td></tr>';
                 } else {
                     const ed = document.getElementById('eventDate').value;
                     const ev = document.getElementById('eventVenue').value.trim();
-                    if (ed) templateParams.event_date = ed;
-                    if (ev) templateParams.venue       = ev;
-                    templateParams.finish_type = finishLabel;
+                    if (ed || ev) {
+                        dynamicRows += '<tr>' + col1 + (ed ? makeField('Event Date', ed) : '') + '</td>';
+                        dynamicRows += col2 + (ev ? makeField('Venue / Location', ev) : '') + '</td></tr>';
+                    }
+                    if (finishLabel) {
+                        dynamicRows += '<tr>' + fullCol + makeField('Finish Type', finishLabel) + '</td></tr>';
+                    }
                     if (currentService === 'party') {
-                        templateParams.num_people = document.getElementById('numPeople').value;
+                        const numPeople = document.getElementById('numPeople').value;
+                        dynamicRows += '<tr>' + fullCol + makeField('Number of People', numPeople) + '</td></tr>';
                     }
                 }
+                templateParams.dynamic_rows = dynamicRows;
+
+                const notes = document.getElementById('additionalNotes').value.trim();
+                templateParams.notes_html = notes ? `
+                <div style="background:linear-gradient(135deg,#fdf5e8,#fdf9f4);border-radius:10px;padding:20px 22px;">
+                  <div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#c97b4a;margin-bottom:8px;">Additional Notes</div>
+                  <div style="font-size:13px;color:#5a4a3a;line-height:1.7;">${notes.replace(/\n/g, '<br>')}</div>
+                </div>` : '';
 
                 // ── Send via EmailJS ──────────────────────────────────────
                 try {
