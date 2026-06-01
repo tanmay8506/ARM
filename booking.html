@@ -883,7 +883,8 @@
 
                 } catch (err) {
                     // ── Failure: surface error, restore button ────────────
-                    formError.textContent = 'Something went wrong. Please try again or contact us directly.';
+                    console.error('EmailJS Error:', err);
+                    formError.textContent = 'Error: ' + (err.text || err.message || JSON.stringify(err) || 'Unknown error occurred.');
                     formError.classList.add('visible');
                     formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
 
