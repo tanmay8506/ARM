@@ -820,18 +820,57 @@
                 submitBtn.disabled = true;
                 submitBtn.style.opacity = '0.8';
 
-                // ── Build FormData payload ────────────────────────────────
-                const formData = new FormData(form);
+                // ── Build clean, service-aware payload ───────────────────
+                const formData = new FormData();
 
-                // Web3Forms configuration
+                // ── Web3Forms config ──────────────────────────────────────
                 formData.append("access_key", "477e68fc-a7ae-4163-a06f-a812d8ca2df3");
-                formData.append("subject", "Testing ARM Portal Booking: " + document.getElementById('clientName').value);
-                formData.append("from_name", "ARM Artistry Test Env");
+                formData.append("from_name", "ARM Artistry Booking Portal");
 
-                // Volatile UI state fields not captured by native inputs
-                formData.append("Calculated_Total_Estimate", priceDisplay.textContent);
-                formData.append("Selected_Base_Service", currentService);
-                formData.append("Selected_Finish_Type", currentFinish || "N/A");
+                // Capitalise service name for subject line
+                const serviceLabel = {
+                    bridal: 'Bridal Makeup',
+                    engagement: 'Engagement / Roka',
+                    party: 'Party Makeup',
+                    prewedding: 'Pre-Wedding Shoot'
+                }[currentService] || currentService;
+
+                formData.append("subject", "New Booking Request — " + serviceLabel + " | " + document.getElementById('clientName').value);
+
+                // ── Contact details (always sent) ─────────────────────────
+                formData.append("Full Name",        document.getElementById('clientName').value.trim());
+                formData.append("Email",            document.getElementById('clientEmail').value.trim());
+                formData.append("Phone / WhatsApp", document.getElementById('clientPhone').value.trim());
+                formData.append("Service",          serviceLabel);
+
+                // ── Service-specific fields ───────────────────────────────
+                const finishLabel = { sd: 'SD', hd: 'HD', airbrush: 'Airbrush', luxury: 'Luxury' }[currentFinish] || '';
+
+                if (currentService === 'prewedding') {
+                    const shootDate     = document.getElementById('shootDate').value;
+                    const shootLocation = document.getElementById('shootLocation').value.trim();
+                    const numLooks      = document.getElementById('numLooks').value;
+                    if (shootDate)     formData.append("Shoot Date",     shootDate);
+                    if (shootLocation) formData.append("Shoot Location", shootLocation);
+                    formData.append("Number of Looks", numLooks);
+
+                } else {
+                    const eventDate  = document.getElementById('eventDate').value;
+                    const eventVenue = document.getElementById('eventVenue').value.trim();
+                    if (eventDate)  formData.append("Event Date",           eventDate);
+                    if (eventVenue) formData.append("Venue / Location",     eventVenue);
+                    formData.append("Finish Type", finishLabel);
+                    if (currentService === 'party') {
+                        formData.append("Number of People", document.getElementById('numPeople').value);
+                    }
+                }
+
+                // ── Estimated total ───────────────────────────────────────
+                formData.append("Estimated Total", priceDisplay.textContent);
+
+                // ── Additional notes (only if filled) ────────────────────
+                const notes = document.getElementById('additionalNotes').value.trim();
+                if (notes) formData.append("Additional Notes", notes);
 
                 // ── Live API transmission ─────────────────────────────────
                 try {
