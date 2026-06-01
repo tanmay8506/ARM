@@ -35,6 +35,69 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
         rel="stylesheet">
+    <style>
+        /* ── Consent Checkbox ───────────────────────────────────── */
+        .bf-consent-row {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 1.25rem;
+            cursor: pointer;
+        }
+        .bf-checkbox {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+            pointer-events: none;
+        }
+        .bf-checkbox-box {
+            flex-shrink: 0;
+            width: 20px;
+            height: 20px;
+            border-radius: 5px;
+            border: 2px solid #c97b4a;
+            background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 1px;
+            transition: background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
+            cursor: pointer;
+        }
+        .bf-checkbox-box svg {
+            opacity: 0;
+            transform: scale(0.5);
+            transition: opacity 0.15s ease, transform 0.15s ease;
+        }
+        .bf-checkbox:checked ~ .bf-checkbox-box,
+        .bf-consent-row input:checked ~ .bf-checkbox-box {
+            background: #f2a65a;
+            border-color: #f2a65a;
+            box-shadow: 0 0 0 3px rgba(242,166,90,0.2);
+        }
+        .bf-consent-row:has(input:checked) .bf-checkbox-box {
+            background: #f2a65a;
+            border-color: #f2a65a;
+            box-shadow: 0 0 0 3px rgba(242,166,90,0.2);
+        }
+        .bf-consent-row:has(input:checked) .bf-checkbox-box svg {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .bf-consent-row:hover .bf-checkbox-box {
+            border-color: #f2a65a;
+            box-shadow: 0 0 0 3px rgba(242,166,90,0.15);
+        }
+        .bf-consent-label {
+            font-size: 0.8125rem;
+            line-height: 1.6;
+            color: #5a4a3a;
+            cursor: pointer;
+            user-select: none;
+        }
+        .dark .bf-consent-label { color: #a08878; }
+    </style>
 </head>
 
 <body class="bg-[#fcfaf8] dark:bg-[#1b140d] text-[#1b140d] dark:text-[#fcfaf8] transition-colors duration-300">
@@ -342,13 +405,17 @@
                         <textarea class="bf-input bf-textarea" id="additionalNotes" name="additionalNotes" rows="3"
                             placeholder="Allergies, inspiration references, special requests&hellip;"></textarea>
                     </div>
-                    <div class="bf-consent-row">
+                    <label class="bf-consent-row" for="privacyConsent">
                         <input class="bf-checkbox" type="checkbox" id="privacyConsent" name="privacyConsent" required>
-                        <label class="bf-consent-label" for="privacyConsent">
-                            I understand Ayushi Rai MUA will contact me within 48 hours to confirm availability and
-                            finalise booking details.
-                        </label>
-                    </div>
+                        <span class="bf-checkbox-box" aria-hidden="true">
+                            <svg width="11" height="9" viewBox="0 0 11 9" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M1 4L4 7.5L10 1" stroke="#1b140d" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
+                        <span class="bf-consent-label">
+                            I understand Ayushi Rai MUA will contact me within 48 hours to confirm availability and finalise booking details.
+                        </span>
+                    </label>
                     <div id="formError" class="bf-error-msg" role="alert" aria-live="assertive"></div>
                     <button type="submit" class="bf-submit-btn" id="submitBtn">
                         <span id="submitBtnText">Send My Request</span>
