@@ -1038,9 +1038,12 @@
                     form.style.transform  = 'translateY(-14px)';
 
                     setTimeout(() => {
-                        form.hidden = true;
-                        successPanel.hidden = false;
-                        successPanel.style.cssText = 'opacity:0;transform:translateY(20px);transition:none';
+                        form.style.display = 'none';
+                        successPanel.removeAttribute('hidden');
+                        successPanel.style.display = 'block';
+                        successPanel.style.opacity = '0';
+                        successPanel.style.transform = 'translateY(20px)';
+                        successPanel.style.transition = 'none';
                         requestAnimationFrame(() => requestAnimationFrame(() => {
                             successPanel.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
                             successPanel.style.opacity    = '1';
