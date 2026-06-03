@@ -116,7 +116,7 @@
             <!-- Nav links -->
             <nav class="mob-nav" aria-label="Mobile navigation">
                 <a href="index.html" class="mob-nav-link" onclick="closeMobileMenu()">Home</a>
-                <a href="Portfolio.html" class="mob-nav-link" onclick="closeMobileMenu()">Portfolio</a>
+                <a href="portfolio.html" class="mob-nav-link" onclick="closeMobileMenu()">Portfolio</a>
                 <a href="service.html" class="mob-nav-link" onclick="closeMobileMenu()">Services</a>
             </nav>
             <div class="mob-drawer-footer">
@@ -134,7 +134,7 @@
             </a>
             <nav class="hidden md:flex items-center gap-10">
                 <a href="index.html" class="nav-link text-[#1b140d] dark:text-white">Home</a>
-                <a href="Portfolio.html" class="nav-link text-[#1b140d] dark:text-white">Portfolio</a>
+                <a href="portfolio.html" class="nav-link text-[#1b140d] dark:text-white">Portfolio</a>
                 <a href="service.html" class="nav-link text-[#1b140d] dark:text-white">Services</a>
             </nav>
             <div class="flex items-center gap-4">
@@ -187,29 +187,38 @@
 
                         <!-- Bridal Makeup -->
                         <label class="service-card" data-service="bridal" for="svc-bridal">
-                            <input class="service-card-input" type="radio" name="service" id="svc-bridal" value="bridal"
-                                required>
+                            <input class="service-card-input" type="radio" name="service" id="svc-bridal" value="bridal" required>
                             <div class="service-card-check" aria-hidden="true">
                                 <span class="material-symbols-outlined" style="font-size:1rem">check</span>
                             </div>
                             <span class="service-card-icon" aria-hidden="true">💍</span>
                             <span class="service-card-name logo-font">Bridal Makeup</span>
-                            <span class="service-card-price">From &#8377;12,000</span>
-                            <span class="service-card-desc">SD / HD / Airbrush / Luxury finish for your wedding
-                                day.</span>
+                            <span class="service-card-price">From ₹10,000</span>
+                            <span class="service-card-desc">Standard / HD / Luxury finish for your wedding day.</span>
                         </label>
 
                         <!-- Engagement / Roka -->
                         <label class="service-card" data-service="engagement" for="svc-engagement">
-                            <input class="service-card-input" type="radio" name="service" id="svc-engagement"
-                                value="engagement">
+                            <input class="service-card-input" type="radio" name="service" id="svc-engagement" value="engagement">
                             <div class="service-card-check" aria-hidden="true">
                                 <span class="material-symbols-outlined" style="font-size:1rem">check</span>
                             </div>
                             <span class="service-card-icon" aria-hidden="true">💫</span>
-                            <span class="service-card-name logo-font">Engagement / Roka</span>
-                            <span class="service-card-price">From &#8377;7,000</span>
+                            <span class="service-card-name logo-font">Engagement Makeup</span>
+                            <span class="service-card-price">From ₹7,000</span>
                             <span class="service-card-desc">Radiant looks for your Roka or Engagement ceremony.</span>
+                        </label>
+
+                        <!-- Haldi / Mehandi Makeup -->
+                        <label class="service-card" data-service="haldi" for="svc-haldi">
+                            <input class="service-card-input" type="radio" name="service" id="svc-haldi" value="haldi">
+                            <div class="service-card-check" aria-hidden="true">
+                                <span class="material-symbols-outlined" style="font-size:1rem">check</span>
+                            </div>
+                            <span class="service-card-icon" aria-hidden="true">🌻</span>
+                            <span class="service-card-name logo-font">Haldi / Mehandi</span>
+                            <span class="service-card-price">From ₹4,000</span>
+                            <span class="service-card-desc">Fresh, vibrant day looks for your ceremonies.</span>
                         </label>
 
                         <!-- Party Makeup -->
@@ -220,24 +229,22 @@
                             </div>
                             <span class="service-card-icon" aria-hidden="true">🎉</span>
                             <span class="service-card-name logo-font">Party Makeup</span>
-                            <span class="service-card-price">From &#8377;2,500</span>
+                            <span class="service-card-price">From ₹3,000</span>
                             <span class="service-card-desc">Glamorous event looks — priced per person.</span>
                         </label>
 
-                        <!-- Pre-Wedding Shoot -->
-                        <label class="service-card" data-service="prewedding" for="svc-prewedding">
-                            <input class="service-card-input" type="radio" name="service" id="svc-prewedding"
-                                value="prewedding">
+                        <!-- Hairstyle Only -->
+                        <label class="service-card" data-service="hairstyle" for="svc-hairstyle">
+                            <input class="service-card-input" type="radio" name="service" id="svc-hairstyle" value="hairstyle">
                             <div class="service-card-check" aria-hidden="true">
                                 <span class="material-symbols-outlined" style="font-size:1rem">check</span>
                             </div>
-                            <span class="service-card-icon" aria-hidden="true">📸</span>
-                            <span class="service-card-name logo-font">Pre-Wedding Shoot</span>
-                            <span class="service-card-price">&#8377;5,000 / look</span>
-                            <span class="service-card-desc">Multiple cinematic looks for your shoot day.</span>
+                            <span class="service-card-icon" aria-hidden="true">✨</span>
+                            <span class="service-card-name logo-font">Hairstyle Only</span>
+                            <span class="service-card-price">From ₹800</span>
+                            <span class="service-card-desc">Bespoke hair styling for any occasion.</span>
                         </label>
-                    </div>
-                </div><!-- /STEP 1 -->
+                    </div><!-- /STEP 1 -->
 
 
                 <!-- ─── STEP 2 — CONTACT DETAILS ───────────────────── -->
@@ -294,18 +301,17 @@
 
 
                 <!-- ─── SHARED: FINISH TYPE ────────────────────────── -->
-                <!-- Shown for Bridal, Engagement, Party. NOT Pre-Wedding. -->
+                <!-- Shown for Bridal, Engagement, Haldi, Party. NOT Pre-Wedding. -->
                 <div class="bf-fieldset fieldset-conditional" id="finishTypeFields">
                     <div class="bf-fieldset-header">
                         <span class="material-symbols-outlined bf-fieldset-icon" aria-hidden="true">auto_awesome</span>
                         <h3 class="bf-fieldset-title logo-font">Finish Type</h3>
                     </div>
-                    <p class="bf-label" id="finishGroupLabel" style="margin-bottom:0.875rem">Select your preferred
-                        finish</p>
-                    <div class="finish-toggle-group" role="group" aria-labelledby="finishGroupLabel">
+                    <p class="bf-label" id="finishGroupLabel" style="margin-bottom:0.875rem">Select your preferred finish</p>
+                    <div class="finish-toggle-group" role="group" aria-labelledby="finishGroupLabel" style="grid-template-columns: repeat(3, 1fr);">
                         <label class="finish-toggle" for="finish-sd">
                             <input class="finish-toggle-input" type="radio" name="finishType" id="finish-sd" value="sd">
-                            <span class="finish-toggle-label">SD</span>
+                            <span class="finish-toggle-label">Standard</span>
                             <span class="finish-toggle-sub" id="finish-sd-price"></span>
                         </label>
                         <label class="finish-toggle" for="finish-hd">
@@ -313,20 +319,47 @@
                             <span class="finish-toggle-label">HD</span>
                             <span class="finish-toggle-sub" id="finish-hd-price"></span>
                         </label>
-                        <label class="finish-toggle" for="finish-airbrush">
-                            <input class="finish-toggle-input" type="radio" name="finishType" id="finish-airbrush"
-                                value="airbrush">
-                            <span class="finish-toggle-label">Airbrush</span>
-                            <span class="finish-toggle-sub" id="finish-airbrush-price"></span>
-                        </label>
                         <label class="finish-toggle" for="finish-luxury">
-                            <input class="finish-toggle-input" type="radio" name="finishType" id="finish-luxury"
-                                value="luxury">
+                            <input class="finish-toggle-input" type="radio" name="finishType" id="finish-luxury" value="luxury">
                             <span class="finish-toggle-label">Luxury</span>
                             <span class="finish-toggle-sub" id="finish-luxury-price"></span>
                         </label>
                     </div>
-                </div><!-- /FINISH TYPE -->
+                </div>
+
+                <!-- ─── HAIRSTYLE ADD-ON ──────────────────────────── -->
+                <div class="bf-fieldset fieldset-conditional" id="hairstyleFields" style="position: relative; z-index: 10;">
+                    <div class="bf-fieldset-header">
+                        <span class="material-symbols-outlined bf-fieldset-icon" aria-hidden="true">face</span>
+                        <h3 class="bf-fieldset-title logo-font" id="hairstyleTitle">Hairstyle Add-on</h3>
+                    </div>
+                    <div class="bf-input-group" id="customHairstyleContainer">
+                        <label class="bf-label">Select a hairstyle</label>
+                        <div class="custom-select-wrapper" style="position:relative; user-select:none; z-index:50;">
+                            <div class="bf-input custom-select-trigger" tabindex="0" style="display:flex; justify-content:space-between; align-items:center; cursor:pointer; background-color:transparent;">
+                                <span id="customSelectLabel">None (₹0)</span>
+                                <span class="material-symbols-outlined" id="customSelectArrow" style="font-size:20px; color:#c97b4a; transition:transform 0.2s;">expand_more</span>
+                            </div>
+                            <ul class="custom-select-options" style="position:absolute; top:calc(100% + 8px); left:0; right:0; background:#fcfaf8; border:1px solid rgba(201,123,74,0.3); border-radius:12px; list-style:none; padding:8px 0; margin:0; z-index:100; box-shadow:0 10px 30px rgba(0,0,0,0.08); max-height:250px; overflow-y:auto; font-size:14px; opacity:0; pointer-events:none; transition:all 0.2s ease; transform:translateY(-10px);">
+                                <li data-value="none" class="custom-select-option" style="padding:12px 20px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:space-between; color:#5a4a3a;"><span>None</span> <span style="color:#c97b4a; font-weight:600; font-size:12px;">₹0</span></li>
+                                <li data-value="party" class="custom-select-option" style="padding:12px 20px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:space-between; color:#5a4a3a;"><span>Party Hairstyle</span> <span style="color:#c97b4a; font-weight:600; font-size:12px;">₹800</span></li>
+                                <li data-value="haldi" class="custom-select-option" style="padding:12px 20px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:space-between; color:#5a4a3a;"><span>Haldi/Mehndi Hairstyle</span> <span style="color:#c97b4a; font-weight:600; font-size:12px;">₹1,000</span></li>
+                                <li data-value="engagement" class="custom-select-option" style="padding:12px 20px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:space-between; color:#5a4a3a;"><span>Engagement Hairstyle</span> <span style="color:#c97b4a; font-weight:600; font-size:12px;">₹1,500</span></li>
+                                <li data-value="bridal" class="custom-select-option" style="padding:12px 20px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:space-between; color:#5a4a3a;"><span>Bridal Hairstyle</span> <span style="color:#c97b4a; font-weight:600; font-size:12px;">₹2,000</span></li>
+                                <li data-value="extensions" class="custom-select-option" style="padding:12px 20px; cursor:pointer; transition:all 0.2s; display:flex; align-items:center; justify-content:space-between; color:#5a4a3a;"><span>Hair Extensions</span> <span style="color:#c97b4a; font-weight:600; font-size:12px;">₹2,000</span></li>
+                            </ul>
+                            <!-- Hidden actual select -->
+                            <select id="hairstyleAddon" name="hairstyleAddon" style="display:none;">
+                                <option value="none">None (₹0)</option>
+                                <option value="party">Party Hairstyle (₹800)</option>
+                                <option value="haldi">Haldi/Mehndi Hairstyle (₹1,000)</option>
+                                <option value="engagement">Engagement Hairstyle (₹1,500)</option>
+                                <option value="bridal">Bridal Hairstyle (₹2,000)</option>
+                                <option value="extensions">Hair Extensions (₹2,000)</option>
+                            </select>
+                        </div>
+                    </div>
+                </div><!-- /HAIRSTYLE -->
 
 
                 <!-- ─── PARTY: Number of People ────────────────────── -->
@@ -351,38 +384,7 @@
                 </div><!-- /PARTY FIELDS -->
 
 
-                <!-- ─── PRE-WEDDING: Shoot Date + Location + Looks ─── -->
-                <div class="bf-fieldset fieldset-conditional" id="preweddingFields">
-                    <div class="bf-fieldset-header">
-                        <span class="material-symbols-outlined bf-fieldset-icon" aria-hidden="true">camera_alt</span>
-                        <h3 class="bf-fieldset-title logo-font">Shoot Details</h3>
-                    </div>
-                    <div class="bf-input-row">
-                        <div class="bf-input-group">
-                            <label class="bf-label" for="shootDate">Shoot Date</label>
-                            <input class="bf-input" type="date" id="shootDate" name="shootDate">
-                        </div>
-                        <div class="bf-input-group">
-                            <label class="bf-label" for="shootLocation">Location</label>
-                            <input class="bf-input" type="text" id="shootLocation" name="shootLocation"
-                                placeholder="Studio, outdoor, or city">
-                        </div>
-                    </div>
-                    <div class="bf-input-group">
-                        <label class="bf-label" for="numLooks">
-                            Number of Looks <span class="text-primary" aria-hidden="true">*</span>
-                        </label>
-                        <div class="bf-counter-wrap">
-                            <button type="button" class="bf-counter-btn" id="looksMinus"
-                                aria-label="Decrease">&#8722;</button>
-                            <input class="bf-input bf-counter-input" type="number" id="numLooks" name="numLooks"
-                                value="1" min="1" max="20" inputmode="numeric">
-                            <button type="button" class="bf-counter-btn" id="looksPlus"
-                                aria-label="Increase">&#43;</button>
-                        </div>
-                    </div>
-                </div><!-- /PRE-WEDDING -->
-
+                
 
                 <!-- ─── LIVE PRICE ESTIMATE TICKER ────────────────── -->
                 <div class="bf-fieldset fieldset-conditional" id="priceEstimate">
@@ -442,7 +444,7 @@
                         Thank you! Ayushi will review your request and be in touch within 48 hours to confirm your
                         booking.
                     </p>
-                    <a href="Portfolio.html" class="case-study-cta" style="font-size:0.8125rem">
+                    <a href="portfolio.html" class="case-study-cta" style="font-size:0.8125rem">
                         Explore the Portfolio &nbsp;&rarr;
                     </a>
                 </div>
@@ -455,10 +457,21 @@
     <!-- ===================== FOOTER ===================== -->
     <footer class="bg-[#1a1109] text-white py-20 px-6 md:px-20">
         <div class="max-w-7xl mx-auto">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 pb-16 border-b border-white/10">
-                <!-- Brand -->
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-12 pb-16 border-b border-white/10">
+                <!-- Quick Links -->
                 <div>
-                    <div class="flex items-center gap-3 mb-6">
+                    <h4 class="text-xs font-bold uppercase tracking-widest mb-6 text-white/80">Quick Links</h4>
+                    <ul class="space-y-4 text-sm text-white/50">
+                        <li><a href="index.html" class="hover:text-primary transition-colors">Home</a></li>
+                        <li><a href="portfolio.html" class="hover:text-primary transition-colors">Portfolio</a></li>
+                        <li><a href="service.html" class="hover:text-primary transition-colors">Services &amp;
+                                Pricing</a></li>
+                        <li><a href="booking.html" class="hover:text-primary transition-colors">Book Now</a></li>
+                    </ul>
+                </div>
+                <!-- Brand -->
+                <div class="flex flex-col md:items-center text-center">
+                    <div class="flex items-center justify-center gap-3 mb-6">
                         <div class="size-5 text-primary">
                             <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
                                 <path
@@ -469,8 +482,8 @@
                         <span class="logo-font text-2xl">ARM</span>
                     </div>
                     <p class="text-white/50 text-sm leading-relaxed max-w-xs mb-6">Artistry Refined &amp; Modern.
-                        Professional makeup services for weddings, events, and pre-wedding shoots.</p>
-                    <div class="flex gap-3">
+                        Professional makeup services for weddings, events, </p>
+                    <div class="flex gap-3 justify-center">
                         <a href="https://instagram.com" target="_blank" rel="noopener"
                             class="social-icon-glow w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60">
                             <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
@@ -489,19 +502,8 @@
                         </a>
                     </div>
                 </div>
-                <!-- Quick Links -->
-                <div>
-                    <h4 class="text-xs font-bold uppercase tracking-widest mb-6 text-white/80">Quick Links</h4>
-                    <ul class="space-y-4 text-sm text-white/50">
-                        <li><a href="index.html" class="hover:text-primary transition-colors">Home</a></li>
-                        <li><a href="Portfolio.html" class="hover:text-primary transition-colors">Portfolio</a></li>
-                        <li><a href="service.html" class="hover:text-primary transition-colors">Services &amp;
-                                Pricing</a></li>
-                        <li><a href="booking.html" class="hover:text-primary transition-colors">Book Now</a></li>
-                    </ul>
-                </div>
                 <!-- Contact -->
-                <div>
+                <div class="md:justify-self-end">
                     <h4 class="text-xs font-bold uppercase tracking-widest mb-6 text-white/80">Contact</h4>
                     <ul class="space-y-4 text-sm text-white/50">
                         <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary"
@@ -515,18 +517,6 @@
                         <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary"
                                 style="font-size:1rem;">schedule</span><span>Mon &ndash; Sun: By Appointment</span></li>
                     </ul>
-                </div>
-                <!-- Newsletter -->
-                <div>
-                    <h4 class="text-xs font-bold uppercase tracking-widest mb-6 text-white/80">Newsletter</h4>
-                    <p class="text-sm text-white/50 mb-4">Stay updated on beauty tips and seasonal offers.</p>
-                    <div class="flex">
-                        <input id="nl-email" type="email" placeholder="Your email"
-                            class="bg-white/5 border border-white/10 rounded-l-lg px-4 py-2.5 text-sm text-white placeholder-white/30 w-full outline-none focus:border-primary transition-colors">
-                        <button onclick="nlSubscribe()"
-                            class="bg-primary text-[#1b140d] px-4 py-2.5 rounded-r-lg font-bold text-xs uppercase hover:bg-terracotta transition-colors whitespace-nowrap">Join</button>
-                    </div>
-                    <p id="nl-ok" class="newsletter-success">Thanks for subscribing! &#10003;</p>
                 </div>
             </div>
             <div
@@ -585,14 +575,23 @@
 
             // ── Pricing matrix ────────────────────────────────────────────
             const PRICES = {
-                bridal: { sd: 12000, hd: 14000, airbrush: 16500, luxury: 20000 },
-                engagement: { sd: 7000, hd: 8500, airbrush: 10000, luxury: 11000 },
-                party: { sd: 2500, hd: 4000, airbrush: 5500, luxury: 6500 },
+                bridal: { sd: 10000, hd: 16000, luxury: 20000 },
+                engagement: { sd: 7000, hd: 10000, luxury: 15000 },
+                haldi: { sd: 4000, hd: 6500, luxury: 9500 },
+                party: { sd: 3000, hd: 4500, luxury: 6500 },
                 prewedding: { perLook: 5000 },
             };
+            const HAIR_PRICES = {
+                none: 0,
+                party: 800,
+                haldi: 1000,
+                engagement: 1500,
+                bridal: 2000,
+                extensions: 2000
+            };
 
-            // INR formatter — en-IN locale gives: 1,00,000 style grouping
-            const INR = (n) => '\u20B9' + n.toLocaleString('en-IN');
+            // INR formatter
+            const INR = (n) => '₹' + n.toLocaleString('en-IN');
 
             // ── DOM refs ──────────────────────────────────────────────────
             const form = document.getElementById('bookingForm');
@@ -609,13 +608,15 @@
             const eventDateFields = document.getElementById('eventDateFields');
             const finishTypeFields = document.getElementById('finishTypeFields');
             const partyFields = document.getElementById('partyFields');
-            const preweddingFields = document.getElementById('preweddingFields');
+            const hairstyleFields = document.getElementById('hairstyleFields');
+            
             const priceEstimate = document.getElementById('priceEstimate');
             const submitSection = document.getElementById('submitSection');
             const serviceCards = document.querySelectorAll('.service-card');
             const finishInputs = document.querySelectorAll('.finish-toggle-input');
+            const hairstyleAddonInput = document.getElementById('hairstyleAddon');
             const numPeopleInput = document.getElementById('numPeople');
-            const numLooksInput = document.getElementById('numLooks');
+            
 
             // ── State ─────────────────────────────────────────────────────
             let currentService = null;
@@ -639,41 +640,49 @@
 
                 let total = null;
                 let note = '';
+                
+                let currentHair = hairstyleAddonInput ? hairstyleAddonInput.value : 'none';
+                let hairPrice = HAIR_PRICES[currentHair] || 0;
+                let hairNote = '';
+                if (hairPrice > 0 && hairstyleAddonInput) {
+                    hairNote = (currentService === 'hairstyle' ? '' : ' + ') + hairstyleAddonInput.options[hairstyleAddonInput.selectedIndex].text.split(' (')[0];
+                }
 
-                if (currentService === 'prewedding') {
-                    const looks = Math.max(1, parseInt(numLooksInput.value) || 1);
-                    total = PRICES.prewedding.perLook * looks;
-                    note = looks + (looks === 1 ? ' look' : ' looks') + ' \u00d7 ' + INR(PRICES.prewedding.perLook);
-
+                if (currentService === 'hairstyle') {
+                    if (currentHair === 'none') {
+                        priceDisplay.textContent = '₹—';
+                        priceNote.textContent = 'Select a hairstyle above to see pricing';
+                        return;
+                    }
+                    total = hairPrice;
+                    note = hairNote;
                 } else if (currentFinish) {
                     const basePrice = PRICES[currentService][currentFinish];
                     if (currentService === 'party') {
                         const people = Math.max(1, parseInt(numPeopleInput.value) || 1);
-                        total = basePrice * people;
-                        note = people + (people === 1 ? ' person' : ' people') + ' \u00d7 ' + INR(basePrice);
+                        total = (basePrice * people) + hairPrice;
+                        note = people + (people === 1 ? ' person' : ' people') + ' × ' + INR(basePrice) + hairNote;
                     } else {
-                        total = basePrice;
-                        const svcLabel = { bridal: 'Bridal', engagement: 'Engagement' }[currentService] || '';
-                        const finLabel = currentFinish.charAt(0).toUpperCase() + currentFinish.slice(1);
-                        note = svcLabel + ' \u2014 ' + finLabel + ' Finish';
+                        total = basePrice + hairPrice;
+                        const svcLabel = { bridal: 'Bridal', engagement: 'Engagement', haldi: 'Haldi/Mehandi' }[currentService] || '';
+                        const finLabel = { sd: 'Standard', hd: 'HD', luxury: 'Luxury' }[currentFinish] || '';
+                        note = svcLabel + ' — ' + finLabel + ' Finish' + hairNote;
                     }
                 } else {
-                    priceDisplay.textContent = '\u20B9\u2014';
+                    priceDisplay.textContent = '₹—';
                     priceNote.textContent = 'Select a finish above to see pricing';
                     return;
                 }
 
-                // Pop animation on amount change
                 priceDisplay.classList.add('bf-price-pop');
                 setTimeout(() => priceDisplay.classList.remove('bf-price-pop'), 380);
                 priceDisplay.textContent = INR(total);
                 priceNote.textContent = note;
             }
-
             // Update per-pill price labels beneath each finish button
             function updateFinishPriceLabels(service) {
-                if (!PRICES[service] || service === 'prewedding') return;
-                ['sd', 'hd', 'airbrush', 'luxury'].forEach(key => {
+                if (!PRICES[service]) return;
+                ['sd', 'hd', 'luxury'].forEach(key => {
                     const el = document.getElementById('finish-' + key + '-price');
                     if (el) el.textContent = INR(PRICES[service][key]);
                 });
@@ -702,19 +711,27 @@
                     show(priceEstimate);
 
                     // ── Per-service section visibility ────────────────────
-                    if (service === 'prewedding') {
-                        hide(eventDateFields);
+                    document.getElementById('hairstyleTitle').textContent = service === 'hairstyle' ? 'Hairstyle Selection' : 'Hairstyle Add-on';
+                    
+                    if (service === 'hairstyle') {
+                        show(eventDateFields);
                         hide(finishTypeFields);
                         hide(partyFields);
-                        show(preweddingFields);
-                        // Immediate price calc (no finish needed)
-                        priceDisplay.textContent = '\u20B9\u2014';
-                        priceNote.textContent = '\u20B95,000 per look \u2014 adjust the counter below';
+                        show(hairstyleFields);
+                        
+                        const titleEl = document.getElementById('eventDateFieldsTitle');
+                        const dateLbl = document.getElementById('eventDateLabel');
+                        const venueLbl = document.getElementById('eventVenueLabel');
+                        titleEl.textContent = 'Event Details';
+                        dateLbl.textContent = 'Event Date';
+                        venueLbl.textContent = 'Venue / Location';
+
                         recalcPrice();
                     } else {
-                        hide(preweddingFields);
+                        
                         show(eventDateFields);
                         show(finishTypeFields);
+                        show(hairstyleFields);
 
                         // Dynamic section labels based on service
                         const titleEl = document.getElementById('eventDateFieldsTitle');
@@ -727,7 +744,7 @@
                             venueLbl.textContent = 'Venue / Location';
                             show(partyFields);
                         } else {
-                            titleEl.textContent = service === 'bridal' ? 'Wedding Details' : 'Ceremony Details';
+                            titleEl.textContent = service === 'bridal' ? 'Wedding Details' : (service === 'haldi' ? 'Ceremony Details' : 'Ceremony Details');
                             dateLbl.textContent = service === 'bridal' ? 'Wedding Date' : 'Ceremony Date';
                             venueLbl.textContent = 'Venue / Location';
                             hide(partyFields);
@@ -736,11 +753,12 @@
                         updateFinishPriceLabels(service);
                         priceDisplay.textContent = '\u20B9\u2014';
                         priceNote.textContent = 'Select a finish above to see pricing';
+                        recalcPrice();
                     }
 
                     // Smooth scroll to contact step
                     setTimeout(() => {
-                        commonFields.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        commonFields.scrollIntoView({ behavior: 'smooth', block: 'center' });
                     }, 130);
                 });
             });
@@ -772,7 +790,81 @@
                 inputEl.addEventListener('input', recalcPrice);
             }
             wireCounter('peopleMinus', 'peoplePlus', numPeopleInput);
-            wireCounter('looksMinus', 'looksPlus', numLooksInput);
+            hairstyleAddonInput.addEventListener('change', recalcPrice);
+
+            
+            // ── Custom Dropdown Logic ────────────────────────────────────
+            const trigger = document.querySelector('.custom-select-trigger');
+            const optionsList = document.querySelector('.custom-select-options');
+            const customOptions = document.querySelectorAll('.custom-select-option');
+            const label = document.getElementById('customSelectLabel');
+            const arrow = document.getElementById('customSelectArrow');
+            const realSelect = document.getElementById('hairstyleAddon');
+
+            // Add hover effect style dynamically
+            const style = document.createElement('style');
+            style.textContent = `
+                .custom-select-options.open {
+                    opacity: 1 !important;
+                    pointer-events: auto !important;
+                    transform: translateY(0) !important;
+                }
+                .custom-select-option:hover {
+                    background: rgba(201,123,74,0.08);
+                    color: #1b140d !important;
+                }
+                .dark .custom-select-options {
+                    background: #251c14 !important;
+                    color: #fcfaf8 !important;
+                }
+                .dark .custom-select-option {
+                    color: #a08878 !important;
+                }
+                .dark .custom-select-option:hover {
+                    background: rgba(201,123,74,0.15) !important;
+                    color: #fcfaf8 !important;
+                }
+            `;
+            document.head.appendChild(style);
+
+            function closeDropdown() {
+                optionsList.classList.remove('open');
+                arrow.style.transform = 'rotate(0deg)';
+                trigger.closest('.bf-input-group').classList.remove('focused');
+            }
+
+            trigger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const isOpen = optionsList.classList.contains('open');
+                if(isOpen) {
+                    closeDropdown();
+                } else {
+                    optionsList.classList.add('open');
+                    arrow.style.transform = 'rotate(180deg)';
+                    trigger.closest('.bf-input-group').classList.add('focused');
+                }
+            });
+
+            customOptions.forEach(option => {
+                option.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const value = this.getAttribute('data-value');
+                    const text = this.querySelector('span:first-child').textContent;
+                    const price = this.querySelector('span:last-child').textContent;
+                    
+                    label.textContent = `${text} (${price})`;
+                    realSelect.value = value;
+                    
+                    // Dispatch change event to update pricing engine
+                    realSelect.dispatchEvent(new Event('change'));
+                    
+                    closeDropdown();
+                });
+            });
+
+            document.addEventListener('click', closeDropdown);
+            
+            // Re-attach recalcPrice to the hidden select
 
             // ── Input focus micro-animation ───────────────────────────────
             document.querySelectorAll('.bf-input').forEach(input => {
@@ -796,8 +888,8 @@
                 if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
                     return 'Please enter a valid email address.';
                 if (!phone) return 'Please enter your phone or WhatsApp number.';
-                if (currentService !== 'prewedding' && !currentFinish)
-                    return 'Please select a finish type (SD / HD / Airbrush / Luxury).';
+                if (currentService !== 'hairstyle' && !currentFinish)
+                    return 'Please select a finish type (Standard / HD / Luxury).';
                 if (!document.getElementById('privacyConsent').checked)
                     return 'Please confirm you understand the booking process.';
 
@@ -828,11 +920,12 @@
                 const serviceLabel = {
                     bridal:     'Bridal Makeup',
                     engagement: 'Engagement / Roka',
+                    haldi:      'Haldi / Mehandi Makeup',
                     party:      'Party Makeup',
-                    prewedding: 'Pre-Wedding Shoot'
+                    hairstyle:  'Hairstyle Only'
                 }[currentService] || currentService;
 
-                const finishLabel = { sd: 'SD', hd: 'HD', airbrush: 'Airbrush', luxury: 'Luxury' }[currentFinish] || '';
+                const finishLabel = { sd: 'Standard', hd: 'HD', luxury: 'Luxury' }[currentFinish] || '';
 
                 const templateParams = {
                     to_email:        'tanmay8506@gmail.com',
@@ -852,15 +945,15 @@
 
                 let dynamicRows = '';
 
-                if (currentService === 'prewedding') {
-                    const sd = document.getElementById('shootDate').value;
-                    const sl = document.getElementById('shootLocation').value.trim();
-                    if (sd || sl) {
-                        dynamicRows += '<tr>' + col1 + (sd ? makeField('Shoot Date', sd) : '') + '</td>';
-                        dynamicRows += col2 + (sl ? makeField('Shoot Location', sl) : '') + '</td></tr>';
+                if (currentService === 'hairstyle') {
+                    const ed = document.getElementById('eventDate').value;
+                    const ev = document.getElementById('eventVenue').value.trim();
+                    if (ed || ev) {
+                        dynamicRows += '<tr>' + col1 + (ed ? makeField('Event Date', ed) : '') + '</td>';
+                        dynamicRows += col2 + (ev ? makeField('Venue / Location', ev) : '') + '</td></tr>';
                     }
-                    const numLooks = document.getElementById('numLooks').value;
-                    dynamicRows += '<tr>' + fullCol + makeField('Number of Looks', numLooks) + '</td></tr>';
+                    const hairLabel = hairstyleAddonInput.options[hairstyleAddonInput.selectedIndex].text.split(' (')[0];
+                    dynamicRows += '<tr>' + fullCol + makeField('Hairstyle', hairLabel) + '</td></tr>';
                 } else {
                     const ed = document.getElementById('eventDate').value;
                     const ev = document.getElementById('eventVenue').value.trim();
@@ -870,6 +963,10 @@
                     }
                     if (finishLabel) {
                         dynamicRows += '<tr>' + fullCol + makeField('Finish Type', finishLabel) + '</td></tr>';
+                    }
+                    if (hairstyleAddonInput.value !== 'none') {
+                        const hairLbl = hairstyleAddonInput.options[hairstyleAddonInput.selectedIndex].text.split(' (')[0];
+                        dynamicRows += '<tr>' + fullCol + makeField('Hairstyle Add-on', hairLbl) + '</td></tr>';
                     }
                     if (currentService === 'party') {
                         const numPeople = document.getElementById('numPeople').value;
@@ -887,7 +984,50 @@
 
                 // ── Send via EmailJS ──────────────────────────────────────
                 try {
+                    // 1. Send booking notification to ARM (Ayushi/Tanmay)
                     await emailjs.send('service_qqsqvzn', 'template_45iu0t8', templateParams);
+
+                    // 2. Send client confirmation email (Option B — separate template)
+                    const clientConfirmParams = {
+                        to_email:   document.getElementById('clientEmail').value.trim(),
+                        to_name:    document.getElementById('clientName').value.trim(),
+                        service:    serviceLabel,
+                        reply_to:   'ayushiraimua@gmail.com'
+                    };
+                    // Fire-and-forget: don't block success panel on this
+                    emailjs.send('service_qqsqvzn', 'template_ll4t87f', clientConfirmParams)
+                        .catch(err => console.warn('Client confirmation email failed:', err));
+
+                    // 3. Send WhatsApp confirmation via secure backend
+                    const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' };
+                    const bookingDate = new Date().toLocaleDateString('en-GB', dateOptions);
+                    
+                    let hairChoice = 'N/A';
+                    if (currentService === 'hairstyle') {
+                        const hairLbl = hairstyleAddonInput.options[hairstyleAddonInput.selectedIndex].text.split(' (')[0];
+                        hairChoice = hairLbl !== 'None' ? hairLbl : 'N/A';
+                    } else if (hairstyleAddonInput.value !== 'none') {
+                        const hairLbl = hairstyleAddonInput.options[hairstyleAddonInput.selectedIndex].text.split(' (')[0];
+                        hairChoice = hairLbl;
+                    }
+
+                    const whatsappPayload = {
+                        phone:       document.getElementById('clientPhone').value.trim(),
+                        name:        document.getElementById('clientName').value.trim(),
+                        service:     serviceLabel,
+                        venue:       document.getElementById('eventVenue').value.trim() || 'TBD',
+                        eventDate:   document.getElementById('eventDate').value || 'TBD',
+                        bookingDate: bookingDate,
+                        price:       priceDisplay.textContent,
+                        hair:        hairChoice
+                    };
+                    // Use the deployed Vercel URL once live; falls back gracefully if not deployed
+                    const BACKEND_URL = window.BACKEND_URL || '/api/send-whatsapp';
+                    fetch(BACKEND_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify(whatsappPayload)
+                    }).catch(err => console.warn('WhatsApp confirmation failed:', err));
 
                     // ── Success: fade form out, reveal success panel ──────
                     form.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
