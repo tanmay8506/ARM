@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en" class="scroll-smooth">
 
 <head>
@@ -532,9 +532,8 @@
         </div>
     </footer>
 
-
     <script>
-        // ── Mobile Nav ────────────────────────────────────────────────────
+        // Mobile Nav
         function openMobileMenu() {
             var m = document.getElementById('mobileMenu');
             m.classList.add('nav-open');
@@ -551,13 +550,11 @@
             if (e.key === 'Escape') closeMobileMenu();
         });
 
-        // ── Booking Funnel ────────────────────────────────────────────────
         (function () {
             'use strict';
 
             emailjs.init({ publicKey: '1Gr7fog8fBBYjpcll' });
 
-            // ── Pricing ───────────────────────────────────────────────────
             var PRICES = {
                 bridal:     { sd: 10000, hd: 16000, luxury: 20000 },
                 engagement: { sd: 7000,  hd: 10000, luxury: 15000 },
@@ -565,19 +562,16 @@
                 party:      { sd: 3000,  hd: 4500,  luxury: 6500  }
             };
             var HAIR_PRICES = { none: 0, party: 800, haldi: 1000, engagement: 1500, bridal: 2000, extensions: 2000 };
-            function INR(n) { return '₹' + n.toLocaleString('en-IN'); }
+            function INR(n) { return String.fromCharCode(8377) + n.toLocaleString('en-IN'); }
 
-            // ── DOM refs ──────────────────────────────────────────────────
-            var form           = document.getElementById('bookingForm');
-            var successPanel   = document.getElementById('bookingSuccess');
-            var submitBtn      = document.getElementById('submitBtn');
-            var submitBtnText  = document.getElementById('submitBtnText');
-            var submitBtnArrow = document.getElementById('submitBtnArrow');
-            var submitBtnLoader= document.getElementById('submitBtnLoader');
-            var formError      = document.getElementById('formError');
-            var priceDisplay   = document.getElementById('priceDisplay');
-            var priceNote      = document.getElementById('priceNote');
-
+            var form            = document.getElementById('bookingForm');
+            var submitBtn       = document.getElementById('submitBtn');
+            var submitBtnText   = document.getElementById('submitBtnText');
+            var submitBtnArrow  = document.getElementById('submitBtnArrow');
+            var submitBtnLoader = document.getElementById('submitBtnLoader');
+            var formError       = document.getElementById('formError');
+            var priceDisplay    = document.getElementById('priceDisplay');
+            var priceNote       = document.getElementById('priceNote');
             var commonFields    = document.getElementById('commonFields');
             var eventDateFields = document.getElementById('eventDateFields');
             var finishTypeFields= document.getElementById('finishTypeFields');
@@ -591,59 +585,42 @@
             var numPeopleInput  = document.getElementById('numPeople');
             var customSelectLabel = document.getElementById('customSelectLabel');
 
-            // ── State ─────────────────────────────────────────────────────
             var currentService = null;
             var currentFinish  = null;
             var currentHair    = 'none';
 
-            // ── Helpers ───────────────────────────────────────────────────
             function show(el) { if (el) el.classList.add('active'); }
             function hide(el) { if (el) el.classList.remove('active'); }
 
-            // Enforce future dates
             var todayISO = new Date().toISOString().split('T')[0];
-            document.querySelectorAll('input[type="date"]').forEach(function(d) {
-                d.setAttribute('min', todayISO);
-            });
+            document.querySelectorAll('input[type="date"]').forEach(function(d) { d.setAttribute('min', todayISO); });
 
-            // ── Price Engine ──────────────────────────────────────────────
             function recalcPrice() {
                 if (!currentService) return;
                 var hairPrice = HAIR_PRICES[currentHair] || 0;
                 var hairNote  = hairPrice ? ' + ' + INR(hairPrice) + ' hairstyle' : '';
                 var total, note;
-
                 if (currentService === 'hairstyle') {
-                    if (currentHair === 'none') {
-                        priceDisplay.textContent = '₹—';
-                        priceNote.textContent    = 'Select a hairstyle above to see pricing';
-                        return;
-                    }
-                    total = hairPrice;
-                    note  = 'Hairstyle service';
+                    if (currentHair === 'none') { priceDisplay.textContent = String.fromCharCode(8377) + String.fromCharCode(8212); priceNote.textContent = 'Select a hairstyle above to see pricing'; return; }
+                    total = hairPrice; note = 'Hairstyle service';
                 } else if (currentFinish) {
                     var basePrice = PRICES[currentService] && PRICES[currentService][currentFinish];
                     if (!basePrice) return;
                     if (currentService === 'party') {
                         var people = Math.max(1, parseInt(numPeopleInput.value) || 1);
                         total = (basePrice * people) + hairPrice;
-                        note  = people + (people === 1 ? ' person' : ' people') + ' × ' + INR(basePrice) + hairNote;
+                        note  = people + (people === 1 ? ' person' : ' people') + ' x ' + INR(basePrice) + hairNote;
                     } else {
                         total = basePrice + hairPrice;
                         var svcLabel = { bridal: 'Bridal', engagement: 'Engagement', haldi: 'Haldi/Mehandi' }[currentService] || '';
                         var finLabel = { sd: 'Standard', hd: 'HD', luxury: 'Luxury' }[currentFinish] || '';
-                        note  = svcLabel + ' — ' + finLabel + ' Finish' + hairNote;
+                        note = svcLabel + ' - ' + finLabel + ' Finish' + hairNote;
                     }
-                } else {
-                    priceDisplay.textContent = '₹—';
-                    priceNote.textContent    = 'Select a finish above to see pricing';
-                    return;
-                }
-
+                } else { priceDisplay.textContent = String.fromCharCode(8377) + String.fromCharCode(8212); priceNote.textContent = 'Select a finish above to see pricing'; return; }
                 priceDisplay.classList.add('bf-price-pop');
                 setTimeout(function() { priceDisplay.classList.remove('bf-price-pop'); }, 380);
                 priceDisplay.textContent = INR(total);
-                priceNote.textContent    = note;
+                priceNote.textContent = note;
             }
 
             function updateFinishPriceLabels(service) {
@@ -654,128 +631,62 @@
                 });
             }
 
-            // ── Service card clicks ───────────────────────────────────────
             serviceCards.forEach(function(card) {
                 card.addEventListener('click', function() {
                     var service = card.dataset.service;
-                    currentService = service;
-                    currentFinish  = null;
-
+                    currentService = service; currentFinish = null;
                     finishInputs.forEach(function(r) { r.checked = false; });
                     document.querySelectorAll('.finish-toggle').forEach(function(t) { t.classList.remove('selected'); });
                     serviceCards.forEach(function(c) { c.classList.remove('selected'); });
                     card.classList.add('selected');
-
-                    show(commonFields);
-                    show(submitSection);
-                    show(priceEstimate);
-
-                    document.getElementById('hairstyleTitle').textContent =
-                        service === 'hairstyle' ? 'Hairstyle Selection' : 'Hairstyle Add-on';
-
-                    if (service === 'hairstyle') {
-                        show(eventDateFields);
-                        hide(finishTypeFields);
-                        hide(partyFields);
-                        show(hairstyleFields);
-                    } else if (service === 'party') {
-                        show(eventDateFields);
-                        show(finishTypeFields);
-                        show(partyFields);
-                        show(hairstyleFields);
-                    } else {
-                        show(eventDateFields);
-                        show(finishTypeFields);
-                        hide(partyFields);
-                        show(hairstyleFields);
-                    }
-
-                    updateFinishPriceLabels(service);
-                    recalcPrice();
+                    show(commonFields); show(submitSection); show(priceEstimate);
+                    document.getElementById('hairstyleTitle').textContent = service === 'hairstyle' ? 'Hairstyle Selection' : 'Hairstyle Add-on';
+                    if (service === 'hairstyle') { show(eventDateFields); hide(finishTypeFields); hide(partyFields); show(hairstyleFields); }
+                    else if (service === 'party') { show(eventDateFields); show(finishTypeFields); show(partyFields); show(hairstyleFields); }
+                    else { show(eventDateFields); show(finishTypeFields); hide(partyFields); show(hairstyleFields); }
+                    updateFinishPriceLabels(service); recalcPrice();
                 });
             });
 
-            // ── Finish type clicks ────────────────────────────────────────
             finishInputs.forEach(function(input) {
                 input.addEventListener('change', function() {
                     currentFinish = input.value;
                     document.querySelectorAll('.finish-toggle').forEach(function(t) { t.classList.remove('selected'); });
-                    var label = input.closest('.finish-toggle');
-                    if (label) label.classList.add('selected');
+                    var lbl = input.closest('.finish-toggle'); if (lbl) lbl.classList.add('selected');
                     recalcPrice();
                 });
             });
 
-            // ── Party counter ─────────────────────────────────────────────
             var minus = document.getElementById('peopleMinus');
             var plus  = document.getElementById('peoplePlus');
-            if (minus) minus.addEventListener('click', function() {
-                var v = parseInt(numPeopleInput.value) || 1;
-                if (v > 1) { numPeopleInput.value = v - 1; recalcPrice(); }
-            });
-            if (plus) plus.addEventListener('click', function() {
-                var v = parseInt(numPeopleInput.value) || 1;
-                if (v < 50) { numPeopleInput.value = v + 1; recalcPrice(); }
-            });
+            if (minus) minus.addEventListener('click', function() { var v = parseInt(numPeopleInput.value)||1; if(v>1){numPeopleInput.value=v-1;recalcPrice();} });
+            if (plus)  plus.addEventListener('click',  function() { var v = parseInt(numPeopleInput.value)||1; if(v<50){numPeopleInput.value=v+1;recalcPrice();} });
             if (numPeopleInput) numPeopleInput.addEventListener('input', recalcPrice);
 
-            // ── Custom hairstyle dropdown ─────────────────────────────────
             var trigger     = document.querySelector('.custom-select-trigger');
             var optionsList = document.querySelector('.custom-select-options');
             var arrow       = document.getElementById('customSelectArrow');
-
-            function closeDropdown() {
-                if (!optionsList) return;
-                optionsList.style.opacity       = '0';
-                optionsList.style.pointerEvents = 'none';
-                optionsList.style.transform     = 'translateY(-10px)';
-                if (arrow) arrow.style.transform = 'rotate(0deg)';
-            }
-            function openDropdown() {
-                if (!optionsList) return;
-                optionsList.style.opacity       = '1';
-                optionsList.style.pointerEvents = 'auto';
-                optionsList.style.transform     = 'translateY(0)';
-                if (arrow) arrow.style.transform = 'rotate(180deg)';
-            }
-
-            if (trigger) {
-                trigger.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    var isOpen = optionsList.style.opacity === '1';
-                    isOpen ? closeDropdown() : openDropdown();
-                });
-            }
-
-            document.querySelectorAll('.custom-select-option').forEach(function(option) {
-                option.addEventListener('click', function(e) {
+            function closeDD() { if (!optionsList) return; optionsList.style.opacity='0'; optionsList.style.pointerEvents='none'; optionsList.style.transform='translateY(-10px)'; if(arrow) arrow.style.transform='rotate(0deg)'; }
+            function openDD()  { if (!optionsList) return; optionsList.style.opacity='1'; optionsList.style.pointerEvents='auto'; optionsList.style.transform='translateY(0)'; if(arrow) arrow.style.transform='rotate(180deg)'; }
+            if (trigger) trigger.addEventListener('click', function(e) { e.stopPropagation(); optionsList.style.opacity==='1' ? closeDD() : openDD(); });
+            document.querySelectorAll('.custom-select-option').forEach(function(opt) {
+                opt.addEventListener('click', function(e) {
                     e.stopPropagation();
                     var value = this.getAttribute('data-value');
                     var text  = this.querySelector('span:first-child').textContent;
                     var price = this.querySelector('span:last-child').textContent;
                     if (customSelectLabel) customSelectLabel.textContent = text + ' (' + price + ')';
                     if (hairstyleSelect) hairstyleSelect.value = value;
-                    currentHair = value;
-                    closeDropdown();
-                    recalcPrice();
+                    currentHair = value; closeDD(); recalcPrice();
                 });
             });
+            document.addEventListener('click', closeDD);
 
-            document.addEventListener('click', closeDropdown);
-
-            // ── Input focus animations ────────────────────────────────────
             document.querySelectorAll('.bf-input').forEach(function(input) {
-                input.addEventListener('focus', function() {
-                    var g = input.closest('.bf-input-group');
-                    if (g) g.classList.add('focused');
-                });
-                input.addEventListener('blur', function() {
-                    var g = input.closest('.bf-input-group');
-                    if (g) g.classList.remove('focused');
-                });
+                input.addEventListener('focus', function() { var g=input.closest('.bf-input-group'); if(g) g.classList.add('focused'); });
+                input.addEventListener('blur',  function() { var g=input.closest('.bf-input-group'); if(g) g.classList.remove('focused'); });
             });
 
-            // ── Validation ────────────────────────────────────────────────
             function validateForm() {
                 if (!currentService) return 'Please select a service above.';
                 var name  = (document.getElementById('clientName').value  || '').trim();
@@ -789,49 +700,30 @@
                 return null;
             }
 
-            // ── SHOW SUCCESS PANEL (bulletproof) ──────────────────────────
-            function showSuccessPanel(email, phone) {
-                // Fill in the dynamic values
-                var emailEl = document.getElementById('successEmail');
-                var phoneEl = document.getElementById('successPhone');
-                if (emailEl) emailEl.textContent = email;
-                if (phoneEl) phoneEl.textContent = phone;
-
-                // Hide form completely
-                form.style.opacity    = '0';
-                form.style.transform  = 'translateY(-14px)';
-                form.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-
-                setTimeout(function() {
-                    // Hide form
-                    form.style.display = 'none';
-
-                    // Show success panel — set EVERY property individually
-                    successPanel.removeAttribute('hidden');
-                    successPanel.style.display    = 'block';
-                    successPanel.style.visibility = 'visible';
-                    successPanel.style.opacity    = '0';
-                    successPanel.style.transform  = 'translateY(24px)';
-                    successPanel.style.transition = 'none';
-
-                    // Force a reflow so the browser registers the initial state
-                    void successPanel.offsetHeight;
-
-                    // Now animate in
-                    successPanel.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-                    successPanel.style.opacity    = '1';
-                    successPanel.style.transform  = 'translateY(0)';
-
-                    // Scroll to it
-                    var top = successPanel.getBoundingClientRect().top + window.pageYOffset - 80;
-                    window.scrollTo({ top: top, behavior: 'smooth' });
-                }, 350);
+            // THE NUCLEAR OPTION: replace section innerHTML directly
+            function showSuccess(email, phone) {
+                var section = document.getElementById('form');
+                if (!section) return;
+                section.innerHTML =
+                    '<div style="text-align:center;padding:5rem 1.5rem;max-width:600px;margin:0 auto;">' +
+                    '<div style="width:64px;height:64px;margin:0 auto 2rem;color:#c97b4a;">' +
+                    '<svg viewBox="0 0 48 48" fill="currentColor" xmlns="http://www.w3.org/2000/svg">' +
+                    '<path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z"/>' +
+                    '</svg></div>' +
+                    '<h2 style="font-family:Syne,sans-serif;font-size:2.5rem;font-weight:800;margin-bottom:1rem;">Request Received</h2>' +
+                    '<p style="font-size:1rem;color:#5a4a3a;line-height:1.7;max-width:400px;margin:0 auto 1.5rem;">Thank you! Ayushi will review your request and be in touch within 48 hours to confirm your booking.</p>' +
+                    '<div style="display:inline-block;background:#fef9f0;border:1.5px solid #f2a65a;border-radius:14px;padding:1.25rem 1.75rem;margin-bottom:2rem;text-align:left;max-width:400px;width:100%;">' +
+                    '<p style="font-size:0.875rem;color:#5a4a3a;line-height:1.9;margin:0;">' +
+                    'Confirmation sent to <strong style="color:#c97b4a;">' + email + '</strong><br>' +
+                    'WhatsApp message sent to <strong style="color:#c97b4a;">' + phone + '</strong>' +
+                    '</p></div>' +
+                    '<a href="portfolio.html" style="display:inline-block;background:#1b140d;color:#f2a65a;font-family:Syne,sans-serif;font-size:0.8125rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:0.875rem 2rem;border-radius:0.75rem;text-decoration:none;">Explore the Portfolio &rarr;</a>' +
+                    '</div>';
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
             }
 
-            // ── Form submission ───────────────────────────────────────────
             form.addEventListener('submit', function(e) {
                 e.preventDefault();
-
                 var errorMsg = validateForm();
                 if (errorMsg) {
                     formError.textContent = errorMsg;
@@ -840,78 +732,42 @@
                     return;
                 }
                 formError.classList.remove('visible');
+                submitBtnText.textContent = 'Sending...';
+                submitBtnArrow.hidden = true;
+                submitBtnLoader.hidden = false;
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = '0.75';
 
-                // Set loading state
-                submitBtnText.textContent  = 'Sending…';
-                submitBtnArrow.hidden      = true;
-                submitBtnLoader.hidden     = false;
-                submitBtn.disabled         = true;
-                submitBtn.style.opacity    = '0.75';
-
-                // Collect values
                 var clientName  = (document.getElementById('clientName').value  || '').trim();
                 var clientEmail = (document.getElementById('clientEmail').value || '').trim();
                 var clientPhone = (document.getElementById('clientPhone').value || '').trim();
                 var eventDate   = document.getElementById('eventDate').value || '';
                 var eventVenue  = (document.getElementById('eventVenue').value || '').trim();
                 var notes       = (document.getElementById('additionalNotes').value || '').trim();
-
-                var serviceLabel = { bridal: 'Bridal Makeup', engagement: 'Engagement / Roka', haldi: 'Haldi / Mehandi Makeup', party: 'Party Makeup', hairstyle: 'Hairstyle Only' }[currentService] || currentService;
-                var finishLabel  = { sd: 'Standard', hd: 'HD', luxury: 'Luxury' }[currentFinish] || '';
+                var serviceLabel = { bridal:'Bridal Makeup', engagement:'Engagement / Roka', haldi:'Haldi / Mehandi Makeup', party:'Party Makeup', hairstyle:'Hairstyle Only' }[currentService] || currentService;
+                var finishLabel  = { sd:'Standard', hd:'HD', luxury:'Luxury' }[currentFinish] || '';
                 var hairLabel    = customSelectLabel ? customSelectLabel.textContent : 'None';
 
-                // Build EmailJS params
-                var templateParams = {
-                    to_email:        'tanmay8506@gmail.com',
-                    full_name:       clientName,
-                    email:           clientEmail,
-                    phone:           clientPhone,
-                    service:         serviceLabel,
-                    finish:          finishLabel,
-                    hairstyle:       hairLabel,
-                    event_date:      eventDate,
-                    venue:           eventVenue,
-                    notes:           notes,
-                    estimated_total: priceDisplay.textContent
-                };
+                var params = { to_email:'tanmay8506@gmail.com', full_name:clientName, email:clientEmail, phone:clientPhone, service:serviceLabel, finish:finishLabel, hairstyle:hairLabel, event_date:eventDate, venue:eventVenue, notes:notes, estimated_total:priceDisplay.textContent };
 
-                // Fire emails — completely non-blocking, cannot crash success panel
-                try {
-                    emailjs.send('service_qqsqvzn', 'template_45iu0t8', templateParams)
-                        .catch(function(err) { console.warn('ARM email failed:', err); });
-                } catch(e) { console.warn('EmailJS send error:', e); }
+                try { emailjs.send('service_qqsqvzn','template_45iu0t8',params).catch(function(e){console.warn(e);}); } catch(e){console.warn(e);}
+                try { emailjs.send('service_qqsqvzn','template_tv8h2nl',{to_email:clientEmail,to_name:clientName,service:serviceLabel,reply_to:'ayushiraimua@gmail.com'}).catch(function(e){console.warn(e);}); } catch(e){console.warn(e);}
+                try { fetch('/api/send-whatsapp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:clientPhone,name:clientName,service:serviceLabel,venue:eventVenue||'TBD',eventDate:eventDate||'TBD',bookingDate:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),price:priceDisplay.textContent,hair:hairLabel})}).catch(function(e){console.warn(e);}); } catch(e){console.warn(e);}
 
-                try {
-                    emailjs.send('service_qqsqvzn', 'template_tv8h2nl', {
-                        to_email: clientEmail, to_name: clientName, service: serviceLabel, reply_to: 'ayushiraimua@gmail.com'
-                    }).catch(function(err) { console.warn('Client confirm email failed:', err); });
-                } catch(e) { console.warn('EmailJS confirm error:', e); }
-
-                try {
-                    fetch('/api/send-whatsapp', {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ phone: clientPhone, name: clientName, service: serviceLabel, venue: eventVenue || 'TBD', eventDate: eventDate || 'TBD', bookingDate: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }), price: priceDisplay.textContent, hair: hairLabel })
-                    }).catch(function(err) { console.warn('WhatsApp failed:', err); });
-                } catch(e) { console.warn('WhatsApp fetch error:', e); }
-
-                // Always show the success panel — no matter what
-                showSuccessPanel(clientEmail, clientPhone);
+                // Show success — ALWAYS, no matter what
+                showSuccess(clientEmail, clientPhone);
             });
 
-            // ── Scroll reveal ─────────────────────────────────────────────
             var revealObs = new IntersectionObserver(function(entries) {
                 entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
             }, { threshold: 0.08 });
             document.querySelectorAll('.reveal').forEach(function(el) { revealObs.observe(el); });
 
-            // ── Dark mode toggle ──────────────────────────────────────────
             document.getElementById('darkToggle').addEventListener('click', function() {
                 document.documentElement.classList.toggle('dark');
                 localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
             });
 
-            // ── Nav shadow on scroll ──────────────────────────────────────
             var navbar = document.getElementById('navbar');
             window.addEventListener('scroll', function() {
                 navbar.classList.toggle('shadow-xl', window.scrollY > 60);
@@ -920,5 +776,4 @@
         })();
     </script>
 </body>
-
 </html>
