@@ -534,375 +534,305 @@
 
 
     <script>
-        // ─────────────────────────────────────────────────────────────────
-        //  GLOBALS (called from onclick attributes)
-        // ─────────────────────────────────────────────────────────────────
+        // ── Mobile Nav ────────────────────────────────────────────────────
         function openMobileMenu() {
-            var menu = document.getElementById('mobileMenu');
-            menu.classList.add('nav-open');
-            menu.setAttribute('aria-hidden', 'false');
+            var m = document.getElementById('mobileMenu');
+            m.classList.add('nav-open');
+            m.setAttribute('aria-hidden', 'false');
             document.body.classList.add('menu-open');
         }
         function closeMobileMenu() {
-            var menu = document.getElementById('mobileMenu');
-            menu.classList.remove('nav-open');
-            menu.setAttribute('aria-hidden', 'true');
+            var m = document.getElementById('mobileMenu');
+            m.classList.remove('nav-open');
+            m.setAttribute('aria-hidden', 'true');
             document.body.classList.remove('menu-open');
         }
-        document.addEventListener('keydown', function (e) {
+        document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') closeMobileMenu();
         });
-        function nlSubscribe() {
-            const el = document.getElementById('nl-email');
-            if (el.value && el.value.includes('@')) {
-                document.getElementById('nl-ok').classList.add('show');
-                el.value = '';
-            }
-        }
 
-        // ─────────────────────────────────────────────────────────────────
-        //  BOOKING FUNNEL STATE MACHINE + LIVE PRICE ENGINE
-        //
-        //  Pricing matrix (source: Price List.png):
-        //   Party:      SD ₹2,500  | HD ₹4,000  | Airbrush ₹5,500  | Luxury ₹6,500  (× people)
-        //   Engagement: SD ₹7,000  | HD ₹8,500  | Airbrush ₹10,000 | Luxury ₹11,000
-        //   Bridal:     SD ₹12,000 | HD ₹14,000 | Airbrush ₹16,500 | Luxury ₹20,000
-        //   Pre-Wedding: ₹5,000 × number of looks (no finish type)
-        // ─────────────────────────────────────────────────────────────────
+        // ── Booking Funnel ────────────────────────────────────────────────
         (function () {
             'use strict';
 
-            // ── EmailJS init ──────────────────────────────────────────────
-            emailjs.init({ publicKey: "1Gr7fog8fBBYjpcll" });
+            emailjs.init({ publicKey: '1Gr7fog8fBBYjpcll' });
 
-            // ── Pricing matrix ────────────────────────────────────────────
-            const PRICES = {
-                bridal: { sd: 10000, hd: 16000, luxury: 20000 },
-                engagement: { sd: 7000, hd: 10000, luxury: 15000 },
-                haldi: { sd: 4000, hd: 6500, luxury: 9500 },
-                party: { sd: 3000, hd: 4500, luxury: 6500 },
-                prewedding: { perLook: 5000 },
+            // ── Pricing ───────────────────────────────────────────────────
+            var PRICES = {
+                bridal:     { sd: 10000, hd: 16000, luxury: 20000 },
+                engagement: { sd: 7000,  hd: 10000, luxury: 15000 },
+                haldi:      { sd: 4000,  hd: 6500,  luxury: 9500  },
+                party:      { sd: 3000,  hd: 4500,  luxury: 6500  }
             };
-            const HAIR_PRICES = {
-                none: 0,
-                party: 800,
-                haldi: 1000,
-                engagement: 1500,
-                bridal: 2000,
-                extensions: 2000
-            };
-
-            // INR formatter
-            const INR = (n) => '₹' + n.toLocaleString('en-IN');
+            var HAIR_PRICES = { none: 0, party: 800, haldi: 1000, engagement: 1500, bridal: 2000, extensions: 2000 };
+            function INR(n) { return '₹' + n.toLocaleString('en-IN'); }
 
             // ── DOM refs ──────────────────────────────────────────────────
-            const form = document.getElementById('bookingForm');
-            const successPanel = document.getElementById('bookingSuccess');
-            const submitBtn = document.getElementById('submitBtn');
-            const submitBtnText = document.getElementById('submitBtnText');
-            const submitBtnArrow = document.getElementById('submitBtnArrow');
-            const submitBtnLoader = document.getElementById('submitBtnLoader');
-            const formError = document.getElementById('formError');
-            const priceDisplay = document.getElementById('priceDisplay');
-            const priceNote = document.getElementById('priceNote');
+            var form           = document.getElementById('bookingForm');
+            var successPanel   = document.getElementById('bookingSuccess');
+            var submitBtn      = document.getElementById('submitBtn');
+            var submitBtnText  = document.getElementById('submitBtnText');
+            var submitBtnArrow = document.getElementById('submitBtnArrow');
+            var submitBtnLoader= document.getElementById('submitBtnLoader');
+            var formError      = document.getElementById('formError');
+            var priceDisplay   = document.getElementById('priceDisplay');
+            var priceNote      = document.getElementById('priceNote');
 
-            const commonFields = document.getElementById('commonFields');
-            const eventDateFields = document.getElementById('eventDateFields');
-            const finishTypeFields = document.getElementById('finishTypeFields');
-            const partyFields = document.getElementById('partyFields');
-            const hairstyleFields = document.getElementById('hairstyleFields');
-            
-            const priceEstimate = document.getElementById('priceEstimate');
-            const submitSection = document.getElementById('submitSection');
-            const serviceCards = document.querySelectorAll('.service-card');
-            const finishInputs = document.querySelectorAll('.finish-toggle-input');
-            const hairstyleAddonInput = document.getElementById('hairstyleAddon');
-            const numPeopleInput = document.getElementById('numPeople');
-            
+            var commonFields    = document.getElementById('commonFields');
+            var eventDateFields = document.getElementById('eventDateFields');
+            var finishTypeFields= document.getElementById('finishTypeFields');
+            var partyFields     = document.getElementById('partyFields');
+            var hairstyleFields = document.getElementById('hairstyleFields');
+            var priceEstimate   = document.getElementById('priceEstimate');
+            var submitSection   = document.getElementById('submitSection');
+            var serviceCards    = document.querySelectorAll('.service-card');
+            var finishInputs    = document.querySelectorAll('.finish-toggle-input');
+            var hairstyleSelect = document.getElementById('hairstyleAddon');
+            var numPeopleInput  = document.getElementById('numPeople');
+            var customSelectLabel = document.getElementById('customSelectLabel');
 
             // ── State ─────────────────────────────────────────────────────
-            let currentService = null;
-            let currentFinish = null;   // 'sd' | 'hd' | 'airbrush' | 'luxury'
+            var currentService = null;
+            var currentFinish  = null;
+            var currentHair    = 'none';
 
-            // ── Section helpers ───────────────────────────────────────────
-            function show(el) { el.classList.add('active'); }
-            function hide(el) { el.classList.remove('active'); }
+            // ── Helpers ───────────────────────────────────────────────────
+            function show(el) { if (el) el.classList.add('active'); }
+            function hide(el) { if (el) el.classList.remove('active'); }
 
             // Enforce future dates
-            const todayISO = new Date().toISOString().split('T')[0];
-            document.querySelectorAll('input[type="date"]').forEach(d =>
-                d.setAttribute('min', todayISO)
-            );
+            var todayISO = new Date().toISOString().split('T')[0];
+            document.querySelectorAll('input[type="date"]').forEach(function(d) {
+                d.setAttribute('min', todayISO);
+            });
 
-            // ── Live Price Engine ─────────────────────────────────────────
-            // Recalculates on every meaningful state change and updates
-            // the DOM ticker instantly — no debounce required.
+            // ── Price Engine ──────────────────────────────────────────────
             function recalcPrice() {
                 if (!currentService) return;
-
-                let total = null;
-                let note = '';
-                
-                let currentHair = hairstyleAddonInput ? hairstyleAddonInput.value : 'none';
-                let hairPrice = HAIR_PRICES[currentHair] || 0;
-                let hairNote = '';
-                if (hairPrice > 0 && hairstyleAddonInput) {
-                    hairNote = (currentService === 'hairstyle' ? '' : ' + ') + hairstyleAddonInput.options[hairstyleAddonInput.selectedIndex].text.split(' (')[0];
-                }
+                var hairPrice = HAIR_PRICES[currentHair] || 0;
+                var hairNote  = hairPrice ? ' + ' + INR(hairPrice) + ' hairstyle' : '';
+                var total, note;
 
                 if (currentService === 'hairstyle') {
                     if (currentHair === 'none') {
                         priceDisplay.textContent = '₹—';
-                        priceNote.textContent = 'Select a hairstyle above to see pricing';
+                        priceNote.textContent    = 'Select a hairstyle above to see pricing';
                         return;
                     }
                     total = hairPrice;
-                    note = hairNote;
+                    note  = 'Hairstyle service';
                 } else if (currentFinish) {
-                    const basePrice = PRICES[currentService][currentFinish];
+                    var basePrice = PRICES[currentService] && PRICES[currentService][currentFinish];
+                    if (!basePrice) return;
                     if (currentService === 'party') {
-                        const people = Math.max(1, parseInt(numPeopleInput.value) || 1);
+                        var people = Math.max(1, parseInt(numPeopleInput.value) || 1);
                         total = (basePrice * people) + hairPrice;
-                        note = people + (people === 1 ? ' person' : ' people') + ' × ' + INR(basePrice) + hairNote;
+                        note  = people + (people === 1 ? ' person' : ' people') + ' × ' + INR(basePrice) + hairNote;
                     } else {
                         total = basePrice + hairPrice;
-                        const svcLabel = { bridal: 'Bridal', engagement: 'Engagement', haldi: 'Haldi/Mehandi' }[currentService] || '';
-                        const finLabel = { sd: 'Standard', hd: 'HD', luxury: 'Luxury' }[currentFinish] || '';
-                        note = svcLabel + ' — ' + finLabel + ' Finish' + hairNote;
+                        var svcLabel = { bridal: 'Bridal', engagement: 'Engagement', haldi: 'Haldi/Mehandi' }[currentService] || '';
+                        var finLabel = { sd: 'Standard', hd: 'HD', luxury: 'Luxury' }[currentFinish] || '';
+                        note  = svcLabel + ' — ' + finLabel + ' Finish' + hairNote;
                     }
                 } else {
                     priceDisplay.textContent = '₹—';
-                    priceNote.textContent = 'Select a finish above to see pricing';
+                    priceNote.textContent    = 'Select a finish above to see pricing';
                     return;
                 }
 
                 priceDisplay.classList.add('bf-price-pop');
-                setTimeout(() => priceDisplay.classList.remove('bf-price-pop'), 380);
+                setTimeout(function() { priceDisplay.classList.remove('bf-price-pop'); }, 380);
                 priceDisplay.textContent = INR(total);
-                priceNote.textContent = note;
+                priceNote.textContent    = note;
             }
-            // Update per-pill price labels beneath each finish button
+
             function updateFinishPriceLabels(service) {
                 if (!PRICES[service]) return;
-                ['sd', 'hd', 'luxury'].forEach(key => {
-                    const el = document.getElementById('finish-' + key + '-price');
+                ['sd', 'hd', 'luxury'].forEach(function(key) {
+                    var el = document.getElementById('finish-' + key + '-price');
                     if (el) el.textContent = INR(PRICES[service][key]);
                 });
             }
 
-            // ── Service card click handler ────────────────────────────────
-            serviceCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    const service = card.dataset.service;
+            // ── Service card clicks ───────────────────────────────────────
+            serviceCards.forEach(function(card) {
+                card.addEventListener('click', function() {
+                    var service = card.dataset.service;
                     currentService = service;
-                    currentFinish = null;
+                    currentFinish  = null;
 
-                    // Reset finish selection UI
-                    finishInputs.forEach(r => { r.checked = false; });
-                    document.querySelectorAll('.finish-toggle').forEach(t =>
-                        t.classList.remove('selected')
-                    );
-
-                    // Mark selected service card
-                    serviceCards.forEach(c => c.classList.remove('selected'));
+                    finishInputs.forEach(function(r) { r.checked = false; });
+                    document.querySelectorAll('.finish-toggle').forEach(function(t) { t.classList.remove('selected'); });
+                    serviceCards.forEach(function(c) { c.classList.remove('selected'); });
                     card.classList.add('selected');
 
-                    // Always show: contact + submit
                     show(commonFields);
                     show(submitSection);
                     show(priceEstimate);
 
-                    // ── Per-service section visibility ────────────────────
-                    document.getElementById('hairstyleTitle').textContent = service === 'hairstyle' ? 'Hairstyle Selection' : 'Hairstyle Add-on';
-                    
+                    document.getElementById('hairstyleTitle').textContent =
+                        service === 'hairstyle' ? 'Hairstyle Selection' : 'Hairstyle Add-on';
+
                     if (service === 'hairstyle') {
                         show(eventDateFields);
                         hide(finishTypeFields);
                         hide(partyFields);
                         show(hairstyleFields);
-                        
-                        const titleEl = document.getElementById('eventDateFieldsTitle');
-                        const dateLbl = document.getElementById('eventDateLabel');
-                        const venueLbl = document.getElementById('eventVenueLabel');
-                        titleEl.textContent = 'Event Details';
-                        dateLbl.textContent = 'Event Date';
-                        venueLbl.textContent = 'Venue / Location';
-
-                        recalcPrice();
-                    } else {
-                        
+                    } else if (service === 'party') {
                         show(eventDateFields);
                         show(finishTypeFields);
+                        show(partyFields);
                         show(hairstyleFields);
-
-                        // Dynamic section labels based on service
-                        const titleEl = document.getElementById('eventDateFieldsTitle');
-                        const dateLbl = document.getElementById('eventDateLabel');
-                        const venueLbl = document.getElementById('eventVenueLabel');
-
-                        if (service === 'party') {
-                            titleEl.textContent = 'Event Details';
-                            dateLbl.textContent = 'Event Date';
-                            venueLbl.textContent = 'Venue / Location';
-                            show(partyFields);
-                        } else {
-                            titleEl.textContent = service === 'bridal' ? 'Wedding Details' : (service === 'haldi' ? 'Ceremony Details' : 'Ceremony Details');
-                            dateLbl.textContent = service === 'bridal' ? 'Wedding Date' : 'Ceremony Date';
-                            venueLbl.textContent = 'Venue / Location';
-                            hide(partyFields);
-                        }
-
-                        updateFinishPriceLabels(service);
-                        priceDisplay.textContent = '\u20B9\u2014';
-                        priceNote.textContent = 'Select a finish above to see pricing';
-                        recalcPrice();
+                    } else {
+                        show(eventDateFields);
+                        show(finishTypeFields);
+                        hide(partyFields);
+                        show(hairstyleFields);
                     }
 
-                    // Smooth scroll to contact step
-                    setTimeout(() => {
-                        commonFields.scrollIntoView({ behavior: 'smooth', block: 'center' });
-                    }, 130);
-                });
-            });
-
-            // ── Finish toggle handler ─────────────────────────────────────
-            finishInputs.forEach(input => {
-                input.addEventListener('change', () => {
-                    currentFinish = input.value;
-                    document.querySelectorAll('.finish-toggle').forEach(t =>
-                        t.classList.toggle('selected',
-                            t.querySelector('input').value === currentFinish)
-                    );
+                    updateFinishPriceLabels(service);
                     recalcPrice();
                 });
             });
 
-            // ── Counter buttons ───────────────────────────────────────────
-            function wireCounter(minusId, plusId, inputEl) {
-                document.getElementById(minusId).addEventListener('click', () => {
-                    const v = parseInt(inputEl.value) || 1;
-                    const min = parseInt(inputEl.min) || 1;
-                    if (v > min) { inputEl.value = v - 1; recalcPrice(); }
+            // ── Finish type clicks ────────────────────────────────────────
+            finishInputs.forEach(function(input) {
+                input.addEventListener('change', function() {
+                    currentFinish = input.value;
+                    document.querySelectorAll('.finish-toggle').forEach(function(t) { t.classList.remove('selected'); });
+                    var label = input.closest('.finish-toggle');
+                    if (label) label.classList.add('selected');
+                    recalcPrice();
                 });
-                document.getElementById(plusId).addEventListener('click', () => {
-                    const v = parseInt(inputEl.value) || 1;
-                    const max = parseInt(inputEl.max) || 999;
-                    if (v < max) { inputEl.value = v + 1; recalcPrice(); }
-                });
-                inputEl.addEventListener('input', recalcPrice);
-            }
-            wireCounter('peopleMinus', 'peoplePlus', numPeopleInput);
-            hairstyleAddonInput.addEventListener('change', recalcPrice);
-
-            
-            // ── Custom Dropdown Logic ────────────────────────────────────
-            const trigger = document.querySelector('.custom-select-trigger');
-            const optionsList = document.querySelector('.custom-select-options');
-            const customOptions = document.querySelectorAll('.custom-select-option');
-            const label = document.getElementById('customSelectLabel');
-            const arrow = document.getElementById('customSelectArrow');
-            const realSelect = document.getElementById('hairstyleAddon');
-
-            // Add hover effect style dynamically
-            const style = document.createElement('style');
-            style.textContent = `
-                .custom-select-options.open {
-                    opacity: 1 !important;
-                    pointer-events: auto !important;
-                    transform: translateY(0) !important;
-                }
-                .custom-select-option:hover {
-                    background: rgba(201,123,74,0.08);
-                    color: #1b140d !important;
-                }
-                .dark .custom-select-options {
-                    background: #251c14 !important;
-                    color: #fcfaf8 !important;
-                }
-                .dark .custom-select-option {
-                    color: #a08878 !important;
-                }
-                .dark .custom-select-option:hover {
-                    background: rgba(201,123,74,0.15) !important;
-                    color: #fcfaf8 !important;
-                }
-            `;
-            document.head.appendChild(style);
-
-            function closeDropdown() {
-                optionsList.classList.remove('open');
-                arrow.style.transform = 'rotate(0deg)';
-                trigger.closest('.bf-input-group').classList.remove('focused');
-            }
-
-            trigger.addEventListener('click', function(e) {
-                e.stopPropagation();
-                const isOpen = optionsList.classList.contains('open');
-                if(isOpen) {
-                    closeDropdown();
-                } else {
-                    optionsList.classList.add('open');
-                    arrow.style.transform = 'rotate(180deg)';
-                    trigger.closest('.bf-input-group').classList.add('focused');
-                }
             });
 
-            customOptions.forEach(option => {
+            // ── Party counter ─────────────────────────────────────────────
+            var minus = document.getElementById('peopleMinus');
+            var plus  = document.getElementById('peoplePlus');
+            if (minus) minus.addEventListener('click', function() {
+                var v = parseInt(numPeopleInput.value) || 1;
+                if (v > 1) { numPeopleInput.value = v - 1; recalcPrice(); }
+            });
+            if (plus) plus.addEventListener('click', function() {
+                var v = parseInt(numPeopleInput.value) || 1;
+                if (v < 50) { numPeopleInput.value = v + 1; recalcPrice(); }
+            });
+            if (numPeopleInput) numPeopleInput.addEventListener('input', recalcPrice);
+
+            // ── Custom hairstyle dropdown ─────────────────────────────────
+            var trigger     = document.querySelector('.custom-select-trigger');
+            var optionsList = document.querySelector('.custom-select-options');
+            var arrow       = document.getElementById('customSelectArrow');
+
+            function closeDropdown() {
+                if (!optionsList) return;
+                optionsList.style.opacity       = '0';
+                optionsList.style.pointerEvents = 'none';
+                optionsList.style.transform     = 'translateY(-10px)';
+                if (arrow) arrow.style.transform = 'rotate(0deg)';
+            }
+            function openDropdown() {
+                if (!optionsList) return;
+                optionsList.style.opacity       = '1';
+                optionsList.style.pointerEvents = 'auto';
+                optionsList.style.transform     = 'translateY(0)';
+                if (arrow) arrow.style.transform = 'rotate(180deg)';
+            }
+
+            if (trigger) {
+                trigger.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    var isOpen = optionsList.style.opacity === '1';
+                    isOpen ? closeDropdown() : openDropdown();
+                });
+            }
+
+            document.querySelectorAll('.custom-select-option').forEach(function(option) {
                 option.addEventListener('click', function(e) {
                     e.stopPropagation();
-                    const value = this.getAttribute('data-value');
-                    const text = this.querySelector('span:first-child').textContent;
-                    const price = this.querySelector('span:last-child').textContent;
-                    
-                    label.textContent = `${text} (${price})`;
-                    realSelect.value = value;
-                    
-                    // Dispatch change event to update pricing engine
-                    realSelect.dispatchEvent(new Event('change'));
-                    
+                    var value = this.getAttribute('data-value');
+                    var text  = this.querySelector('span:first-child').textContent;
+                    var price = this.querySelector('span:last-child').textContent;
+                    if (customSelectLabel) customSelectLabel.textContent = text + ' (' + price + ')';
+                    if (hairstyleSelect) hairstyleSelect.value = value;
+                    currentHair = value;
                     closeDropdown();
+                    recalcPrice();
                 });
             });
 
             document.addEventListener('click', closeDropdown);
-            
-            // Re-attach recalcPrice to the hidden select
 
-            // ── Input focus micro-animation ───────────────────────────────
-            document.querySelectorAll('.bf-input').forEach(input => {
-                input.addEventListener('focus', () =>
-                    input.closest('.bf-input-group')?.classList.add('focused')
-                );
-                input.addEventListener('blur', () =>
-                    input.closest('.bf-input-group')?.classList.remove('focused')
-                );
+            // ── Input focus animations ────────────────────────────────────
+            document.querySelectorAll('.bf-input').forEach(function(input) {
+                input.addEventListener('focus', function() {
+                    var g = input.closest('.bf-input-group');
+                    if (g) g.classList.add('focused');
+                });
+                input.addEventListener('blur', function() {
+                    var g = input.closest('.bf-input-group');
+                    if (g) g.classList.remove('focused');
+                });
             });
 
             // ── Validation ────────────────────────────────────────────────
             function validateForm() {
                 if (!currentService) return 'Please select a service above.';
-
-                const name = document.getElementById('clientName').value.trim();
-                const email = document.getElementById('clientEmail').value.trim();
-                const phone = document.getElementById('clientPhone').value.trim();
-
-                if (!name) return 'Please enter your full name.';
-                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
-                    return 'Please enter a valid email address.';
+                var name  = (document.getElementById('clientName').value  || '').trim();
+                var email = (document.getElementById('clientEmail').value || '').trim();
+                var phone = (document.getElementById('clientPhone').value || '').trim();
+                if (!name)  return 'Please enter your full name.';
+                if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return 'Please enter a valid email address.';
                 if (!phone) return 'Please enter your phone or WhatsApp number.';
-                if (currentService !== 'hairstyle' && !currentFinish)
-                    return 'Please select a finish type (Standard / HD / Luxury).';
-                if (!document.getElementById('privacyConsent').checked)
-                    return 'Please confirm you understand the booking process.';
-
+                if (currentService !== 'hairstyle' && !currentFinish) return 'Please select a finish type (Standard / HD / Luxury).';
+                if (!document.getElementById('privacyConsent').checked) return 'Please confirm you understand the booking process.';
                 return null;
             }
 
+            // ── SHOW SUCCESS PANEL (bulletproof) ──────────────────────────
+            function showSuccessPanel(email, phone) {
+                // Fill in the dynamic values
+                var emailEl = document.getElementById('successEmail');
+                var phoneEl = document.getElementById('successPhone');
+                if (emailEl) emailEl.textContent = email;
+                if (phoneEl) phoneEl.textContent = phone;
+
+                // Hide form completely
+                form.style.opacity    = '0';
+                form.style.transform  = 'translateY(-14px)';
+                form.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+
+                setTimeout(function() {
+                    // Hide form
+                    form.style.display = 'none';
+
+                    // Show success panel — set EVERY property individually
+                    successPanel.removeAttribute('hidden');
+                    successPanel.style.display    = 'block';
+                    successPanel.style.visibility = 'visible';
+                    successPanel.style.opacity    = '0';
+                    successPanel.style.transform  = 'translateY(24px)';
+                    successPanel.style.transition = 'none';
+
+                    // Force a reflow so the browser registers the initial state
+                    void successPanel.offsetHeight;
+
+                    // Now animate in
+                    successPanel.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
+                    successPanel.style.opacity    = '1';
+                    successPanel.style.transform  = 'translateY(0)';
+
+                    // Scroll to it
+                    var top = successPanel.getBoundingClientRect().top + window.pageYOffset - 80;
+                    window.scrollTo({ top: top, behavior: 'smooth' });
+                }, 350);
+            }
+
             // ── Form submission ───────────────────────────────────────────
-            form.addEventListener('submit', async (e) => {
+            form.addEventListener('submit', function(e) {
                 e.preventDefault();
 
-                const errorMsg = validateForm();
+                var errorMsg = validateForm();
                 if (errorMsg) {
                     formError.textContent = errorMsg;
                     formError.classList.add('visible');
@@ -911,161 +841,79 @@
                 }
                 formError.classList.remove('visible');
 
-                // Enter loading state
-                submitBtnText.textContent = 'Sending';
-                submitBtnArrow.hidden = true;
-                submitBtnLoader.hidden = false;
-                submitBtn.disabled = true;
-                submitBtn.style.opacity = '0.8';
+                // Set loading state
+                submitBtnText.textContent  = 'Sending…';
+                submitBtnArrow.hidden      = true;
+                submitBtnLoader.hidden     = false;
+                submitBtn.disabled         = true;
+                submitBtn.style.opacity    = '0.75';
 
-                // ── Build service-aware EmailJS template params ───────────
-                const serviceLabel = {
-                    bridal:     'Bridal Makeup',
-                    engagement: 'Engagement / Roka',
-                    haldi:      'Haldi / Mehandi Makeup',
-                    party:      'Party Makeup',
-                    hairstyle:  'Hairstyle Only'
-                }[currentService] || currentService;
+                // Collect values
+                var clientName  = (document.getElementById('clientName').value  || '').trim();
+                var clientEmail = (document.getElementById('clientEmail').value || '').trim();
+                var clientPhone = (document.getElementById('clientPhone').value || '').trim();
+                var eventDate   = document.getElementById('eventDate').value || '';
+                var eventVenue  = (document.getElementById('eventVenue').value || '').trim();
+                var notes       = (document.getElementById('additionalNotes').value || '').trim();
 
-                const finishLabel = { sd: 'Standard', hd: 'HD', luxury: 'Luxury' }[currentFinish] || '';
+                var serviceLabel = { bridal: 'Bridal Makeup', engagement: 'Engagement / Roka', haldi: 'Haldi / Mehandi Makeup', party: 'Party Makeup', hairstyle: 'Hairstyle Only' }[currentService] || currentService;
+                var finishLabel  = { sd: 'Standard', hd: 'HD', luxury: 'Luxury' }[currentFinish] || '';
+                var hairLabel    = customSelectLabel ? customSelectLabel.textContent : 'None';
 
-                const templateParams = {
+                // Build EmailJS params
+                var templateParams = {
                     to_email:        'tanmay8506@gmail.com',
-                    full_name:       document.getElementById('clientName').value.trim(),
-                    email:           document.getElementById('clientEmail').value.trim(),
-                    phone:           document.getElementById('clientPhone').value.trim(),
+                    full_name:       clientName,
+                    email:           clientEmail,
+                    phone:           clientPhone,
                     service:         serviceLabel,
+                    finish:          finishLabel,
+                    hairstyle:       hairLabel,
+                    event_date:      eventDate,
+                    venue:           eventVenue,
+                    notes:           notes,
                     estimated_total: priceDisplay.textContent
                 };
 
-                const labelStyle = 'font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#c97b4a;margin-bottom:5px;';
-                const valStyle = 'font-size:14px;font-weight:bold;color:#1a0f06;';
-                const makeField = (label, val) => `<div style="${labelStyle}">${label}</div><div style="${valStyle}">${val}</div>`;
-                const col1 = '<td width="50%" style="vertical-align:top;padding:0 10px 22px 0;">';
-                const col2 = '<td width="50%" style="vertical-align:top;padding:0 0 22px 10px;">';
-                const fullCol = '<td colspan="2" style="padding:0 0 22px 0;vertical-align:top;">';
+                // Fire emails — completely non-blocking, cannot crash success panel
+                try {
+                    emailjs.send('service_qqsqvzn', 'template_45iu0t8', templateParams)
+                        .catch(function(err) { console.warn('ARM email failed:', err); });
+                } catch(e) { console.warn('EmailJS send error:', e); }
 
-                let dynamicRows = '';
+                try {
+                    emailjs.send('service_qqsqvzn', 'template_tv8h2nl', {
+                        to_email: clientEmail, to_name: clientName, service: serviceLabel, reply_to: 'ayushiraimua@gmail.com'
+                    }).catch(function(err) { console.warn('Client confirm email failed:', err); });
+                } catch(e) { console.warn('EmailJS confirm error:', e); }
 
-                if (currentService === 'hairstyle') {
-                    const ed = document.getElementById('eventDate').value;
-                    const ev = document.getElementById('eventVenue').value.trim();
-                    if (ed || ev) {
-                        dynamicRows += '<tr>' + col1 + (ed ? makeField('Event Date', ed) : '') + '</td>';
-                        dynamicRows += col2 + (ev ? makeField('Venue / Location', ev) : '') + '</td></tr>';
-                    }
-                    const hairLabel = hairstyleAddonInput.options[hairstyleAddonInput.selectedIndex].text.split(' (')[0];
-                    dynamicRows += '<tr>' + fullCol + makeField('Hairstyle', hairLabel) + '</td></tr>';
-                } else {
-                    const ed = document.getElementById('eventDate').value;
-                    const ev = document.getElementById('eventVenue').value.trim();
-                    if (ed || ev) {
-                        dynamicRows += '<tr>' + col1 + (ed ? makeField('Event Date', ed) : '') + '</td>';
-                        dynamicRows += col2 + (ev ? makeField('Venue / Location', ev) : '') + '</td></tr>';
-                    }
-                    if (finishLabel) {
-                        dynamicRows += '<tr>' + fullCol + makeField('Finish Type', finishLabel) + '</td></tr>';
-                    }
-                    if (hairstyleAddonInput.value !== 'none') {
-                        const hairLbl = hairstyleAddonInput.options[hairstyleAddonInput.selectedIndex].text.split(' (')[0];
-                        dynamicRows += '<tr>' + fullCol + makeField('Hairstyle Add-on', hairLbl) + '</td></tr>';
-                    }
-                    if (currentService === 'party') {
-                        const numPeople = document.getElementById('numPeople').value;
-                        dynamicRows += '<tr>' + fullCol + makeField('Number of People', numPeople) + '</td></tr>';
-                    }
-                }
-                templateParams.dynamic_rows = dynamicRows;
+                try {
+                    fetch('/api/send-whatsapp', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ phone: clientPhone, name: clientName, service: serviceLabel, venue: eventVenue || 'TBD', eventDate: eventDate || 'TBD', bookingDate: new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' }), price: priceDisplay.textContent, hair: hairLabel })
+                    }).catch(function(err) { console.warn('WhatsApp failed:', err); });
+                } catch(e) { console.warn('WhatsApp fetch error:', e); }
 
-                const notes = document.getElementById('additionalNotes').value.trim();
-                templateParams.notes_html = notes ? `
-                <div style="background:linear-gradient(135deg,#fdf5e8,#fdf9f4);border-radius:10px;padding:20px 22px;">
-                  <div style="font-size:8px;letter-spacing:3px;text-transform:uppercase;color:#c97b4a;margin-bottom:8px;">Additional Notes</div>
-                  <div style="font-size:13px;color:#5a4a3a;line-height:1.7;">${notes.replace(/\n/g, '<br>')}</div>
-                </div>` : '';
-
-                // ── Populate success panel fields ─────────────────────────
-                document.getElementById('successEmail').textContent = document.getElementById('clientEmail').value.trim();
-                document.getElementById('successPhone').textContent = document.getElementById('clientPhone').value.trim();
-
-                // ── Fire emails & WhatsApp (all non-blocking) ─────────────
-                // 1. Booking notification to ARM
-                emailjs.send('service_qqsqvzn', 'template_45iu0t8', templateParams)
-                    .catch(err => console.warn('ARM notification email failed:', err));
-
-                // 2. Client confirmation email
-                const clientConfirmParams = {
-                    to_email: document.getElementById('clientEmail').value.trim(),
-                    to_name:  document.getElementById('clientName').value.trim(),
-                    service:  serviceLabel,
-                    reply_to: 'ayushiraimua@gmail.com'
-                };
-                emailjs.send('service_qqsqvzn', 'template_tv8h2nl', clientConfirmParams)
-                    .catch(err => console.warn('Client confirmation email failed:', err));
-
-                // 3. WhatsApp via backend
-                const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' };
-                const bookingDate = new Date().toLocaleDateString('en-GB', dateOptions);
-                let hairChoice = 'N/A';
-                if (currentService === 'hairstyle') {
-                    const hairLbl = hairstyleAddonInput.options[hairstyleAddonInput.selectedIndex].text.split(' (')[0];
-                    hairChoice = hairLbl !== 'None' ? hairLbl : 'N/A';
-                } else if (hairstyleAddonInput.value !== 'none') {
-                    hairChoice = hairstyleAddonInput.options[hairstyleAddonInput.selectedIndex].text.split(' (')[0];
-                }
-                fetch(window.BACKEND_URL || '/api/send-whatsapp', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        phone: document.getElementById('clientPhone').value.trim(),
-                        name: document.getElementById('clientName').value.trim(),
-                        service: serviceLabel,
-                        venue: document.getElementById('eventVenue').value.trim() || 'TBD',
-                        eventDate: document.getElementById('eventDate').value || 'TBD',
-                        bookingDate, price: priceDisplay.textContent, hair: hairChoice
-                    })
-                }).catch(err => console.warn('WhatsApp confirmation failed:', err));
-
-                // ── Always show success panel ──────────────────────────────
-                form.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
-                form.style.opacity    = '0';
-                form.style.transform  = 'translateY(-14px)';
-
-                setTimeout(() => {
-                    form.style.display = 'none';
-                    // Show panel - set each property separately so no parsing issues
-                    successPanel.removeAttribute('hidden');
-                    successPanel.style.display    = 'block';
-                    successPanel.style.opacity    = '0';
-                    successPanel.style.transform  = 'translateY(20px)';
-                    successPanel.style.transition = 'none';
-                    successPanel.style.visibility = 'visible';
-                    // Double rAF ensures transition fires after paint
-                    requestAnimationFrame(() => requestAnimationFrame(() => {
-                        successPanel.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
-                        successPanel.style.opacity    = '1';
-                        successPanel.style.transform  = 'translateY(0)';
-                        window.scrollTo({ top: successPanel.getBoundingClientRect().top + window.scrollY - 80, behavior: 'smooth' });
-                    }));
-                }, 400);
+                // Always show the success panel — no matter what
+                showSuccessPanel(clientEmail, clientPhone);
             });
 
             // ── Scroll reveal ─────────────────────────────────────────────
-            const revealObserver = new IntersectionObserver(entries =>
-                entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }),
-                { threshold: 0.08 }
-            );
-            document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+            var revealObs = new IntersectionObserver(function(entries) {
+                entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
+            }, { threshold: 0.08 });
+            document.querySelectorAll('.reveal').forEach(function(el) { revealObs.observe(el); });
 
-            // ── Dark mode ─────────────────────────────────────────────────
-            document.getElementById('darkToggle').addEventListener('click', () => {
+            // ── Dark mode toggle ──────────────────────────────────────────
+            document.getElementById('darkToggle').addEventListener('click', function() {
                 document.documentElement.classList.toggle('dark');
                 localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
             });
 
             // ── Nav shadow on scroll ──────────────────────────────────────
-            const navbar = document.getElementById('navbar');
-            window.addEventListener('scroll', () => {
+            var navbar = document.getElementById('navbar');
+            window.addEventListener('scroll', function() {
                 navbar.classList.toggle('shadow-xl', window.scrollY > 60);
             }, { passive: true });
 
