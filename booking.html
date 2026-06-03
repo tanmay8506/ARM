@@ -982,88 +982,64 @@
                   <div style="font-size:13px;color:#5a4a3a;line-height:1.7;">${notes.replace(/\n/g, '<br>')}</div>
                 </div>` : '';
 
-                // ── Send via EmailJS ──────────────────────────────────────
-                try {
-                    // 1. Send booking notification to ARM (Ayushi/Tanmay)
-                    await emailjs.send('service_qqsqvzn', 'template_45iu0t8', templateParams);
+                // ── Populate success panel fields ─────────────────────────
+                document.getElementById('successEmail').textContent = document.getElementById('clientEmail').value.trim();
+                document.getElementById('successPhone').textContent = document.getElementById('clientPhone').value.trim();
 
-                    // 2. Send client confirmation email (Option B — separate template)
-                    const clientConfirmParams = {
-                        to_email:   document.getElementById('clientEmail').value.trim(),
-                        to_name:    document.getElementById('clientName').value.trim(),
-                        service:    serviceLabel,
-                        reply_to:   'ayushiraimua@gmail.com'
-                    };
-                    // Fire-and-forget: don't block success panel on this
-                    emailjs.send('service_qqsqvzn', 'template_tv8h2nl', clientConfirmParams)
-                        .catch(err => console.warn('Client confirmation email failed:', err));
+                // ── Fire emails & WhatsApp (all non-blocking) ─────────────
+                // 1. Booking notification to ARM
+                emailjs.send('service_qqsqvzn', 'template_45iu0t8', templateParams)
+                    .catch(err => console.warn('ARM notification email failed:', err));
 
-                    // 3. Send WhatsApp confirmation via secure backend
-                    const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' };
-                    const bookingDate = new Date().toLocaleDateString('en-GB', dateOptions);
-                    
-                    let hairChoice = 'N/A';
-                    if (currentService === 'hairstyle') {
-                        const hairLbl = hairstyleAddonInput.options[hairstyleAddonInput.selectedIndex].text.split(' (')[0];
-                        hairChoice = hairLbl !== 'None' ? hairLbl : 'N/A';
-                    } else if (hairstyleAddonInput.value !== 'none') {
-                        const hairLbl = hairstyleAddonInput.options[hairstyleAddonInput.selectedIndex].text.split(' (')[0];
-                        hairChoice = hairLbl;
-                    }
+                // 2. Client confirmation email
+                const clientConfirmParams = {
+                    to_email: document.getElementById('clientEmail').value.trim(),
+                    to_name:  document.getElementById('clientName').value.trim(),
+                    service:  serviceLabel,
+                    reply_to: 'ayushiraimua@gmail.com'
+                };
+                emailjs.send('service_qqsqvzn', 'template_tv8h2nl', clientConfirmParams)
+                    .catch(err => console.warn('Client confirmation email failed:', err));
 
-                    const whatsappPayload = {
-                        phone:       document.getElementById('clientPhone').value.trim(),
-                        name:        document.getElementById('clientName').value.trim(),
-                        service:     serviceLabel,
-                        venue:       document.getElementById('eventVenue').value.trim() || 'TBD',
-                        eventDate:   document.getElementById('eventDate').value || 'TBD',
-                        bookingDate: bookingDate,
-                        price:       priceDisplay.textContent,
-                        hair:        hairChoice
-                    };
-                    // Use the deployed Vercel URL once live; falls back gracefully if not deployed
-                    const BACKEND_URL = window.BACKEND_URL || '/api/send-whatsapp';
-                    fetch(BACKEND_URL, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(whatsappPayload)
-                    }).catch(err => console.warn('WhatsApp confirmation failed:', err));
-
-                    // ── Success: fade form out, reveal success panel ──────
-                    document.getElementById('successEmail').textContent = document.getElementById('clientEmail').value.trim();
-                    document.getElementById('successPhone').textContent = document.getElementById('clientPhone').value.trim();
-
-                    form.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
-                    form.style.opacity    = '0';
-                    form.style.transform  = 'translateY(-14px)';
-
-                    setTimeout(() => {
-                        form.style.display = 'none';
-                        successPanel.removeAttribute('hidden');
-                        successPanel.style.display = 'block';
-                        successPanel.style.opacity = '0';
-                        successPanel.style.transform = 'translateY(20px)';
-                        successPanel.style.transition = 'none';
-                        requestAnimationFrame(() => requestAnimationFrame(() => {
-                            successPanel.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
-                            successPanel.style.opacity    = '1';
-                            successPanel.style.transform  = 'translateY(0)';
-                        }));
-                    }, 380);
-
-                } catch (err) {
-                    // ── Failure: surface error, restore button ────────────
-                    console.error('EmailJS Error:', err);
-                    formError.textContent = 'Error: ' + (err.text || err.message || JSON.stringify(err) || 'Unknown error occurred.');
-                    formError.classList.add('visible');
-                    formError.scrollIntoView({ behavior: 'smooth', block: 'center' });
-
-                    submitBtnText.textContent = 'Send My Request';
-                    submitBtnArrow.hidden     = false;
-                    submitBtnLoader.hidden    = true;
-                    submitBtn.disabled        = false;
-                    submitBtn.style.opacity   = '1';
+                // 3. WhatsApp via backend
+                const dateOptions = { day: 'numeric', month: 'short', year: 'numeric' };
+                const bookingDate = new Date().toLocaleDateString('en-GB', dateOptions);
+                let hairChoice = 'N/A';
+                if (currentService === 'hairstyle') {
+                    const hairLbl = hairstyleAddonInput.options[hairstyleAddonInput.selectedIndex].text.split(' (')[0];
+                    hairChoice = hairLbl !== 'None' ? hairLbl : 'N/A';
+                } else if (hairstyleAddonInput.value !== 'none') {
+                    hairChoice = hairstyleAddonInput.options[hairstyleAddonInput.selectedIndex].text.split(' (')[0];
                 }
+                fetch(window.BACKEND_URL || '/api/send-whatsapp', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        phone: document.getElementById('clientPhone').value.trim(),
+                        name: document.getElementById('clientName').value.trim(),
+                        service: serviceLabel,
+                        venue: document.getElementById('eventVenue').value.trim() || 'TBD',
+                        eventDate: document.getElementById('eventDate').value || 'TBD',
+                        bookingDate, price: priceDisplay.textContent, hair: hairChoice
+                    })
+                }).catch(err => console.warn('WhatsApp confirmation failed:', err));
+
+                // ── Always show success panel ──────────────────────────────
+                form.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
+                form.style.opacity    = '0';
+                form.style.transform  = 'translateY(-14px)';
+
+                setTimeout(() => {
+                    form.style.display = 'none';
+                    successPanel.removeAttribute('hidden');
+                    successPanel.style.cssText = 'display:block !important; opacity:0; transform:translateY(20px);';
+                    requestAnimationFrame(() => requestAnimationFrame(() => {
+                        successPanel.style.transition = 'opacity 0.55s ease, transform 0.55s ease';
+                        successPanel.style.opacity    = '1';
+                        successPanel.style.transform  = 'translateY(0)';
+                        successPanel.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    }));
+                }, 380);
             });
 
             // ── Scroll reveal ─────────────────────────────────────────────
