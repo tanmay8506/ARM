@@ -1958,3 +1958,24 @@ body.menu-open {
         border-radius: 9999px;
     }
 }
+
+/* ── Success Panel ────────────────────────────────────────── */
+.bf-success {
+    text-align: center;
+    padding: 6rem 2rem;
+    background: linear-gradient(to bottom, #fdfbf9, #fff);
+    border: 1px solid rgba(27, 20, 13, 0.05);
+    border-radius: 1rem;
+    max-width: 600px;
+    margin: 0 auto;
+}
+.dark .bf-success {
+    background: linear-gradient(to bottom, #1b140d, #2a221b);
+    border-color: rgba(255, 255, 255, 0.05);
+}
+.bf-success-icon {
+    width: 4rem;
+    height: 4rem;
+    margin: 0 auto 1.5rem;
+    color: #c97b4a; /* Terracotta */
+}
