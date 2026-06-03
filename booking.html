@@ -441,8 +441,8 @@
                     </div>
                     <h2 class="logo-font text-3xl md:text-4xl font-bold mb-4">Request Received</h2>
                     <p class="text-[#5a4a3a] dark:text-[#a08878] mb-10 leading-relaxed max-w-sm mx-auto">
-                        Thank you! Ayushi will review your request and be in touch within 48 hours to confirm your
-                        booking.
+                        Thank you! Ayushi will review your request and be in touch within 48 hours to confirm your booking.<br><br>
+                        We have also sent a confirmation message to <strong id="successEmail" class="text-stone dark:text-white"></strong> and a WhatsApp message to <strong id="successPhone" class="text-stone dark:text-white"></strong>.
                     </p>
                     <a href="portfolio.html" class="case-study-cta" style="font-size:0.8125rem">
                         Explore the Portfolio &nbsp;&rarr;
@@ -1030,6 +1030,9 @@
                     }).catch(err => console.warn('WhatsApp confirmation failed:', err));
 
                     // ── Success: fade form out, reveal success panel ──────
+                    document.getElementById('successEmail').textContent = document.getElementById('clientEmail').value.trim();
+                    document.getElementById('successPhone').textContent = document.getElementById('clientPhone').value.trim();
+
                     form.style.transition = 'opacity 0.35s ease, transform 0.35s ease';
                     form.style.opacity    = '0';
                     form.style.transform  = 'translateY(-14px)';
