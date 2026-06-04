@@ -8,6 +8,27 @@
 @import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Syne:wght@700;800&display=swap');
 
+/* =========================================================
+   EDITORIAL PIP CARDS (Homepage Latest Work)
+   ========================================================= */
+.editorial-pip-card {
+    cursor: pointer;
+    aspect-ratio: 3 / 4;
+}
+.editorial-pip-card.md\:row-span-2 {
+    aspect-ratio: auto;
+}
+@media (min-width: 768px) {
+    .editorial-pip-card { aspect-ratio: auto; min-height: 300px; }
+}
+.editorial-pip-card:hover > img:first-child {
+    transform: scale(1.04);
+}
+.editorial-pip-card > div > img:last-child:hover {
+    transform: scale(1.06);
+}
+
+
 /* --- Reset & Base --- */
 *, *::before, *::after { box-sizing: border-box; margin: 0; }
 html { scroll-behavior: smooth; }
