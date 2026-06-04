@@ -444,7 +444,7 @@
                         Thank you! Ayushi will review your request and be in touch within 48 hours to confirm your booking.
                     </p>
                     <p class="text-sm text-[#5a4a3a] dark:text-[#a08878] mb-10 leading-relaxed max-w-sm mx-auto bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-700/40 rounded-xl px-5 py-4">
-                        We have also sent a confirmation to <strong id="successEmail" class="text-[#c97b4a] font-semibold"></strong> and a WhatsApp message to <strong id="successPhone" class="text-[#c97b4a] font-semibold"></strong>.
+                        We have also sent a confirmation to <strong id="successEmail" class="text-[#c97b4a] font-semibold"></strong>.
                     </p>
                     <a href="portfolio.html" class="case-study-cta" style="font-size:0.8125rem">
                         Explore the Portfolio &nbsp;&rarr;
@@ -714,8 +714,7 @@
                     '<p style="font-size:1rem;color:#5a4a3a;line-height:1.7;max-width:400px;margin:0 auto 1.5rem;">Thank you! Ayushi will review your request and be in touch within 48 hours to confirm your booking.</p>' +
                     '<div style="max-width:400px; margin:0 auto 2.5rem; border-top:1px solid rgba(201,123,74,0.2); padding-top:1.5rem;">' +
                     '<p style="font-size:0.95rem;color:#5a4a3a;line-height:1.8;margin:0;">' +
-                    'Confirmation sent to <strong style="color:#c97b4a;">' + email + '</strong><br>' +
-                    'WhatsApp message sent to <strong style="color:#c97b4a;">' + phone + '</strong>' +
+                    'Confirmation sent to <strong style="color:#c97b4a;">' + email + '</strong>' +
                     '</p></div>' +
                     '<a href="portfolio.html" style="display:inline-block;background:#1b140d;color:#f2a65a;font-family:Syne,sans-serif;font-size:0.8125rem;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;padding:0.875rem 2rem;border-radius:0.75rem;text-decoration:none;">Explore the Portfolio &rarr;</a>' +
                     '</div>';
@@ -752,7 +751,6 @@
 
                 try { emailjs.send('service_qqsqvzn','template_45iu0t8',params).catch(function(e){console.warn(e);}); } catch(e){console.warn(e);}
                 try { emailjs.send('service_qqsqvzn','template_tv8h2nl',{to_email:clientEmail,to_name:clientName,service:serviceLabel,reply_to:'ayushiraimua@gmail.com'}).catch(function(e){console.warn(e);}); } catch(e){console.warn(e);}
-                try { fetch('/api/send-whatsapp',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({phone:clientPhone,name:clientName,service:serviceLabel,venue:eventVenue||'TBD',eventDate:eventDate||'TBD',bookingDate:new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'}),price:priceDisplay.textContent,hair:hairLabel})}).catch(function(e){console.warn(e);}); } catch(e){console.warn(e);}
 
                 // Show success — ALWAYS, no matter what
                 showSuccess(clientEmail, clientPhone);
