@@ -2214,6 +2214,7 @@ body.menu-open {
 /* ── Bento Gallery ── */
 .pf-gallery-section {
   padding: clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,5rem);
+  scroll-margin-top: 128px;
 }
 .pf-bento {
   max-width: 1400px;
@@ -2378,6 +2379,7 @@ body.menu-open {
 .pf-hair-section {
   padding: 0 0 clamp(3rem,6vw,5rem);
   overflow: hidden;
+  scroll-margin-top: 128px;
 }
 .pf-hair-track-wrap {
   max-width: 1400px;
@@ -2445,6 +2447,7 @@ body.menu-open {
 /* ── Glam Grid ── */
 .pf-glam-section {
   padding: 0 clamp(1.5rem,5vw,5rem) clamp(3rem,6vw,5rem);
+  scroll-margin-top: 128px;
 }
 .pf-glam-grid {
   max-width: 1400px;
@@ -2717,18 +2720,17 @@ body.menu-open {
 @media (max-width: 1024px) {
   .pf-bento {
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(7, clamp(220px, 55vw, 360px));
+    grid-template-rows: repeat(5, clamp(220px, 55vw, 360px));
   }
   .pf-card-a1, .pf-card-b1, .pf-card-c2 { grid-column: span 2; }
   .pf-card-a2, .pf-card-b2, .pf-card-b3, .pf-card-c1 { grid-column: span 1; }
   .pf-card-a1 { grid-row: 1; }
   .pf-card-a2 { grid-row: 2; grid-column: 1; }
-  .pf-card-b3-mobile { grid-row: 2; grid-column: 2; }
+  .pf-card-b3 { grid-row: 2; grid-column: 2; }
   .pf-card-b1 { grid-row: 3; }
   .pf-card-b2 { grid-row: 4; grid-column: 1; }
-  .pf-card-b3 { grid-row: 4; grid-column: 2; }
-  .pf-card-c1 { grid-row: 5; grid-column: 1; }
-  .pf-card-c2 { grid-row: 6; }
+  .pf-card-c1 { grid-row: 4; grid-column: 2; }
+  .pf-card-c2 { grid-row: 5; }
 }
 @media (max-width: 640px) {
   .pf-bento {

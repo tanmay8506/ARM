@@ -110,7 +110,7 @@
 <div class="pf-filters" id="pf-filter-bar" aria-label="Portfolio filters">
   <div class="pf-filters-inner" role="tablist">
     <button class="pf-filter-btn active" data-filter="all" role="tab" aria-selected="true">
-      All Work <span class="pf-filter-count">11</span>
+      All Work <span class="pf-filter-count">17</span>
     </button>
     <button class="pf-filter-btn" data-filter="bridal" role="tab" aria-selected="false">
       Bridal <span class="pf-filter-count">7</span>
@@ -514,23 +514,29 @@ document.querySelectorAll('.pf-card').forEach(function(card) {
   var vid = card.querySelector('.pf-card-video');
   if (!vid) return;
 
-  var playPromise = null;
+  var isHovered = false;
 
   card.addEventListener('mouseenter', function() {
-    vid.src = vid.querySelector('source').src; // trigger load on first hover
-    playPromise = vid.play();
-    if (playPromise) {
-      playPromise.then(function() {
-        card.classList.add('video-playing');
-      }).catch(function() {});
+    isHovered = true;
+    if (!vid.src) {
+      var source = vid.querySelector('source');
+      if (source) vid.src = source.src;
     }
+    vid.play().then(function() {
+      if (isHovered) {
+        card.classList.add('video-playing');
+      } else {
+        vid.pause();
+        vid.currentTime = 0;
+      }
+    }).catch(function() {});
   });
 
   card.addEventListener('mouseleave', function() {
+    isHovered = false;
     card.classList.remove('video-playing');
-    if (playPromise) {
-      playPromise.then(function() { vid.pause(); vid.currentTime = 0; }).catch(function() {});
-    }
+    vid.pause();
+    vid.currentTime = 0;
   });
 });
 
@@ -539,19 +545,29 @@ document.querySelectorAll('.pf-glam-card').forEach(function(card) {
   var vid = card.querySelector('video');
   if (!vid) return;
 
-  var pp = null;
+  var isHovered = false;
 
   card.addEventListener('mouseenter', function() {
-    vid.src = vid.querySelector('source').src;
-    pp = vid.play();
-    if (pp) {
-      pp.then(function() { card.classList.add('video-playing'); }).catch(function() {});
+    isHovered = true;
+    if (!vid.src) {
+      var source = vid.querySelector('source');
+      if (source) vid.src = source.src;
     }
+    vid.play().then(function() {
+      if (isHovered) {
+        card.classList.add('video-playing');
+      } else {
+        vid.pause();
+        vid.currentTime = 0;
+      }
+    }).catch(function() {});
   });
 
   card.addEventListener('mouseleave', function() {
+    isHovered = false;
     card.classList.remove('video-playing');
-    if (pp) { pp.then(function() { vid.pause(); vid.currentTime = 0; }).catch(function() {}); }
+    vid.pause();
+    vid.currentTime = 0;
   });
 });
 
@@ -575,7 +591,7 @@ filterBtns.forEach(function(btn) {
     glam.style.display   = (f === 'all' || f === 'glam')   ? '' : 'none';
 
     // scroll to first visible section
-    if (f === 'bridal') { bridal.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    if (f === 'all' || f === 'bridal') { bridal.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     if (f === 'hair')   { hair.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
     if (f === 'glam')   { glam.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   });
@@ -587,7 +603,10 @@ filterBtns.forEach(function(btn) {
   var prev   = document.getElementById('pf-hair-prev');
   var next   = document.getElementById('pf-hair-next');
   if (!track) return;
-  var scrollAmt = function() { return track.querySelector('.pf-hair-card').offsetWidth + 6; };
+  var scrollAmt = function() {
+    var card = track.querySelector('.pf-hair-card');
+    return card ? card.offsetWidth + 6 : 280;
+  };
   prev.addEventListener('click', function() { track.scrollBy({ left: -scrollAmt(), behavior: 'smooth' }); });
   next.addEventListener('click', function() { track.scrollBy({ left:  scrollAmt(), behavior: 'smooth' }); });
 })();
@@ -616,25 +635,31 @@ function buildLbItems(modelId) {
 }
 
 function lbRender(idx) {
+  if (lbItems.length === 0) return;
   lbCurrent = (idx + lbItems.length) % lbItems.length;
   var item = lbItems[lbCurrent];
 
   if (item.type === 'img') {
     lbImg.src = item.src;
+    lbImg.alt = lbTitle.textContent + ' - Image ' + (lbCurrent + 1);
     lbImg.style.display = 'block';
     lbVideo.classList.remove('active');
     lbVideo.pause();
+    lbVideo.removeAttribute('src');
   } else {
-    lbVideo.querySelector('source').src = item.src;
-    lbVideo.load();
+    lbVideo.src = item.src;
     lbVideo.classList.add('active');
     lbImg.style.display = 'none';
     lbVideo.play().catch(function(){});
   }
 
-  // update thumbs
+  // update thumbs & scroll active into view
   lbThumbs.querySelectorAll('[data-lb-idx]').forEach(function(t) {
-    t.classList.toggle('active', parseInt(t.dataset.lbIdx) === lbCurrent);
+    var isActive = parseInt(t.getAttribute('data-lb-idx')) === lbCurrent;
+    t.classList.toggle('active', isActive);
+    if (isActive) {
+      t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'nearest' });
+    }
   });
 
   // show/hide nav
@@ -650,15 +675,15 @@ function buildThumbs() {
       var img = document.createElement('img');
       img.className = 'pf-lb-thumb';
       img.src = item.src;
-      img.alt = '';
-      img.dataset.lbIdx = i;
+      img.alt = lbTitle.textContent + ' - Thumbnail ' + (i + 1);
+      img.setAttribute('data-lb-idx', i);
       img.addEventListener('click', function() { lbRender(i); });
       lbThumbs.appendChild(img);
     } else {
       var btn = document.createElement('button');
       btn.className = 'pf-lb-thumb-video';
       btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:1.25rem">videocam</span>';
-      btn.dataset.lbIdx = i;
+      btn.setAttribute('data-lb-idx', i);
       btn.setAttribute('aria-label', 'View video');
       btn.addEventListener('click', function() { lbRender(i); });
       lbThumbs.appendChild(btn);
@@ -683,7 +708,7 @@ function closeLightbox() {
 
 lb.addEventListener('close', function() {
   lbVideo.pause();
-  lbVideo.querySelector('source').src = '';
+  lbVideo.removeAttribute('src');
   lbVideo.load();
   lbVideo.classList.remove('active');
   lbImg.style.display = 'block';
@@ -718,7 +743,9 @@ lbPrev.addEventListener('click',  function() { lbRender(lbCurrent - 1); });
 lbNext.addEventListener('click',  function() { lbRender(lbCurrent + 1); });
 
 lb.addEventListener('click', function(e) {
-  if (e.target === lb) closeLightbox();
+  if (e.target === lb || e.target.classList.contains('pf-lb-viewer')) {
+    closeLightbox();
+  }
 });
 
 // ── Keyboard nav ──────────────────────────────────────────────────────────
