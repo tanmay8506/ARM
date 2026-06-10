@@ -3,684 +3,730 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Portfolio — ARM Artistry | Bridal, Hair & Glamour Work by Ayushi Rai</title>
+<title>Portfolio — ARM Artistry | Bridal, Hair &amp; Glamour Work by Ayushi Rai</title>
 <meta name="description" content="Browse the full portfolio of ARM Artistry by Ayushi Rai — bridal transformations, hair styling, engagement looks, and party glam captured across every look.">
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&display=swap" rel="stylesheet">
 <link href="styles.css" rel="stylesheet">
 <script>
-    tailwind.config = {
-        darkMode: "class",
-        theme: {
-            extend: {
-                colors: {
-                    "primary":    "#f2a65a",
-                    "terracotta": "#c97b4a",
-                    "sage":       "#8fa68e",
-                    "beige":      "#e8e2d8",
-                    "bone":       "#f5f2ed",
-                    "stone":      "#1c1917",
-                },
-                fontFamily: {
-                    "display":  ["Manrope", "sans-serif"],
-                    "headline": ["Syne", "sans-serif"],
-                },
-            },
+  tailwind.config = {
+    darkMode: "class",
+    theme: {
+      extend: {
+        colors: {
+          "primary":    "#f2a65a",
+          "terracotta": "#c97b4a",
+          "sage":       "#8fa68e",
+          "beige":      "#e8e2d8",
+          "bone":       "#f5f2ed",
+          "stone":      "#1c1917",
         },
-    };
-    if (localStorage.getItem('darkMode') === 'true') {
-        document.documentElement.classList.add('dark');
-    }
+        fontFamily: {
+          "display":  ["Manrope", "sans-serif"],
+          "headline": ["Syne", "sans-serif"],
+        },
+      },
+    },
+  };
+  if (localStorage.getItem('darkMode') === 'true') {
+    document.documentElement.classList.add('dark');
+  }
 </script>
-<style>
-    /* ── Portfolio Page Styles ── */
-    .filter-tab {
-        font-family: 'Syne', sans-serif;
-        font-size: 0.6875rem;
-        font-weight: 700;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        padding: 0.5rem 0;
-        color: #8a7a6a;
-        border-bottom: 2px solid transparent;
-        transition: color 0.25s, border-color 0.25s;
-        background: none;
-        cursor: pointer;
-    }
-    .filter-tab:hover { color: #f2a65a; }
-    .filter-tab.active { color: #1c1917; border-bottom-color: #f2a65a; }
-    .dark .filter-tab.active { color: #f5f2ed; }
 
-    /* ── Masonry columns ── */
-    .portfolio-masonry {
-        columns: 1;
-        column-gap: 1rem;
-    }
-    @media (min-width: 640px)  { .portfolio-masonry { columns: 2; } }
-    @media (min-width: 1024px) { .portfolio-masonry { columns: 3; } }
-
-    .portfolio-item {
-        break-inside: avoid;
-        margin-bottom: 1rem;
-        position: relative;
-        overflow: hidden;
-        background: #1b140d;
-        cursor: pointer;
-        transition: opacity 0.4s ease, transform 0.4s ease;
-    }
-    .portfolio-item img {
-        width: 100%;
-        display: block;
-        transition: transform 0.55s cubic-bezier(0.25,0.46,0.45,0.94);
-    }
-    .portfolio-item:hover img { transform: scale(1.04); }
-
-    /* Gradient overlay + label */
-    .portfolio-item-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to top, rgba(27,20,13,0.75) 0%, transparent 50%);
-        opacity: 0;
-        transition: opacity 0.35s ease;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        padding: 1.25rem;
-        pointer-events: none;
-    }
-    .portfolio-item:hover .portfolio-item-overlay { opacity: 1; }
-
-    /* Category badge on image */
-    .portfolio-badge {
-        position: absolute;
-        top: 0.875rem;
-        left: 0.875rem;
-        font-size: 0.5rem;
-        font-weight: 700;
-        letter-spacing: 0.2em;
-        text-transform: uppercase;
-        color: #f2a65a;
-        background: rgba(27,20,13,0.7);
-        backdrop-filter: blur(4px);
-        padding: 0.25rem 0.6rem;
-        border: 1px solid rgba(242,166,90,0.3);
-    }
-
-    /* Client group separator */
-    .client-group-divider {
-        break-inside: avoid;
-        margin-bottom: 1rem;
-        display: flex;
-        align-items: center;
-        gap: 1rem;
-        padding: 0.5rem 0;
-    }
-
-    /* Hidden portfolio items */
-    .portfolio-item.pf-hidden {
-        opacity: 0;
-        transform: scale(0.96);
-        pointer-events: none;
-        position: absolute;
-        visibility: hidden;
-    }
-
-    /* Lightbox */
-    .lightbox {
-        position: fixed;
-        inset: 0;
-        background: rgba(10, 5, 2, 0.95);
-        z-index: 9999;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 0.3s ease;
-        padding: 1.5rem;
-    }
-    .lightbox.open { opacity: 1; pointer-events: auto; }
-    .lightbox-content {
-        max-width: 90vw;
-        max-height: 88vh;
-        object-fit: contain;
-        border: 1px solid rgba(242,166,90,0.2);
-        box-shadow: 0 32px 80px rgba(0,0,0,0.6);
-    }
-    .lightbox-close {
-        position: absolute;
-        top: 1.25rem;
-        right: 1.25rem;
-        width: 44px; height: 44px;
-        display: flex; align-items: center; justify-content: center;
-        border: 1px solid rgba(255,255,255,0.2);
-        border-radius: 50%;
-        background: rgba(255,255,255,0.07);
-        color: #f5f2ed;
-        cursor: pointer;
-        transition: background 0.2s;
-    }
-    .lightbox-close:hover { background: rgba(242,166,90,0.2); }
-    .lightbox-nav {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 48px; height: 48px;
-        display: flex; align-items: center; justify-content: center;
-        border: 1px solid rgba(255,255,255,0.2);
-        border-radius: 50%;
-        background: rgba(255,255,255,0.07);
-        color: #f5f2ed;
-        cursor: pointer;
-        transition: background 0.2s;
-        font-size: 1.5rem;
-    }
-    .lightbox-nav:hover { background: rgba(242,166,90,0.2); }
-    .lightbox-prev { left: 1.25rem; }
-    .lightbox-next { right: 1.25rem; }
-
-    /* Hero banner */
-    .portfolio-hero {
-        position: relative;
-        min-height: 60vh;
-        display: flex;
-        align-items: flex-end;
-        overflow: hidden;
-    }
-    .portfolio-hero-bg {
-        position: absolute;
-        inset: 0;
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 2px;
-    }
-    .portfolio-hero-bg img {
-        width: 100%; height: 100%;
-        object-fit: cover;
-        object-position: center top;
-        filter: brightness(0.55);
-    }
-    .portfolio-hero-overlay {
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(to top, rgba(27,20,13,0.85) 0%, rgba(27,20,13,0.3) 60%, transparent 100%);
-    }
-</style>
 </head>
 <body class="bg-bone dark:bg-stone text-stone dark:text-[#f5f2ed] font-display page-enter">
 
 <!-- ═══════════════════════ MOBILE NAV DRAWER ═══════════════════════ -->
 <div id="mobileMenu" role="dialog" aria-modal="true" aria-label="Navigation menu" aria-hidden="true">
-    <div class="mob-backdrop" onclick="closeMobileMenu()" aria-hidden="true"></div>
-    <div class="mob-drawer">
-        <div class="mob-drawer-header">
-            <a href="index.html" class="mob-drawer-brand" onclick="closeMobileMenu()">ARM <span>Artistry</span></a>
-            <button class="mob-close-btn" onclick="closeMobileMenu()" aria-label="Close navigation menu">
-                <span class="material-symbols-outlined" style="font-size:1.375rem">close</span>
-            </button>
-        </div>
-        <nav class="mob-nav" aria-label="Mobile navigation">
-            <a href="index.html" class="mob-nav-link" onclick="closeMobileMenu()">Home</a>
-            <a href="portfolio.html" class="mob-nav-link active" onclick="closeMobileMenu()">Portfolio</a>
-            <a href="service.html" class="mob-nav-link" onclick="closeMobileMenu()">Services</a>
-        </nav>
-        <div class="mob-drawer-footer">
-            <a href="booking.html" class="mob-book-cta" onclick="closeMobileMenu()">Book Now &rarr;</a>
-        </div>
+  <div class="mob-backdrop" onclick="closeMobileMenu()" aria-hidden="true"></div>
+  <div class="mob-drawer">
+    <div class="mob-drawer-header">
+      <a href="index.html" class="mob-drawer-brand" onclick="closeMobileMenu()">ARM <span>Artistry</span></a>
+      <button class="mob-close-btn" onclick="closeMobileMenu()" aria-label="Close navigation menu">
+        <span class="material-symbols-outlined" style="font-size:1.375rem">close</span>
+      </button>
     </div>
+    <nav class="mob-nav" aria-label="Mobile navigation">
+      <a href="index.html" class="mob-nav-link" onclick="closeMobileMenu()">Home</a>
+      <a href="portfolio.html" class="mob-nav-link active" onclick="closeMobileMenu()">Portfolio</a>
+      <a href="service.html" class="mob-nav-link" onclick="closeMobileMenu()">Services</a>
+    </nav>
+    <div class="mob-drawer-footer">
+      <a href="booking.html" class="mob-book-cta" onclick="closeMobileMenu()">Book Now &rarr;</a>
+    </div>
+  </div>
 </div>
 
 <!-- ═══════════════════════ HEADER ═══════════════════════ -->
 <header id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-bone/90 dark:bg-stone/90 backdrop-blur-md border-b border-stone/5 dark:border-white/5 transition-all duration-300">
-    <div class="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 py-4 flex items-center justify-between">
-        <a href="index.html" class="flex items-center gap-3" aria-label="ARM Artistry — Home">
-            <div class="w-5 h-5 text-primary">
-                <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
-                </svg>
-            </div>
-            <span class="font-headline text-xl font-bold text-stone dark:text-white tracking-tight">ARM</span>
-        </a>
-        <nav class="hidden md:flex items-center gap-10" aria-label="Primary navigation">
-            <a href="index.html" class="nav-link text-stone dark:text-white">Home</a>
-            <a href="portfolio.html" class="nav-link active text-stone dark:text-white">Portfolio</a>
-            <a href="service.html" class="nav-link text-stone dark:text-white">Services</a>
-        </nav>
-        <div class="flex items-center gap-4">
-            <button id="darkToggle" aria-label="Toggle dark mode" class="w-9 h-9 rounded-full border border-stone/15 dark:border-white/15 flex items-center justify-center text-stone dark:text-white hover:bg-stone/5 dark:hover:bg-white/10 transition-colors">
-                <span class="material-symbols-outlined" style="font-size:1.1rem">dark_mode</span>
-            </button>
-            <a href="booking.html" class="header-book-btn hidden md:block">Book Now</a>
-            <button class="flex items-center justify-center md:hidden text-stone dark:text-white p-1" onclick="openMobileMenu()" aria-label="Open navigation menu" style="min-width:44px;min-height:44px;">
-                <span class="material-symbols-outlined" style="font-size:1.75rem">menu</span>
-            </button>
-        </div>
+  <div class="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 py-4 flex items-center justify-between">
+    <a href="index.html" class="flex items-center gap-3" aria-label="ARM Artistry — Home">
+      <div class="w-5 h-5 text-primary">
+        <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+          <path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+        </svg>
+      </div>
+      <span class="font-headline text-xl font-bold text-stone dark:text-white tracking-tight">ARM</span>
+    </a>
+    <nav class="hidden md:flex items-center gap-10" aria-label="Primary navigation">
+      <a href="index.html" class="nav-link text-stone dark:text-white">Home</a>
+      <a href="portfolio.html" class="nav-link active text-stone dark:text-white">Portfolio</a>
+      <a href="service.html" class="nav-link text-stone dark:text-white">Services</a>
+    </nav>
+    <div class="flex items-center gap-4">
+      <button id="darkToggle" aria-label="Toggle dark mode" class="w-9 h-9 rounded-full border border-stone/15 dark:border-white/15 flex items-center justify-center text-stone dark:text-white hover:bg-stone/5 dark:hover:bg-white/10 transition-colors">
+        <span class="material-symbols-outlined" style="font-size:1.1rem">dark_mode</span>
+      </button>
+      <a href="booking.html" class="header-book-btn hidden md:block">Book Now</a>
+      <button class="flex items-center justify-center md:hidden text-stone dark:text-white p-1" onclick="openMobileMenu()" aria-label="Open navigation menu" style="min-width:44px;min-height:44px;">
+        <span class="material-symbols-outlined" style="font-size:1.75rem">menu</span>
+      </button>
     </div>
+  </div>
 </header>
 
-<!-- ═══════════════════════ PORTFOLIO HERO BANNER ═══════════════════════ -->
-<section class="portfolio-hero pt-20" aria-label="Portfolio hero">
-    <!-- 4-panel mosaic background -->
-    <div class="portfolio-hero-bg">
-        <img src="assets/images/bridal-glam-portrait.jpg"    alt="" loading="eager">
-        <img src="assets/images/bridal-blue-lehenga-look.jpg" alt="" loading="eager">
-        <img src="assets/images/hair-updo-flowers.jpg"        alt="" loading="lazy">
-        <img src="assets/images/bridal-pink-saree-look.jpg"   alt="" loading="lazy">
-    </div>
-    <div class="portfolio-hero-overlay" aria-hidden="true"></div>
-    <!-- Text over the mosaic -->
-    <div class="relative z-10 px-6 md:px-12 lg:px-20 pb-16 md:pb-24 max-w-[1400px] mx-auto w-full">
-        <span class="block text-[0.625rem] font-bold tracking-[0.35em] uppercase text-primary mb-4">Our Work</span>
-        <h1 class="font-headline font-light uppercase leading-[0.95] text-white" style="font-size:clamp(3rem,8vw,7rem);letter-spacing:0.03em;">
-            The <span class="font-bold text-primary">Portfolio</span>
-        </h1>
-        <p class="text-white/60 text-sm mt-4 max-w-md leading-relaxed">Bridal transformations, editorial hair, and glamour looks — every face tells a story.</p>
-    </div>
+<!-- ═══════════════════════ HERO ═══════════════════════ -->
+<section class="pf-hero" aria-label="Portfolio hero">
+  <video class="pf-hero-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
+    <source src="ASSETS/model6.mp4" type="video/mp4">
+  </video>
+  <div class="pf-hero-scrim" aria-hidden="true"></div>
+  <div class="pf-hero-content">
+    <span class="pf-hero-label">ARM Artistry</span>
+    <h1 class="pf-hero-h1">The <span>Work</span></h1>
+    <p class="pf-hero-sub">Bridal transformations, editorial hair, and glamour — every face a story.</p>
+    <a href="#gallery" class="pf-hero-cta" id="pf-hero-cta-btn">
+      View Portfolio
+      <span class="material-symbols-outlined" style="font-size:1rem">arrow_downward</span>
+    </a>
+  </div>
+  <div class="pf-hero-scroll-icon" aria-hidden="true">
+    <span class="material-symbols-outlined" style="font-size:1.75rem">keyboard_arrow_down</span>
+  </div>
 </section>
 
-<!-- ═══════════════════════ FILTERS ═══════════════════════ -->
-<section class="py-8 px-6 md:px-12 lg:px-20 border-b border-stone/10 dark:border-white/10" aria-label="Portfolio filters">
-    <div class="max-w-[1400px] mx-auto flex flex-wrap gap-8 md:gap-12" id="filter-container" role="tablist">
-        <button class="filter-tab active" data-filter="all"      role="tab" aria-selected="true">All Work</button>
-        <button class="filter-tab"        data-filter="bridal"   role="tab" aria-selected="false">Bridal</button>
-        <button class="filter-tab"        data-filter="hair"     role="tab" aria-selected="false">Hair Styling</button>
-        <button class="filter-tab"        data-filter="glam"     role="tab" aria-selected="false">Glam &amp; Party</button>
-    </div>
-</section>
-
-<!-- ═══════════════════════ MASONRY GALLERY ═══════════════════════ -->
-<section class="py-14 md:py-20 px-6 md:px-12 lg:px-20" aria-label="Portfolio gallery">
-    <div class="max-w-[1400px] mx-auto">
-        <div class="portfolio-masonry" id="gallery">
-
-            <!-- ─── CLIENT GROUP 1: Blue Lehenga Bride ─── -->
-            <!-- Item 1 -->
-            <div class="portfolio-item reveal" data-category="bridal" data-src="assets/images/bridal-blue-lehenga-look.jpg" data-label="Bridal Artistry — Full Look">
-                <img src="assets/images/bridal-blue-lehenga-look.jpg" alt="Bride in blue lehenga — full bridal look by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Bridal</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Bridal Artistry</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Blue Lehenga Bride</span>
-                </div>
-            </div>
-
-            <!-- Item 2 -->
-            <div class="portfolio-item reveal delay-1" data-category="bridal" data-src="assets/images/bridal-closeup-jewellery.jpg" data-label="Bridal Closeup — Jewellery Detail">
-                <img src="assets/images/bridal-closeup-jewellery.jpg" alt="Bridal makeup closeup with jewellery by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Bridal</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Bridal Detail</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Jewellery Closeup</span>
-                </div>
-            </div>
-
-            <!-- ─── CLIENT GROUP 2: Portrait & Face ─── -->
-            <!-- Item 3 -->
-            <div class="portfolio-item reveal delay-2" data-category="bridal" data-src="assets/images/bridal-glam-portrait.jpg" data-label="Bridal Glam Portrait">
-                <img src="assets/images/bridal-glam-portrait.jpg" alt="Bridal glam portrait by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Bridal</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Bridal Artistry</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Glam Portrait</span>
-                </div>
-            </div>
-
-            <!-- Item 4 -->
-            <div class="portfolio-item reveal" data-category="bridal" data-src="assets/images/bridal-lehenga-portrait.jpg" data-label="Bridal Lehenga Portrait">
-                <img src="assets/images/bridal-lehenga-portrait.jpg" alt="Bride in gold lehenga portrait by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Bridal</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Bridal Look</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Lehenga Portrait</span>
-                </div>
-            </div>
-
-            <!-- Item 5 -->
-            <div class="portfolio-item reveal delay-1" data-category="bridal" data-src="assets/images/bridal-side-profile.jpg" data-label="Bridal Side Profile">
-                <img src="assets/images/bridal-side-profile.jpg" alt="Bride side profile makeup and jewellery by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Bridal</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Bridal Artistry</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Side Profile</span>
-                </div>
-            </div>
-
-            <!-- Item 6 -->
-            <div class="portfolio-item reveal delay-2" data-category="bridal" data-src="assets/images/bridal-makeup-closeup.jpg" data-label="Bridal Makeup Closeup">
-                <img src="assets/images/bridal-makeup-closeup.jpg" alt="Bridal makeup detail closeup by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Bridal</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Makeup Detail</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Bridal Closeup</span>
-                </div>
-            </div>
-
-            <!-- ─── CLIENT GROUP 3: Pink Lehenga ─── -->
-            <!-- Item 7 -->
-            <div class="portfolio-item reveal" data-category="bridal" data-src="assets/images/bridal-pink-lehenga.jpg" data-label="Bridal Pink Lehenga Look">
-                <img src="assets/images/bridal-pink-lehenga.jpg" alt="Bride in pink lehenga by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Bridal</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Bridal Look</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Pink Lehenga</span>
-                </div>
-            </div>
-
-            <!-- Item 8 -->
-            <div class="portfolio-item reveal delay-1" data-category="bridal" data-src="assets/images/bridal-gold-lehenga.jpg" data-label="Gold Lehenga Bridal">
-                <img src="assets/images/bridal-gold-lehenga.jpg" alt="Bride in gold lehenga by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Bridal</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Bridal Look</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Gold Lehenga</span>
-                </div>
-            </div>
-
-            <!-- ─── CLIENT GROUP 4: Hair Styling Series ─── -->
-            <!-- Item 9 -->
-            <div class="portfolio-item reveal delay-2" data-category="hair" data-src="assets/images/hair-updo-flowers.jpg" data-label="Hair Styling — Floral Updo">
-                <img src="assets/images/hair-updo-flowers.jpg" alt="Bridal hair updo with flowers by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Hair</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Hair Styling</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Floral Updo</span>
-                </div>
-            </div>
-
-            <!-- Item 10 -->
-            <div class="portfolio-item reveal" data-category="hair" data-src="assets/images/hair-styling-floral.jpg" data-label="Floral Hair Styling">
-                <img src="assets/images/hair-styling-floral.jpg" alt="Floral hair styling by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Hair</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Hair Styling</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Floral Arrangement</span>
-                </div>
-            </div>
-
-            <!-- Item 11 -->
-            <div class="portfolio-item reveal delay-1" data-category="hair" data-src="assets/images/bridal-hair-braid.jpg" data-label="Bridal Hair Braid">
-                <img src="assets/images/bridal-hair-braid.jpg" alt="Bridal hair braid styling by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Hair</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Hair Styling</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Bridal Braid</span>
-                </div>
-            </div>
-
-            <!-- Item 12 -->
-            <div class="portfolio-item reveal delay-2" data-category="hair" data-src="assets/images/hair-accessory-detail.jpg" data-label="Hair Accessory Detail">
-                <img src="assets/images/hair-accessory-detail.jpg" alt="Hair accessory styling detail by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Hair</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Hair Detail</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Accessory Work</span>
-                </div>
-            </div>
-
-            <!-- Item 13 -->
-            <div class="portfolio-item reveal" data-category="hair" data-src="assets/images/hair-gajra-detail.jpg" data-label="Gajra Hair Detail">
-                <img src="assets/images/hair-gajra-detail.jpg" alt="Gajra hair styling detail by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Hair</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Hair Styling</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Gajra Detail</span>
-                </div>
-            </div>
-
-            <!-- Item 14 -->
-            <div class="portfolio-item reveal delay-1" data-category="hair" data-src="assets/images/hair-voluminous-styling.jpg" data-label="Voluminous Hair Styling">
-                <img src="assets/images/hair-voluminous-styling.jpg" alt="Voluminous hair styling by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Hair</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Hair Styling</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Voluminous Style</span>
-                </div>
-            </div>
-
-            <!-- ─── CLIENT GROUP 5: BTS & Process ─── -->
-            <!-- Item 15 -->
-            <div class="portfolio-item reveal delay-2" data-category="glam" data-src="assets/images/makeup-artist-at-work.jpg" data-label="Artist at Work">
-                <img src="assets/images/makeup-artist-at-work.jpg" alt="Ayushi Rai working on a bridal client — ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Glam</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Glam Artistry</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Artist at Work</span>
-                </div>
-            </div>
-
-            <!-- Item 16 -->
-            <div class="portfolio-item reveal" data-category="bridal" data-src="assets/images/bridal-prep-closeup.jpg" data-label="Bridal Prep Closeup">
-                <img src="assets/images/bridal-prep-closeup.jpg" alt="Bridal preparation closeup by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Bridal</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Bridal Artistry</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Bridal Prep</span>
-                </div>
-            </div>
-
-            <!-- ─── CLIENT GROUP 6: Reception & Full Looks ─── -->
-            <!-- Item 17 -->
-            <div class="portfolio-item reveal delay-1" data-category="glam" data-src="assets/images/bride-draping-portrait.jpg" data-label="Bride Draping Portrait">
-                <img src="assets/images/bride-draping-portrait.jpg" alt="Bride draping portrait look by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Glam</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Bridal Glam</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Draping Look</span>
-                </div>
-            </div>
-
-            <!-- Item 18 -->
-            <div class="portfolio-item reveal delay-2" data-category="glam" data-src="assets/images/party-glam-black-outfit.jpg" data-label="Party Glam — Black Outfit">
-                <img src="assets/images/party-glam-black-outfit.jpg" alt="Party glam look in black outfit by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Party</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Party Glam</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Sultry Evening Look</span>
-                </div>
-            </div>
-
-            <!-- Item 19 -->
-            <div class="portfolio-item reveal" data-category="bridal" data-src="assets/images/bridal-pink-saree-look.jpg" data-label="Bridal Pink Saree Look">
-                <img src="assets/images/bridal-pink-saree-look.jpg" alt="Bride in pink saree by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Bridal</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Bridal Look</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Pink Saree</span>
-                </div>
-            </div>
-
-            <!-- Item 20 -->
-            <div class="portfolio-item reveal delay-1" data-category="bridal" data-src="assets/images/bridal-headpiece-portrait.jpg" data-label="Bridal Headpiece Portrait">
-                <img src="assets/images/bridal-headpiece-portrait.jpg" alt="Bridal headpiece portrait by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Bridal</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Bridal Artistry</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Headpiece Look</span>
-                </div>
-            </div>
-
-            <!-- Item 21 -->
-            <div class="portfolio-item reveal delay-2" data-category="bridal" data-src="assets/images/bridal-reception-look.jpg" data-label="Bridal Reception Look">
-                <img src="assets/images/bridal-reception-look.jpg" alt="Bridal reception look by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Bridal</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Reception Look</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Evening Glam</span>
-                </div>
-            </div>
-
-            <!-- Item 22 -->
-            <div class="portfolio-item reveal" data-category="bridal" data-src="assets/images/bridal-nath-closeup.jpg" data-label="Bridal Nath Closeup">
-                <img src="assets/images/bridal-nath-closeup.jpg" alt="Bridal nath nose ring closeup by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Bridal</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Bridal Detail</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Nath Closeup</span>
-                </div>
-            </div>
-
-            <!-- Item 23 -->
-            <div class="portfolio-item reveal delay-1" data-category="glam" data-src="assets/images/engagement-makeup-look.jpg" data-label="Engagement Glam Look">
-                <img src="assets/images/engagement-makeup-look.jpg" alt="Engagement glam makeup look by ARM Artistry" loading="lazy">
-                <span class="portfolio-badge">Glam</span>
-                <div class="portfolio-item-overlay">
-                    <span style="font-size:0.5rem;font-weight:700;letter-spacing:0.2em;text-transform:uppercase;color:#f2a65a;">Engagement</span>
-                    <span style="font-family:'Syne',sans-serif;font-size:0.875rem;font-weight:700;color:#f5f2ed;margin-top:0.2rem;">Radiant Glam</span>
-                </div>
-            </div>
-
-        </div><!-- /gallery -->
-
-        <!-- Book CTA below gallery -->
-        <div class="mt-20 text-center reveal">
-            <p class="text-sm mb-6" style="color:#8a7a6a;">Love what you see? Let's create your story.</p>
-            <a href="booking.html" class="inline-flex items-center justify-center bg-stone dark:bg-primary text-white dark:text-stone px-10 py-4 text-[0.6875rem] font-bold tracking-[0.2em] uppercase transition-all hover:bg-primary hover:text-stone" style="min-height:48px;">
-                Book Your Look &ensp;&rarr;
-            </a>
-        </div>
-    </div>
-</section>
-
-<!-- ═══════════════════════ LIGHTBOX ═══════════════════════ -->
-<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Image viewer">
-    <button class="lightbox-close" id="lightbox-close" aria-label="Close image">
-        <span class="material-symbols-outlined">close</span>
+<!-- ═══════════════════════ FILTER BAR ═══════════════════════ -->
+<div class="pf-filters" id="pf-filter-bar" aria-label="Portfolio filters">
+  <div class="pf-filters-inner" role="tablist">
+    <button class="pf-filter-btn active" data-filter="all" role="tab" aria-selected="true">
+      All Work <span class="pf-filter-count">11</span>
     </button>
-    <button class="lightbox-nav lightbox-prev" id="lightbox-prev" aria-label="Previous image">&#8592;</button>
-    <img src="" alt="" id="lightbox-img" class="lightbox-content">
-    <button class="lightbox-nav lightbox-next" id="lightbox-next" aria-label="Next image">&#8594;</button>
+    <button class="pf-filter-btn" data-filter="bridal" role="tab" aria-selected="false">
+      Bridal <span class="pf-filter-count">7</span>
+    </button>
+    <button class="pf-filter-btn" data-filter="hair" role="tab" aria-selected="false">
+      Hair <span class="pf-filter-count">6</span>
+    </button>
+    <button class="pf-filter-btn" data-filter="glam" role="tab" aria-selected="false">
+      Glam &amp; Party <span class="pf-filter-count">4</span>
+    </button>
+  </div>
 </div>
+
+<!-- ═══════════════════════ BRIDAL BENTO GALLERY ═══════════════════════ -->
+<section class="pf-gallery-section" id="gallery" data-filter-group="bridal" aria-label="Bridal gallery">
+  <div class="pf-section-head pf-reveal">
+    <h2 class="pf-section-h2">Bridal</h2>
+    <div class="pf-section-rule"></div>
+  </div>
+
+  <div class="pf-bento" id="pf-bento-grid">
+
+    <!-- ═ ROW A ═ -->
+    <!-- Card A1: Model 6 — widest, hero card -->
+    <div class="pf-card pf-card-a1 pf-reveal" style="--i:0"
+         data-category="bridal" data-model-id="model6"
+         role="button" tabindex="0" aria-label="Bridal Look 01 — open gallery">
+      <img class="pf-card-img" src="ASSETS/model6_1.png" alt="Bridal Look 01 by ARM Artistry" loading="eager">
+      <video class="pf-card-video" muted loop playsinline preload="none" aria-hidden="true">
+        <source src="ASSETS/model6.mp4" type="video/mp4">
+      </video>
+      <div class="pf-card-overlay">
+        <span class="pf-card-cat">Bridal</span>
+        <span class="pf-card-title">Look 01</span>
+      </div>
+    </div>
+
+    <!-- Card A2: Model 4 -->
+    <div class="pf-card pf-card-a2 pf-reveal" style="--i:1"
+         data-category="bridal" data-model-id="model4"
+         role="button" tabindex="0" aria-label="Bridal Look 02 — open gallery">
+      <img class="pf-card-img" src="ASSETS/model4_1.jpeg" alt="Bridal Look 02 by ARM Artistry" loading="lazy">
+      <div class="pf-card-overlay">
+        <span class="pf-card-cat">Bridal</span>
+        <span class="pf-card-title">Look 02</span>
+      </div>
+    </div>
+
+    <!-- ═ ROW B ═ -->
+    <!-- Card B1: Model 1 — wide, has video -->
+    <div class="pf-card pf-card-b1 pf-reveal" style="--i:2"
+         data-category="bridal" data-model-id="model1"
+         role="button" tabindex="0" aria-label="Bridal Look 03 — open gallery">
+      <img class="pf-card-img" src="ASSETS/model1_1.jpeg" alt="Bridal Look 03 by ARM Artistry" loading="lazy">
+      <video class="pf-card-video" muted loop playsinline preload="none" aria-hidden="true">
+        <source src="ASSETS/model1.mp4" type="video/mp4">
+      </video>
+      <div class="pf-card-overlay">
+        <span class="pf-card-cat">Bridal</span>
+        <span class="pf-card-title">Look 03</span>
+      </div>
+    </div>
+
+    <!-- Card B2: Model 5 -->
+    <div class="pf-card pf-card-b2 pf-reveal" style="--i:3"
+         data-category="bridal" data-model-id="model5"
+         role="button" tabindex="0" aria-label="Bridal Look 04 — open gallery">
+      <img class="pf-card-img" src="ASSETS/model5_1.jpeg" alt="Bridal Look 04 by ARM Artistry" loading="lazy">
+      <video class="pf-card-video" muted loop playsinline preload="none" aria-hidden="true">
+        <source src="ASSETS/model5.mp4" type="video/mp4">
+      </video>
+      <div class="pf-card-overlay">
+        <span class="pf-card-cat">Bridal</span>
+        <span class="pf-card-title">Look 04</span>
+      </div>
+    </div>
+
+    <!-- Card B3: Model 3 -->
+    <div class="pf-card pf-card-b3 pf-reveal" style="--i:4"
+         data-category="bridal" data-model-id="model3"
+         role="button" tabindex="0" aria-label="Bridal Look 05 — open gallery">
+      <img class="pf-card-img" src="ASSETS/model3_1.jpeg" alt="Bridal Look 05 by ARM Artistry" loading="lazy">
+      <video class="pf-card-video" muted loop playsinline preload="none" aria-hidden="true">
+        <source src="ASSETS/model3.mp4" type="video/mp4">
+      </video>
+      <div class="pf-card-overlay">
+        <span class="pf-card-cat">Bridal</span>
+        <span class="pf-card-title">Look 05</span>
+      </div>
+    </div>
+
+    <!-- ═ ROW C ═ -->
+    <!-- Card C1: Model 2 -->
+    <div class="pf-card pf-card-c1 pf-reveal" style="--i:5"
+         data-category="bridal" data-model-id="model2"
+         role="button" tabindex="0" aria-label="Bridal Look 06 — open gallery">
+      <img class="pf-card-img" src="ASSETS/model2_1.jpeg" alt="Bridal Look 06 by ARM Artistry" loading="lazy">
+      <video class="pf-card-video" muted loop playsinline preload="none" aria-hidden="true">
+        <source src="ASSETS/model2.mp4" type="video/mp4">
+      </video>
+      <div class="pf-card-overlay">
+        <span class="pf-card-cat">Bridal</span>
+        <span class="pf-card-title">Look 06</span>
+      </div>
+    </div>
+
+    <!-- Card C2: Model 7 — editorial closer, widest in row -->
+    <div class="pf-card pf-card-c2 pf-reveal" style="--i:6"
+         data-category="bridal" data-model-id="model7"
+         role="button" tabindex="0" aria-label="Bridal Look 07 — open gallery">
+      <img class="pf-card-img" src="ASSETS/model7_1.png" alt="Bridal Look 07 by ARM Artistry" loading="lazy">
+      <div class="pf-card-overlay">
+        <span class="pf-card-cat">Bridal</span>
+        <span class="pf-card-title">Look 07</span>
+      </div>
+    </div>
+
+  </div><!-- /pf-bento -->
+</section>
+
+<!-- ═══════════════════════ HAIR STYLING STRIP ═══════════════════════ -->
+<section class="pf-hair-section" id="pf-hair-section" data-filter-group="hair" aria-label="Hair styling gallery">
+  <div class="pf-section-head pf-reveal">
+    <h2 class="pf-section-h2">Hair Styling</h2>
+    <div class="pf-section-rule"></div>
+  </div>
+  <div class="pf-hair-track-wrap">
+    <div class="pf-hair-track" id="pf-hair-track">
+      <div class="pf-hair-card pf-reveal" style="--i:0" data-model-id="hair" data-hair-idx="0" role="button" tabindex="0" aria-label="Hair Look 01">
+        <img src="ASSETS/hair/hair2.jpeg" alt="Hair styling by ARM Artistry" loading="lazy">
+      </div>
+      <div class="pf-hair-card pf-reveal" style="--i:1" data-model-id="hair" data-hair-idx="1" role="button" tabindex="0" aria-label="Hair Look 02">
+        <img src="ASSETS/hair/hair3.jpeg" alt="Hair styling by ARM Artistry" loading="lazy">
+      </div>
+      <div class="pf-hair-card pf-reveal" style="--i:2" data-model-id="hair" data-hair-idx="2" role="button" tabindex="0" aria-label="Hair Look 03">
+        <img src="ASSETS/hair/hair4.jpeg" alt="Hair styling by ARM Artistry" loading="lazy">
+      </div>
+      <div class="pf-hair-card pf-reveal" style="--i:3" data-model-id="hair" data-hair-idx="3" role="button" tabindex="0" aria-label="Hair Look 04">
+        <img src="ASSETS/hair/hair5.jpeg" alt="Hair styling by ARM Artistry" loading="lazy">
+      </div>
+      <div class="pf-hair-card pf-reveal" style="--i:4" data-model-id="hair" data-hair-idx="4" role="button" tabindex="0" aria-label="Hair Look 05">
+        <img src="ASSETS/hair/hair1.jpeg" alt="Hair styling by ARM Artistry" loading="lazy">
+      </div>
+      <div class="pf-hair-card pf-reveal" style="--i:5" data-model-id="hair" data-hair-idx="5" role="button" tabindex="0" aria-label="Hair Look 06">
+        <img src="ASSETS/hair/hair6.jpeg" alt="Hair styling by ARM Artistry" loading="lazy">
+      </div>
+    </div>
+    <div class="pf-hair-nav">
+      <button class="pf-hair-nav-btn" id="pf-hair-prev" aria-label="Previous hair look">
+        <span class="material-symbols-outlined" style="font-size:1.1rem">chevron_left</span>
+      </button>
+      <button class="pf-hair-nav-btn" id="pf-hair-next" aria-label="Next hair look">
+        <span class="material-symbols-outlined" style="font-size:1.1rem">chevron_right</span>
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════ GLAM & PARTY VIDEO GRID ═══════════════════════ -->
+<section class="pf-glam-section" id="pf-glam-section" data-filter-group="glam" aria-label="Glam and party gallery">
+  <div class="pf-section-head pf-reveal">
+    <h2 class="pf-section-h2">Glam &amp; Party</h2>
+    <div class="pf-section-rule"></div>
+  </div>
+  <div class="pf-glam-grid" style="max-width:1400px;margin:0 auto;">
+
+    <!-- Model 11 -->
+    <div class="pf-glam-card pf-reveal" style="--i:0"
+         data-category="glam" data-model-id="model11"
+         role="button" tabindex="0" aria-label="Glam Look 01 — open video">
+      <div class="pf-glam-card-bg"></div>
+      <video muted loop playsinline preload="none" aria-hidden="true">
+        <source src="ASSETS/model11.mp4" type="video/mp4">
+      </video>
+      <div class="pf-card-play">
+        <div class="pf-play-icon">
+          <span class="material-symbols-outlined" style="font-size:1.75rem">play_arrow</span>
+        </div>
+        <span class="pf-play-label">Look 01</span>
+      </div>
+      <div class="pf-card-overlay">
+        <span class="pf-card-cat">Glam</span>
+        <span class="pf-card-title">Look 01</span>
+      </div>
+    </div>
+
+    <!-- Model 8 -->
+    <div class="pf-glam-card pf-reveal" style="--i:1"
+         data-category="glam" data-model-id="model8"
+         role="button" tabindex="0" aria-label="Glam Look 02 — open video">
+      <div class="pf-glam-card-bg"></div>
+      <video muted loop playsinline preload="none" aria-hidden="true">
+        <source src="ASSETS/model8.mp4" type="video/mp4">
+      </video>
+      <div class="pf-card-play">
+        <div class="pf-play-icon">
+          <span class="material-symbols-outlined" style="font-size:1.75rem">play_arrow</span>
+        </div>
+        <span class="pf-play-label">Look 02</span>
+      </div>
+      <div class="pf-card-overlay">
+        <span class="pf-card-cat">Glam</span>
+        <span class="pf-card-title">Look 02</span>
+      </div>
+    </div>
+
+    <!-- Model 10 -->
+    <div class="pf-glam-card pf-reveal" style="--i:2"
+         data-category="glam" data-model-id="model10"
+         role="button" tabindex="0" aria-label="Glam Look 03 — open video">
+      <div class="pf-glam-card-bg"></div>
+      <video muted loop playsinline preload="none" aria-hidden="true">
+        <source src="ASSETS/model10.mp4" type="video/mp4">
+      </video>
+      <div class="pf-card-play">
+        <div class="pf-play-icon">
+          <span class="material-symbols-outlined" style="font-size:1.75rem">play_arrow</span>
+        </div>
+        <span class="pf-play-label">Look 03</span>
+      </div>
+      <div class="pf-card-overlay">
+        <span class="pf-card-cat">Glam</span>
+        <span class="pf-card-title">Look 03</span>
+      </div>
+    </div>
+
+    <!-- Model 9 -->
+    <div class="pf-glam-card pf-reveal" style="--i:3"
+         data-category="glam" data-model-id="model9"
+         role="button" tabindex="0" aria-label="Glam Look 04 — open video">
+      <div class="pf-glam-card-bg"></div>
+      <video muted loop playsinline preload="none" aria-hidden="true">
+        <source src="ASSETS/model9.mp4" type="video/mp4">
+      </video>
+      <div class="pf-card-play">
+        <div class="pf-play-icon">
+          <span class="material-symbols-outlined" style="font-size:1.75rem">play_arrow</span>
+        </div>
+        <span class="pf-play-label">Look 04</span>
+      </div>
+      <div class="pf-card-overlay">
+        <span class="pf-card-cat">Glam</span>
+        <span class="pf-card-title">Look 04</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ═══════════════════════ CTA BAND ═══════════════════════ -->
+<section class="pf-cta-band pf-reveal" aria-label="Book your look">
+  <div class="pf-cta-inner">
+    <h2 class="pf-cta-headline">
+      Seen something<br>you <span>love?</span>
+    </h2>
+    <a href="booking.html" class="pf-cta-btn">
+      Book Your Look
+      <span class="material-symbols-outlined" style="font-size:1rem">arrow_forward</span>
+    </a>
+  </div>
+</section>
 
 <!-- ═══════════════════════ FOOTER ═══════════════════════ -->
 <footer class="bg-[#1a1109] text-white py-20 px-6 md:px-12 lg:px-20">
-    <div class="max-w-[1400px] mx-auto">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 pb-16 border-b border-white/10">
-            <div>
-                <h4 class="text-xs font-bold uppercase tracking-widest mb-6 text-white/80">Quick Links</h4>
-                <ul class="space-y-4 text-sm text-white/50">
-                    <li><a href="index.html" class="hover:text-primary transition-colors">Home</a></li>
-                    <li><a href="portfolio.html" class="hover:text-primary transition-colors">Portfolio</a></li>
-                    <li><a href="service.html" class="hover:text-primary transition-colors">Services &amp; Pricing</a></li>
-                    <li><a href="booking.html" class="hover:text-primary transition-colors">Book Now</a></li>
-                </ul>
-            </div>
-            <div class="flex flex-col md:items-center text-center">
-                <div class="flex items-center justify-center gap-3 mb-6">
-                    <div class="w-5 h-5 text-primary">
-                        <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
-                        </svg>
-                    </div>
-                    <span class="font-headline text-2xl font-bold">ARM</span>
-                </div>
-                <p class="text-white/50 text-sm leading-relaxed max-w-xs mb-6">Artistry Refined &amp; Modern. Luxury makeup &amp; hair for weddings, engagements, and celebrations.</p>
-                <div class="flex gap-3 justify-center">
-                    <a href="https://instagram.com/ayushirai_mua" target="_blank" rel="noopener" class="social-icon-glow w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60" aria-label="Follow on Instagram">
-                        <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"></path></svg>
-                    </a>
-                    <a href="mailto:ayushiraimua@gmail.com" class="social-icon-glow w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60" aria-label="Send email">
-                        <span class="material-symbols-outlined" style="font-size:1.1rem;">mail</span>
-                    </a>
-                    <a href="tel:+918707660651" class="social-icon-glow w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60" aria-label="Call us">
-                        <span class="material-symbols-outlined" style="font-size:1.1rem;">call</span>
-                    </a>
-                </div>
-            </div>
-            <div class="md:justify-self-end">
-                <h4 class="text-xs font-bold uppercase tracking-widest mb-6 text-white/80">Contact</h4>
-                <ul class="space-y-4 text-sm text-white/50">
-                    <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" style="font-size:1rem;">call</span><a href="tel:+918707660651" class="hover:text-primary transition-colors">+91 87076 60651</a></li>
-                    <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" style="font-size:1rem;">mail</span><a href="mailto:ayushiraimua@gmail.com" class="hover:text-primary transition-colors">ayushiraimua@gmail.com</a></li>
-                    <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" style="font-size:1rem;">location_on</span><span>Available on-location</span></li>
-                    <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" style="font-size:1rem;">schedule</span><span>Mon &ndash; Sun: By Appointment</span></li>
-                </ul>
-            </div>
+  <div class="max-w-[1400px] mx-auto">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-12 pb-16 border-b border-white/10">
+      <div>
+        <h4 class="text-xs font-bold uppercase tracking-widest mb-6 text-white/80">Quick Links</h4>
+        <ul class="space-y-4 text-sm text-white/50">
+          <li><a href="index.html" class="hover:text-primary transition-colors">Home</a></li>
+          <li><a href="portfolio.html" class="hover:text-primary transition-colors">Portfolio</a></li>
+          <li><a href="service.html" class="hover:text-primary transition-colors">Services &amp; Pricing</a></li>
+          <li><a href="booking.html" class="hover:text-primary transition-colors">Book Now</a></li>
+        </ul>
+      </div>
+      <div class="flex flex-col md:items-center text-center">
+        <div class="flex items-center justify-center gap-3 mb-6">
+          <div class="w-5 h-5 text-primary">
+            <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+              <path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+            </svg>
+          </div>
+          <span class="font-headline text-2xl font-bold">ARM</span>
         </div>
-        <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-white/30 text-xs uppercase tracking-widest">
-            <p>&copy; 2025 ARM Artistry. All rights reserved.</p>
+        <p class="text-white/50 text-sm leading-relaxed max-w-xs mb-6">Artistry Refined &amp; Modern. Luxury makeup &amp; hair for weddings, engagements, and celebrations.</p>
+        <div class="flex gap-3 justify-center">
+          <a href="https://instagram.com/ayushirai_mua" target="_blank" rel="noopener" class="social-icon-glow w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60" aria-label="Follow on Instagram">
+            <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24"><path d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772A4.902 4.902 0 015.45 2.525c.636-.247 1.363-.416 2.427-.465C8.901 2.013 9.256 2 11.685 2h.63zm-.081 1.802h-.468c-2.456 0-2.784.011-3.807.058-.975.045-1.504.207-1.857.344-.467.182-.8.398-1.15.748-.35.35-.566.683-.748 1.15-.137.353-.3.882-.344 1.857-.047 1.023-.058 1.351-.058 3.807v.468c0 2.456.011 2.784.058 3.807.045.975.207 1.504.344 1.857.182.466.399.8.748 1.15.35.35.683.566 1.15.748.353.137.882.3 1.857.344 1.054.048 1.37.058 4.041.058h.08c2.597 0 2.917-.01 3.96-.058.976-.045 1.505-.207 1.858-.344.466-.182.8-.398 1.15-.748.35-.35.566-.683.748-1.15.137-.353.3-.882.344-1.857.048-1.055.058-1.37.058-4.041v-.08c0-2.597-.01-2.917-.058-3.96-.045-.976-.207-1.505-.344-1.858a3.097 3.097 0 00-.748-1.15 3.098 3.098 0 00-1.15-.748c-.353-.137-.882-.3-1.857-.344-1.023-.047-1.351-.058-3.807-.058zM12 6.865a5.135 5.135 0 110 10.27 5.135 5.135 0 010-10.27zm0 1.802a3.333 3.333 0 100 6.666 3.333 3.333 0 000-6.666zm5.338-3.205a1.2 1.2 0 110 2.4 1.2 1.2 0 010-2.4z"></path></svg>
+          </a>
+          <a href="mailto:ayushiraimua@gmail.com" class="social-icon-glow w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60" aria-label="Send email">
+            <span class="material-symbols-outlined" style="font-size:1.1rem;">mail</span>
+          </a>
+          <a href="tel:+918707660651" class="social-icon-glow w-10 h-10 rounded-full border border-white/20 flex items-center justify-center text-white/60" aria-label="Call us">
+            <span class="material-symbols-outlined" style="font-size:1.1rem;">call</span>
+          </a>
         </div>
+      </div>
+      <div class="md:justify-self-end">
+        <h4 class="text-xs font-bold uppercase tracking-widest mb-6 text-white/80">Contact</h4>
+        <ul class="space-y-4 text-sm text-white/50">
+          <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" style="font-size:1rem;">call</span><a href="tel:+918707660651" class="hover:text-primary transition-colors">+91 87076 60651</a></li>
+          <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" style="font-size:1rem;">mail</span><a href="mailto:ayushiraimua@gmail.com" class="hover:text-primary transition-colors">ayushiraimua@gmail.com</a></li>
+          <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" style="font-size:1rem;">location_on</span><span>Available on-location</span></li>
+          <li class="flex items-center gap-3"><span class="material-symbols-outlined text-primary" style="font-size:1rem;">schedule</span><span>Mon &ndash; Sun: By Appointment</span></li>
+        </ul>
+      </div>
     </div>
+    <div class="pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-white/30 text-xs uppercase tracking-widest">
+      <p>&copy; 2025 ARM Artistry. All rights reserved.</p>
+    </div>
+  </div>
 </footer>
 
+<!-- ═══════════════════════ LIGHTBOX ═══════════════════════ -->
+<dialog class="pf-lightbox" id="pf-lightbox" aria-label="Image viewer">
+  <div class="pf-lb-topbar">
+    <div class="pf-lb-meta">
+      <span class="pf-lb-cat" id="pf-lb-cat">Bridal</span>
+      <span class="pf-lb-title" id="pf-lb-title">Look 01</span>
+    </div>
+    <button class="pf-lb-close" id="pf-lb-close" aria-label="Close viewer">
+      <span class="material-symbols-outlined" style="font-size:1.25rem">close</span>
+    </button>
+  </div>
+
+  <div class="pf-lb-viewer">
+    <button class="pf-lb-nav pf-lb-prev" id="pf-lb-prev" aria-label="Previous">&#8592;</button>
+    <img src="" alt="" id="pf-lb-img" class="pf-lb-main-img">
+    <video id="pf-lb-video" class="pf-lb-main-video" controls playsinline>
+      <source src="" type="video/mp4">
+    </video>
+    <button class="pf-lb-nav pf-lb-next" id="pf-lb-next" aria-label="Next">&#8594;</button>
+  </div>
+
+  <div class="pf-lb-thumbs" id="pf-lb-thumbs"></div>
+</dialog>
+
+<!-- ═══════════════════════ SCRIPTS ═══════════════════════ -->
 <script>
-// ── Mobile Menu ──
+// ── Model data ──────────────────────────────────────────────────────────────
+var MODELS = {
+  model6:  { cat:'Bridal', title:'Look 01', images:['ASSETS/model6_1.png','ASSETS/model6_2.png'], video:'ASSETS/model6.mp4' },
+  model4:  { cat:'Bridal', title:'Look 02', images:['ASSETS/model4_1.jpeg','ASSETS/model4_2.jpeg','ASSETS/model4_3.jpeg'], video:null },
+  model1:  { cat:'Bridal', title:'Look 03', images:['ASSETS/model1_1.jpeg','ASSETS/model1_3.jpeg','ASSETS/model1_4.jpeg'], video:'ASSETS/model1.mp4' },
+  model5:  { cat:'Bridal', title:'Look 04', images:['ASSETS/model5_1.jpeg','ASSETS/model5_2.png','ASSETS/model5_3.jpeg','ASSETS/model5_4.jpeg'], video:'ASSETS/model5.mp4' },
+  model3:  { cat:'Bridal', title:'Look 05', images:['ASSETS/model3_1.jpeg','ASSETS/model3_2.jpeg','ASSETS/model3_3.jpeg'], video:'ASSETS/model3.mp4' },
+  model2:  { cat:'Bridal', title:'Look 06', images:['ASSETS/model2_1.jpeg','ASSETS/model2_2.jpeg'], video:'ASSETS/model2.mp4' },
+  model7:  { cat:'Bridal', title:'Look 07', images:['ASSETS/model7_1.png','ASSETS/model7_2.png'], video:null },
+  model11: { cat:'Glam',   title:'Look 01', images:[], video:'ASSETS/model11.mp4' },
+  model8:  { cat:'Glam',   title:'Look 02', images:[], video:'ASSETS/model8.mp4' },
+  model10: { cat:'Glam',   title:'Look 03', images:[], video:'ASSETS/model10.mp4' },
+  model9:  { cat:'Glam',   title:'Look 04', images:[], video:'ASSETS/model9.mp4' },
+  hair:    { cat:'Hair',   title:'Hair Styling', images:['ASSETS/hair/hair2.jpeg','ASSETS/hair/hair3.jpeg','ASSETS/hair/hair4.jpeg','ASSETS/hair/hair5.jpeg','ASSETS/hair/hair1.jpeg','ASSETS/hair/hair6.jpeg'], video:null }
+};
+
+// ── Mobile Menu ──────────────────────────────────────────────────────────────
 var _menu = document.getElementById('mobileMenu');
 function openMobileMenu() { _menu.classList.add('nav-open'); _menu.setAttribute('aria-hidden','false'); document.body.classList.add('menu-open'); }
 function closeMobileMenu() { _menu.classList.remove('nav-open'); _menu.setAttribute('aria-hidden','true'); document.body.classList.remove('menu-open'); }
-document.addEventListener('keydown', function(e) { if (e.key === 'Escape') { closeMobileMenu(); closeLightbox(); } });
 
-// ── Dark Mode ──
+// ── Dark Mode ──────────────────────────────────────────────────────────────
 document.getElementById('darkToggle').addEventListener('click', function() {
-    document.documentElement.classList.toggle('dark');
-    localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
+  document.documentElement.classList.toggle('dark');
+  localStorage.setItem('darkMode', document.documentElement.classList.contains('dark'));
 });
 
-// ── Nav shadow ──
-var navbar = document.getElementById('navbar');
-window.addEventListener('scroll', function() { navbar.classList.toggle('shadow-xl', window.scrollY > 60); }, { passive: true });
+// ── Nav shadow on scroll ──────────────────────────────────────────────────
+window.addEventListener('scroll', function() {
+  document.getElementById('navbar').classList.toggle('shadow-xl', window.scrollY > 60);
+}, { passive: true });
 
-// ── Scroll Reveal ──
-var revObs = new IntersectionObserver(function(entries) {
-    entries.forEach(function(e) { if (e.isIntersecting) e.target.classList.add('visible'); });
-}, { threshold: 0.05 });
-document.querySelectorAll('.reveal').forEach(function(el) { revObs.observe(el); });
+// ── Hero entrance ────────────────────────────────────────────────────────────
+(function() {
+  var hero = document.querySelector('.pf-hero');
+  if (!hero) return;
+  // Small delay so CSS transition fires
+  requestAnimationFrame(function() {
+    requestAnimationFrame(function() {
+      hero.classList.add('pf-hero-revealed');
+    });
+  });
+})();
 
-// ── Portfolio Filtering ──
-var allItems = Array.from(document.querySelectorAll('.portfolio-item'));
-document.getElementById('filter-container').addEventListener('click', function(e) {
-    var btn = e.target.closest('.filter-tab');
-    if (!btn) return;
-    document.querySelectorAll('.filter-tab').forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
+// ── Scroll reveal (IntersectionObserver — no window.scroll) ─────────────────
+var revObserver = new IntersectionObserver(function(entries) {
+  entries.forEach(function(e) {
+    if (!e.isIntersecting) return;
+    var el = e.target;
+    var delay = (parseInt(el.style.getPropertyValue('--i') || 0)) * 80;
+    setTimeout(function() { el.classList.add('visible'); }, delay);
+    revObserver.unobserve(el);
+  });
+}, { threshold: 0.08 });
+
+document.querySelectorAll('.pf-reveal').forEach(function(el) {
+  revObserver.observe(el);
+});
+
+// ── Video hover on bento cards ───────────────────────────────────────────────
+document.querySelectorAll('.pf-card').forEach(function(card) {
+  var vid = card.querySelector('.pf-card-video');
+  if (!vid) return;
+
+  var playPromise = null;
+
+  card.addEventListener('mouseenter', function() {
+    vid.src = vid.querySelector('source').src; // trigger load on first hover
+    playPromise = vid.play();
+    if (playPromise) {
+      playPromise.then(function() {
+        card.classList.add('video-playing');
+      }).catch(function() {});
+    }
+  });
+
+  card.addEventListener('mouseleave', function() {
+    card.classList.remove('video-playing');
+    if (playPromise) {
+      playPromise.then(function() { vid.pause(); vid.currentTime = 0; }).catch(function() {});
+    }
+  });
+});
+
+// ── Video hover on glam cards ─────────────────────────────────────────────
+document.querySelectorAll('.pf-glam-card').forEach(function(card) {
+  var vid = card.querySelector('video');
+  if (!vid) return;
+
+  var pp = null;
+
+  card.addEventListener('mouseenter', function() {
+    vid.src = vid.querySelector('source').src;
+    pp = vid.play();
+    if (pp) {
+      pp.then(function() { card.classList.add('video-playing'); }).catch(function() {});
+    }
+  });
+
+  card.addEventListener('mouseleave', function() {
+    card.classList.remove('video-playing');
+    if (pp) { pp.then(function() { vid.pause(); vid.currentTime = 0; }).catch(function() {}); }
+  });
+});
+
+// ── Filter bar ───────────────────────────────────────────────────────────────
+var filterBtns = document.querySelectorAll('.pf-filter-btn');
+var bridal = document.querySelector('[data-filter-group="bridal"]');
+var hair   = document.getElementById('pf-hair-section');
+var glam   = document.getElementById('pf-glam-section');
+
+filterBtns.forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    filterBtns.forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
     btn.classList.add('active');
     btn.setAttribute('aria-selected','true');
-    var filter = btn.dataset.filter;
-    allItems.forEach(function(item) {
-        var match = filter === 'all' || item.dataset.category === filter;
-        item.classList.toggle('pf-hidden', !match);
-    });
+
+    var f = btn.dataset.filter;
+
+    // show/hide sections
+    bridal.style.display = (f === 'all' || f === 'bridal') ? '' : 'none';
+    hair.style.display   = (f === 'all' || f === 'hair')   ? '' : 'none';
+    glam.style.display   = (f === 'all' || f === 'glam')   ? '' : 'none';
+
+    // scroll to first visible section
+    if (f === 'bridal') { bridal.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    if (f === 'hair')   { hair.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    if (f === 'glam')   { glam.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  });
 });
 
-// ── Lightbox ──
-var lightbox    = document.getElementById('lightbox');
-var lightboxImg = document.getElementById('lightbox-img');
-var visibleItems = [];
-var currentIdx  = 0;
+// ── Hair nav arrows ────────────────────────────────────────────────────────
+(function() {
+  var track  = document.getElementById('pf-hair-track');
+  var prev   = document.getElementById('pf-hair-prev');
+  var next   = document.getElementById('pf-hair-next');
+  if (!track) return;
+  var scrollAmt = function() { return track.querySelector('.pf-hair-card').offsetWidth + 6; };
+  prev.addEventListener('click', function() { track.scrollBy({ left: -scrollAmt(), behavior: 'smooth' }); });
+  next.addEventListener('click', function() { track.scrollBy({ left:  scrollAmt(), behavior: 'smooth' }); });
+})();
 
-function buildVisible() {
-    visibleItems = allItems.filter(function(item) { return !item.classList.contains('pf-hidden'); });
+// ── Lightbox ─────────────────────────────────────────────────────────────────
+var lb        = document.getElementById('pf-lightbox');
+var lbImg     = document.getElementById('pf-lb-img');
+var lbVideo   = document.getElementById('pf-lb-video');
+var lbCat     = document.getElementById('pf-lb-cat');
+var lbTitle   = document.getElementById('pf-lb-title');
+var lbThumbs  = document.getElementById('pf-lb-thumbs');
+var lbPrev    = document.getElementById('pf-lb-prev');
+var lbNext    = document.getElementById('pf-lb-next');
+var lbClose   = document.getElementById('pf-lb-close');
+
+var lbItems   = [];   // combined: {type:'img'|'video', src:string}
+var lbCurrent = 0;
+
+function buildLbItems(modelId) {
+  var m = MODELS[modelId];
+  if (!m) return [];
+  var items = [];
+  m.images.forEach(function(src) { items.push({ type:'img', src:src }); });
+  if (m.video) { items.push({ type:'video', src:m.video }); }
+  return items;
 }
 
-function openLightbox(item) {
-    buildVisible();
-    currentIdx = visibleItems.indexOf(item);
-    lightboxImg.src = item.dataset.src;
-    lightboxImg.alt = item.dataset.label || '';
-    lightbox.classList.add('open');
-    document.body.style.overflow = 'hidden';
+function lbRender(idx) {
+  lbCurrent = (idx + lbItems.length) % lbItems.length;
+  var item = lbItems[lbCurrent];
+
+  if (item.type === 'img') {
+    lbImg.src = item.src;
+    lbImg.style.display = 'block';
+    lbVideo.classList.remove('active');
+    lbVideo.pause();
+  } else {
+    lbVideo.querySelector('source').src = item.src;
+    lbVideo.load();
+    lbVideo.classList.add('active');
+    lbImg.style.display = 'none';
+    lbVideo.play().catch(function(){});
+  }
+
+  // update thumbs
+  lbThumbs.querySelectorAll('[data-lb-idx]').forEach(function(t) {
+    t.classList.toggle('active', parseInt(t.dataset.lbIdx) === lbCurrent);
+  });
+
+  // show/hide nav
+  var hasMultiple = lbItems.length > 1;
+  lbPrev.style.display = hasMultiple ? '' : 'none';
+  lbNext.style.display = hasMultiple ? '' : 'none';
 }
+
+function buildThumbs() {
+  lbThumbs.innerHTML = '';
+  lbItems.forEach(function(item, i) {
+    if (item.type === 'img') {
+      var img = document.createElement('img');
+      img.className = 'pf-lb-thumb';
+      img.src = item.src;
+      img.alt = '';
+      img.dataset.lbIdx = i;
+      img.addEventListener('click', function() { lbRender(i); });
+      lbThumbs.appendChild(img);
+    } else {
+      var btn = document.createElement('button');
+      btn.className = 'pf-lb-thumb-video';
+      btn.innerHTML = '<span class="material-symbols-outlined" style="font-size:1.25rem">videocam</span>';
+      btn.dataset.lbIdx = i;
+      btn.setAttribute('aria-label', 'View video');
+      btn.addEventListener('click', function() { lbRender(i); });
+      lbThumbs.appendChild(btn);
+    }
+  });
+}
+
+function openLightbox(modelId, startIdx) {
+  var m = MODELS[modelId];
+  if (!m) return;
+  lbCat.textContent   = m.cat;
+  lbTitle.textContent = m.title;
+  lbItems = buildLbItems(modelId);
+  buildThumbs();
+  lb.showModal();
+  lbRender(startIdx || 0);
+}
+
 function closeLightbox() {
-    lightbox.classList.remove('open');
-    document.body.style.overflow = '';
-}
-function showLightboxAt(idx) {
-    if (visibleItems.length === 0) return;
-    currentIdx = (idx + visibleItems.length) % visibleItems.length;
-    lightboxImg.src = visibleItems[currentIdx].dataset.src;
-    lightboxImg.alt = visibleItems[currentIdx].dataset.label || '';
+  lb.close();
 }
 
-document.querySelectorAll('.portfolio-item').forEach(function(item) {
-    item.addEventListener('click', function() { openLightbox(item); });
+lb.addEventListener('close', function() {
+  lbVideo.pause();
+  lbVideo.querySelector('source').src = '';
+  lbVideo.load();
+  lbVideo.classList.remove('active');
+  lbImg.style.display = 'block';
 });
-document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
-document.getElementById('lightbox-prev').addEventListener('click', function() { showLightboxAt(currentIdx - 1); });
-document.getElementById('lightbox-next').addEventListener('click', function() { showLightboxAt(currentIdx + 1); });
-lightbox.addEventListener('click', function(e) { if (e.target === lightbox) closeLightbox(); });
+
+// Attach click to all gallery cards (bento + hair + glam)
+document.querySelectorAll('.pf-card[data-model-id]').forEach(function(card) {
+  card.addEventListener('click', function() { openLightbox(card.dataset.modelId, 0); });
+  card.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(card.dataset.modelId, 0); }
+  });
+});
+
+document.querySelectorAll('.pf-hair-card[data-model-id]').forEach(function(card) {
+  card.addEventListener('click', function() {
+    openLightbox('hair', parseInt(card.dataset.hairIdx || 0));
+  });
+  card.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox('hair', parseInt(card.dataset.hairIdx || 0)); }
+  });
+});
+
+document.querySelectorAll('.pf-glam-card[data-model-id]').forEach(function(card) {
+  card.addEventListener('click', function() { openLightbox(card.dataset.modelId, 0); });
+  card.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(card.dataset.modelId, 0); }
+  });
+});
+
+lbClose.addEventListener('click', closeLightbox);
+lbPrev.addEventListener('click',  function() { lbRender(lbCurrent - 1); });
+lbNext.addEventListener('click',  function() { lbRender(lbCurrent + 1); });
+
+lb.addEventListener('click', function(e) {
+  if (e.target === lb) closeLightbox();
+});
+
+// ── Keyboard nav ──────────────────────────────────────────────────────────
 document.addEventListener('keydown', function(e) {
-    if (!lightbox.classList.contains('open')) return;
-    if (e.key === 'ArrowRight') showLightboxAt(currentIdx + 1);
-    if (e.key === 'ArrowLeft')  showLightboxAt(currentIdx - 1);
+  if (e.key === 'Escape') { closeMobileMenu(); closeLightbox(); }
+  if (!lb.open) return;
+  if (e.key === 'ArrowRight') lbRender(lbCurrent + 1);
+  if (e.key === 'ArrowLeft')  lbRender(lbCurrent - 1);
 });
 </script>
 </body>
