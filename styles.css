@@ -1778,7 +1778,7 @@ body.menu-open {
     .editorial-portrait-img-col {
         min-height: unset !important;
         width: 100% !important;
-        aspect-ratio: 5 / 4;
+        aspect-ratio: 16 / 9;
         overflow: hidden;
         position: relative;
     }
@@ -1786,7 +1786,7 @@ body.menu-open {
         width: 100%;
         height: 100%;
         object-fit: cover;
-        object-position: center 15%;
+        object-position: center top;
         display: block;
     }
     .editorial-portrait-quote-col {
