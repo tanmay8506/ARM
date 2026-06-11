@@ -2216,23 +2216,132 @@ body.menu-open {
   padding: clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,5rem);
   scroll-margin-top: 128px;
 }
-.pf-bento {
+/* ── Look Grid ── */
+.pf-look-grid {
   max-width: 1400px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
-  grid-template-rows: 480px 420px 520px;
-  gap: 6px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 40px 24px;
 }
 
-/* Bridal bento cell assignments */
-.pf-card-a1 { grid-column: span 8; grid-row: 1; }
-.pf-card-a2 { grid-column: span 4; grid-row: 1; }
-.pf-card-b1 { grid-column: span 6; grid-row: 2; }
-.pf-card-b2 { grid-column: span 3; grid-row: 2; }
-.pf-card-b3 { grid-column: span 3; grid-row: 2; }
-.pf-card-c1 { grid-column: span 4; grid-row: 3; }
-.pf-card-c2 { grid-column: span 8; grid-row: 3; }
+/* ── Look Card ── */
+.pf-look-card {
+  display: flex;
+  flex-direction: column;
+}
+.pf-look-media-wrap {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  background: #1b140d;
+  cursor: pointer;
+}
+.pf-look-img,
+.pf-look-video {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  transition: transform 0.7s cubic-bezier(0.16,1,0.3,1), opacity 0.5s ease;
+}
+.pf-look-card:hover .pf-look-img {
+  transform: scale(1.04);
+}
+.pf-look-overlay {
+  background: linear-gradient(
+    to top,
+    rgba(14,9,6,0.92) 0%,
+    rgba(14,9,6,0.35) 45%,
+    transparent 85%
+  );
+}
+.pf-look-overlay-cat {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #f2a65a;
+  margin-bottom: 0.25rem;
+}
+.pf-look-overlay-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+/* Look Card Meta & Thumbnails */
+.pf-look-meta {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+}
+.pf-look-info {
+  display: flex;
+  flex-direction: column;
+}
+.pf-look-cat {
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: #c97b4a;
+  margin-bottom: 0.15rem;
+}
+.pf-look-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #1c1917;
+}
+.dark .pf-look-title {
+  color: #ffffff;
+}
+.pf-look-thumbs {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+.pf-look-thumb-btn {
+  width: 33px;
+  height: 44px;
+  border: 1.5px solid rgba(28,25,23,0.12);
+  background: #1b140d;
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.22s ease, transform 0.2s ease;
+  padding: 0;
+}
+.dark .pf-look-thumb-btn {
+  border-color: rgba(255,255,255,0.12);
+}
+.pf-look-thumb-btn:hover {
+  transform: scale(1.05);
+}
+.pf-look-thumb-btn.active {
+  border-color: #f2a65a;
+  box-shadow: 0 0 0 1px #f2a65a;
+}
+.pf-look-thumb-btn img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.pf-look-thumb-video {
+  color: #f2a65a;
+  background: #100b07;
+}
 
 /* ── Portfolio Card ── */
 .pf-card {
@@ -2718,31 +2827,15 @@ body.menu-open {
 
 /* ── Mobile responsive ── */
 @media (max-width: 1024px) {
-  .pf-bento {
+  .pf-look-grid {
     grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(5, clamp(220px, 55vw, 360px));
+    gap: 32px 16px;
   }
-  .pf-card-a1, .pf-card-b1, .pf-card-c2 { grid-column: span 2; }
-  .pf-card-a2, .pf-card-b2, .pf-card-b3, .pf-card-c1 { grid-column: span 1; }
-  .pf-card-a1 { grid-row: 1; }
-  .pf-card-a2 { grid-row: 2; grid-column: 1; }
-  .pf-card-b3 { grid-row: 2; grid-column: 2; }
-  .pf-card-b1 { grid-row: 3; }
-  .pf-card-b2 { grid-row: 4; grid-column: 1; }
-  .pf-card-c1 { grid-row: 4; grid-column: 2; }
-  .pf-card-c2 { grid-row: 5; }
 }
 @media (max-width: 640px) {
-  .pf-bento {
+  .pf-look-grid {
     grid-template-columns: 1fr;
-    grid-template-rows: none;
-  }
-  .pf-card-a1, .pf-card-a2,
-  .pf-card-b1, .pf-card-b2, .pf-card-b3,
-  .pf-card-c1, .pf-card-c2 {
-    grid-column: 1 !important;
-    grid-row: auto !important;
-    height: clamp(240px, 70vw, 380px);
+    gap: 32px;
   }
   .pf-glam-grid {
     grid-template-columns: 1fr;

@@ -89,7 +89,7 @@
 <!-- ═══════════════════════ HERO ═══════════════════════ -->
 <section class="pf-hero" aria-label="Portfolio hero">
   <video class="pf-hero-video" autoplay muted loop playsinline preload="auto" aria-hidden="true">
-    <source src="ASSETS/model6.mp4" type="video/mp4">
+    <source src="assets-avif/model6.mp4" type="video/mp4">
   </video>
   <div class="pf-hero-scrim" aria-hidden="true"></div>
   <div class="pf-hero-content">
@@ -131,104 +131,235 @@
     <div class="pf-section-rule"></div>
   </div>
 
-  <div class="pf-bento" id="pf-bento-grid">
+    <div class="pf-look-grid" id="pf-look-grid">
 
-    <!-- ═ ROW A ═ -->
-    <!-- Card A1: Model 6 — widest, hero card -->
-    <div class="pf-card pf-card-a1 pf-reveal" style="--i:0"
-         data-category="bridal" data-model-id="model6"
-         role="button" tabindex="0" aria-label="Bridal Look 01 — open gallery">
-      <img class="pf-card-img" src="ASSETS/model6_1.png" alt="Bridal Look 01 by ARM Artistry" loading="eager">
-      <video class="pf-card-video" muted loop playsinline preload="none" aria-hidden="true">
-        <source src="ASSETS/model6.mp4" type="video/mp4">
-      </video>
-      <div class="pf-card-overlay">
-        <span class="pf-card-cat">Bridal</span>
-        <span class="pf-card-title">Look 01</span>
+    <!-- Look 01: Model 6 -->
+    <div class="pf-look-card pf-reveal" style="--i:0" data-model-id="model6" data-active-idx="0">
+      <div class="pf-look-media-wrap" onclick="openLookLightbox('model6', this)">
+        <img class="pf-look-img" src="assets-avif/model6_1_thumbnail.avif" alt="Bridal Look 01">
+        <video class="pf-look-video hidden" muted loop playsinline preload="none" aria-hidden="true">
+          <source src="assets-avif/model6.mp4" type="video/mp4">
+        </video>
+        <div class="pf-look-overlay absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 pointer-events-none">
+          <span class="pf-look-overlay-cat">Bridal</span>
+          <span class="pf-look-overlay-title">Look 01</span>
+        </div>
+      </div>
+      <div class="pf-look-meta">
+        <div class="pf-look-info">
+          <span class="pf-look-cat">Bridal</span>
+          <span class="pf-look-title">Look 01</span>
+        </div>
+        <div class="pf-look-thumbs" role="tablist">
+          <button class="pf-look-thumb-btn active" onclick="swapLookCardMedia(this, 0, 'img', 'assets-avif/model6_1_thumbnail.avif')" aria-label="View Image 1" role="tab" aria-selected="true">
+            <img src="assets-avif/model6_1_thumbnail.avif" alt="Thumb 1">
+          </button>
+          <button class="pf-look-thumb-btn" onclick="swapLookCardMedia(this, 1, 'img', 'assets-avif/model6_2.avif')" aria-label="View Image 2" role="tab" aria-selected="false">
+            <img src="assets-avif/model6_2.avif" alt="Thumb 2">
+          </button>
+          <button class="pf-look-thumb-btn pf-look-thumb-video" onclick="swapLookCardMedia(this, 2, 'video', 'assets-avif/model6.mp4')" aria-label="View Video" role="tab" aria-selected="false">
+            <span class="material-symbols-outlined text-[1rem]">play_circle</span>
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- Card A2: Model 4 -->
-    <div class="pf-card pf-card-a2 pf-reveal" style="--i:1"
-         data-category="bridal" data-model-id="model4"
-         role="button" tabindex="0" aria-label="Bridal Look 02 — open gallery">
-      <img class="pf-card-img" src="ASSETS/model4_1.jpeg" alt="Bridal Look 02 by ARM Artistry" loading="lazy">
-      <div class="pf-card-overlay">
-        <span class="pf-card-cat">Bridal</span>
-        <span class="pf-card-title">Look 02</span>
+    <!-- Look 02: Model 4 -->
+    <div class="pf-look-card pf-reveal" style="--i:1" data-model-id="model4" data-active-idx="0">
+      <div class="pf-look-media-wrap" onclick="openLookLightbox('model4', this)">
+        <img class="pf-look-img" src="assets-avif/model4_2_thumbnail.avif" alt="Bridal Look 02">
+        <video class="pf-look-video hidden" muted loop playsinline preload="none" aria-hidden="true">
+          <source src="assets-avif/model4.mp4" type="video/mp4">
+        </video>
+        <div class="pf-look-overlay absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 pointer-events-none">
+          <span class="pf-look-overlay-cat">Bridal</span>
+          <span class="pf-look-overlay-title">Look 02</span>
+        </div>
+      </div>
+      <div class="pf-look-meta">
+        <div class="pf-look-info">
+          <span class="pf-look-cat">Bridal</span>
+          <span class="pf-look-title">Look 02</span>
+        </div>
+        <div class="pf-look-thumbs" role="tablist">
+          <button class="pf-look-thumb-btn active" onclick="swapLookCardMedia(this, 0, 'img', 'assets-avif/model4_2_thumbnail.avif')" aria-label="View Image 1" role="tab" aria-selected="true">
+            <img src="assets-avif/model4_2_thumbnail.avif" alt="Thumb 1">
+          </button>
+          <button class="pf-look-thumb-btn" onclick="swapLookCardMedia(this, 1, 'img', 'assets-avif/model4_1.avif')" aria-label="View Image 2" role="tab" aria-selected="false">
+            <img src="assets-avif/model4_1.avif" alt="Thumb 2">
+          </button>
+          <button class="pf-look-thumb-btn" onclick="swapLookCardMedia(this, 2, 'img', 'assets-avif/model4_3.avif')" aria-label="View Image 3" role="tab" aria-selected="false">
+            <img src="assets-avif/model4_3.avif" alt="Thumb 3">
+          </button>
+          <button class="pf-look-thumb-btn pf-look-thumb-video" onclick="swapLookCardMedia(this, 3, 'video', 'assets-avif/model4.mp4')" aria-label="View Video" role="tab" aria-selected="false">
+            <span class="material-symbols-outlined text-[1rem]">play_circle</span>
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- ═ ROW B ═ -->
-    <!-- Card B1: Model 1 — wide, has video -->
-    <div class="pf-card pf-card-b1 pf-reveal" style="--i:2"
-         data-category="bridal" data-model-id="model1"
-         role="button" tabindex="0" aria-label="Bridal Look 03 — open gallery">
-      <img class="pf-card-img" src="ASSETS/model1_1.jpeg" alt="Bridal Look 03 by ARM Artistry" loading="lazy">
-      <video class="pf-card-video" muted loop playsinline preload="none" aria-hidden="true">
-        <source src="ASSETS/model1.mp4" type="video/mp4">
-      </video>
-      <div class="pf-card-overlay">
-        <span class="pf-card-cat">Bridal</span>
-        <span class="pf-card-title">Look 03</span>
+    <!-- Look 03: Model 1 -->
+    <div class="pf-look-card pf-reveal" style="--i:2" data-model-id="model1" data-active-idx="0">
+      <div class="pf-look-media-wrap" onclick="openLookLightbox('model1', this)">
+        <img class="pf-look-img" src="assets-avif/model1_1_thumbnail.avif" alt="Bridal Look 03">
+        <video class="pf-look-video hidden" muted loop playsinline preload="none" aria-hidden="true">
+          <source src="assets-avif/model1.mp4" type="video/mp4">
+        </video>
+        <div class="pf-look-overlay absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 pointer-events-none">
+          <span class="pf-look-overlay-cat">Bridal</span>
+          <span class="pf-look-overlay-title">Look 03</span>
+        </div>
+      </div>
+      <div class="pf-look-meta">
+        <div class="pf-look-info">
+          <span class="pf-look-cat">Bridal</span>
+          <span class="pf-look-title">Look 03</span>
+        </div>
+        <div class="pf-look-thumbs" role="tablist">
+          <button class="pf-look-thumb-btn active" onclick="swapLookCardMedia(this, 0, 'img', 'assets-avif/model1_1_thumbnail.avif')" aria-label="View Image 1" role="tab" aria-selected="true">
+            <img src="assets-avif/model1_1_thumbnail.avif" alt="Thumb 1">
+          </button>
+          <button class="pf-look-thumb-btn" onclick="swapLookCardMedia(this, 1, 'img', 'assets-avif/model1_2.avif')" aria-label="View Image 2" role="tab" aria-selected="false">
+            <img src="assets-avif/model1_2.avif" alt="Thumb 2">
+          </button>
+          <button class="pf-look-thumb-btn" onclick="swapLookCardMedia(this, 2, 'img', 'assets-avif/model1_3.avif')" aria-label="View Image 3" role="tab" aria-selected="false">
+            <img src="assets-avif/model1_3.avif" alt="Thumb 3">
+          </button>
+          <button class="pf-look-thumb-btn pf-look-thumb-video" onclick="swapLookCardMedia(this, 3, 'video', 'assets-avif/model1.mp4')" aria-label="View Video" role="tab" aria-selected="false">
+            <span class="material-symbols-outlined text-[1rem]">play_circle</span>
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- Card B2: Model 5 -->
-    <div class="pf-card pf-card-b2 pf-reveal" style="--i:3"
-         data-category="bridal" data-model-id="model5"
-         role="button" tabindex="0" aria-label="Bridal Look 04 — open gallery">
-      <img class="pf-card-img" src="ASSETS/model5_1.jpeg" alt="Bridal Look 04 by ARM Artistry" loading="lazy">
-      <video class="pf-card-video" muted loop playsinline preload="none" aria-hidden="true">
-        <source src="ASSETS/model5.mp4" type="video/mp4">
-      </video>
-      <div class="pf-card-overlay">
-        <span class="pf-card-cat">Bridal</span>
-        <span class="pf-card-title">Look 04</span>
+    <!-- Look 04: Model 5 -->
+    <div class="pf-look-card pf-reveal" style="--i:3" data-model-id="model5" data-active-idx="0">
+      <div class="pf-look-media-wrap" onclick="openLookLightbox('model5', this)">
+        <img class="pf-look-img" src="assets-avif/model5_1_thumbnail.avif" alt="Bridal Look 04">
+        <video class="pf-look-video hidden" muted loop playsinline preload="none" aria-hidden="true">
+          <source src="assets-avif/model5.mp4" type="video/mp4">
+        </video>
+        <div class="pf-look-overlay absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 pointer-events-none">
+          <span class="pf-look-overlay-cat">Bridal</span>
+          <span class="pf-look-overlay-title">Look 04</span>
+        </div>
+      </div>
+      <div class="pf-look-meta">
+        <div class="pf-look-info">
+          <span class="pf-look-cat">Bridal</span>
+          <span class="pf-look-title">Look 04</span>
+        </div>
+        <div class="pf-look-thumbs" role="tablist">
+          <button class="pf-look-thumb-btn active" onclick="swapLookCardMedia(this, 0, 'img', 'assets-avif/model5_1_thumbnail.avif')" aria-label="View Image 1" role="tab" aria-selected="true">
+            <img src="assets-avif/model5_1_thumbnail.avif" alt="Thumb 1">
+          </button>
+          <button class="pf-look-thumb-btn" onclick="swapLookCardMedia(this, 1, 'img', 'assets-avif/model5_2.avif')" aria-label="View Image 2" role="tab" aria-selected="false">
+            <img src="assets-avif/model5_2.avif" alt="Thumb 2">
+          </button>
+          <button class="pf-look-thumb-btn" onclick="swapLookCardMedia(this, 2, 'img', 'assets-avif/model5_3.avif')" aria-label="View Image 3" role="tab" aria-selected="false">
+            <img src="assets-avif/model5_3.avif" alt="Thumb 3">
+          </button>
+          <button class="pf-look-thumb-btn" onclick="swapLookCardMedia(this, 3, 'img', 'assets-avif/model5_4.avif')" aria-label="View Image 4" role="tab" aria-selected="false">
+            <img src="assets-avif/model5_4.avif" alt="Thumb 4">
+          </button>
+          <button class="pf-look-thumb-btn pf-look-thumb-video" onclick="swapLookCardMedia(this, 4, 'video', 'assets-avif/model5.mp4')" aria-label="View Video" role="tab" aria-selected="false">
+            <span class="material-symbols-outlined text-[1rem]">play_circle</span>
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- Card B3: Model 3 -->
-    <div class="pf-card pf-card-b3 pf-reveal" style="--i:4"
-         data-category="bridal" data-model-id="model3"
-         role="button" tabindex="0" aria-label="Bridal Look 05 — open gallery">
-      <img class="pf-card-img" src="ASSETS/model3_1.jpeg" alt="Bridal Look 05 by ARM Artistry" loading="lazy">
-      <video class="pf-card-video" muted loop playsinline preload="none" aria-hidden="true">
-        <source src="ASSETS/model3.mp4" type="video/mp4">
-      </video>
-      <div class="pf-card-overlay">
-        <span class="pf-card-cat">Bridal</span>
-        <span class="pf-card-title">Look 05</span>
+    <!-- Look 05: Model 3 -->
+    <div class="pf-look-card pf-reveal" style="--i:4" data-model-id="model3" data-active-idx="0">
+      <div class="pf-look-media-wrap" onclick="openLookLightbox('model3', this)">
+        <img class="pf-look-img" src="assets-avif/model3_3_thubnail.avif" alt="Bridal Look 05">
+        <video class="pf-look-video hidden" muted loop playsinline preload="none" aria-hidden="true">
+          <source src="assets-avif/model3.mp4" type="video/mp4">
+        </video>
+        <div class="pf-look-overlay absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 pointer-events-none">
+          <span class="pf-look-overlay-cat">Bridal</span>
+          <span class="pf-look-overlay-title">Look 05</span>
+        </div>
+      </div>
+      <div class="pf-look-meta">
+        <div class="pf-look-info">
+          <span class="pf-look-cat">Bridal</span>
+          <span class="pf-look-title">Look 05</span>
+        </div>
+        <div class="pf-look-thumbs" role="tablist">
+          <button class="pf-look-thumb-btn active" onclick="swapLookCardMedia(this, 0, 'img', 'assets-avif/model3_3_thubnail.avif')" aria-label="View Image 1" role="tab" aria-selected="true">
+            <img src="assets-avif/model3_3_thubnail.avif" alt="Thumb 1">
+          </button>
+          <button class="pf-look-thumb-btn" onclick="swapLookCardMedia(this, 1, 'img', 'assets-avif/model3_1.avif')" aria-label="View Image 2" role="tab" aria-selected="false">
+            <img src="assets-avif/model3_1.avif" alt="Thumb 2">
+          </button>
+          <button class="pf-look-thumb-btn" onclick="swapLookCardMedia(this, 2, 'img', 'assets-avif/model3_2.avif')" aria-label="View Image 3" role="tab" aria-selected="false">
+            <img src="assets-avif/model3_2.avif" alt="Thumb 3">
+          </button>
+          <button class="pf-look-thumb-btn pf-look-thumb-video" onclick="swapLookCardMedia(this, 3, 'video', 'assets-avif/model3.mp4')" aria-label="View Video" role="tab" aria-selected="false">
+            <span class="material-symbols-outlined text-[1rem]">play_circle</span>
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- ═ ROW C ═ -->
-    <!-- Card C1: Model 2 -->
-    <div class="pf-card pf-card-c1 pf-reveal" style="--i:5"
-         data-category="bridal" data-model-id="model2"
-         role="button" tabindex="0" aria-label="Bridal Look 06 — open gallery">
-      <img class="pf-card-img" src="ASSETS/model2_1.jpeg" alt="Bridal Look 06 by ARM Artistry" loading="lazy">
-      <video class="pf-card-video" muted loop playsinline preload="none" aria-hidden="true">
-        <source src="ASSETS/model2.mp4" type="video/mp4">
-      </video>
-      <div class="pf-card-overlay">
-        <span class="pf-card-cat">Bridal</span>
-        <span class="pf-card-title">Look 06</span>
+    <!-- Look 06: Model 2 -->
+    <div class="pf-look-card pf-reveal" style="--i:5" data-model-id="model2" data-active-idx="0">
+      <div class="pf-look-media-wrap" onclick="openLookLightbox('model2', this)">
+        <img class="pf-look-img" src="assets-avif/model2_1_thumbnail.avif" alt="Bridal Look 06">
+        <video class="pf-look-video hidden" muted loop playsinline preload="none" aria-hidden="true">
+          <source src="assets-avif/model2.mp4" type="video/mp4">
+        </video>
+        <div class="pf-look-overlay absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 pointer-events-none">
+          <span class="pf-look-overlay-cat">Bridal</span>
+          <span class="pf-look-overlay-title">Look 06</span>
+        </div>
+      </div>
+      <div class="pf-look-meta">
+        <div class="pf-look-info">
+          <span class="pf-look-cat">Bridal</span>
+          <span class="pf-look-title">Look 06</span>
+        </div>
+        <div class="pf-look-thumbs" role="tablist">
+          <button class="pf-look-thumb-btn active" onclick="swapLookCardMedia(this, 0, 'img', 'assets-avif/model2_1_thumbnail.avif')" aria-label="View Image 1" role="tab" aria-selected="true">
+            <img src="assets-avif/model2_1_thumbnail.avif" alt="Thumb 1">
+          </button>
+          <button class="pf-look-thumb-btn" onclick="swapLookCardMedia(this, 1, 'img', 'assets-avif/model2_2.avif')" aria-label="View Image 2" role="tab" aria-selected="false">
+            <img src="assets-avif/model2_2.avif" alt="Thumb 2">
+          </button>
+          <button class="pf-look-thumb-btn pf-look-thumb-video" onclick="swapLookCardMedia(this, 2, 'video', 'assets-avif/model2.mp4')" aria-label="View Video" role="tab" aria-selected="false">
+            <span class="material-symbols-outlined text-[1rem]">play_circle</span>
+          </button>
+        </div>
       </div>
     </div>
 
-    <!-- Card C2: Model 7 — editorial closer, widest in row -->
-    <div class="pf-card pf-card-c2 pf-reveal" style="--i:6"
-         data-category="bridal" data-model-id="model7"
-         role="button" tabindex="0" aria-label="Bridal Look 07 — open gallery">
-      <img class="pf-card-img" src="ASSETS/model7_1.png" alt="Bridal Look 07 by ARM Artistry" loading="lazy">
-      <div class="pf-card-overlay">
-        <span class="pf-card-cat">Bridal</span>
-        <span class="pf-card-title">Look 07</span>
+    <!-- Look 07: Model 7 -->
+    <div class="pf-look-card pf-reveal" style="--i:6" data-model-id="model7" data-active-idx="0">
+      <div class="pf-look-media-wrap" onclick="openLookLightbox('model7', this)">
+        <img class="pf-look-img" src="assets-avif/model7_1_thumbnail.avif" alt="Bridal Look 07">
+        <div class="pf-look-overlay absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-4 pointer-events-none">
+          <span class="pf-look-overlay-cat">Bridal</span>
+          <span class="pf-look-overlay-title">Look 07</span>
+        </div>
+      </div>
+      <div class="pf-look-meta">
+        <div class="pf-look-info">
+          <span class="pf-look-cat">Bridal</span>
+          <span class="pf-look-title">Look 07</span>
+        </div>
+        <div class="pf-look-thumbs" role="tablist">
+          <button class="pf-look-thumb-btn active" onclick="swapLookCardMedia(this, 0, 'img', 'assets-avif/model7_1_thumbnail.avif')" aria-label="View Image 1" role="tab" aria-selected="true">
+            <img src="assets-avif/model7_1_thumbnail.avif" alt="Thumb 1">
+          </button>
+          <button class="pf-look-thumb-btn" onclick="swapLookCardMedia(this, 1, 'img', 'assets-avif/model7_2.avif')" aria-label="View Image 2" role="tab" aria-selected="false">
+            <img src="assets-avif/model7_2.avif" alt="Thumb 2">
+          </button>
+        </div>
       </div>
     </div>
 
-  </div><!-- /pf-bento -->
+  </div><!-- /pf-look-grid -->
 </section>
 
 <!-- ═══════════════════════ HAIR STYLING STRIP ═══════════════════════ -->
@@ -240,22 +371,22 @@
   <div class="pf-hair-track-wrap">
     <div class="pf-hair-track" id="pf-hair-track">
       <div class="pf-hair-card pf-reveal" style="--i:0" data-model-id="hair" data-hair-idx="0" role="button" tabindex="0" aria-label="Hair Look 01">
-        <img src="ASSETS/hair/hair2.jpeg" alt="Hair styling by ARM Artistry" loading="lazy">
+        <img src="assets-avif/hair/hair2.avif" alt="Hair styling by ARM Artistry" loading="lazy">
       </div>
       <div class="pf-hair-card pf-reveal" style="--i:1" data-model-id="hair" data-hair-idx="1" role="button" tabindex="0" aria-label="Hair Look 02">
-        <img src="ASSETS/hair/hair3.jpeg" alt="Hair styling by ARM Artistry" loading="lazy">
+        <img src="assets-avif/hair/hair3.avif" alt="Hair styling by ARM Artistry" loading="lazy">
       </div>
       <div class="pf-hair-card pf-reveal" style="--i:2" data-model-id="hair" data-hair-idx="2" role="button" tabindex="0" aria-label="Hair Look 03">
-        <img src="ASSETS/hair/hair4.jpeg" alt="Hair styling by ARM Artistry" loading="lazy">
+        <img src="assets-avif/hair/hair4.avif" alt="Hair styling by ARM Artistry" loading="lazy">
       </div>
       <div class="pf-hair-card pf-reveal" style="--i:3" data-model-id="hair" data-hair-idx="3" role="button" tabindex="0" aria-label="Hair Look 04">
-        <img src="ASSETS/hair/hair5.jpeg" alt="Hair styling by ARM Artistry" loading="lazy">
+        <img src="assets-avif/hair/hair5.avif" alt="Hair styling by ARM Artistry" loading="lazy">
       </div>
       <div class="pf-hair-card pf-reveal" style="--i:4" data-model-id="hair" data-hair-idx="4" role="button" tabindex="0" aria-label="Hair Look 05">
-        <img src="ASSETS/hair/hair1.jpeg" alt="Hair styling by ARM Artistry" loading="lazy">
+        <img src="assets-avif/hair/hair1.avif" alt="Hair styling by ARM Artistry" loading="lazy">
       </div>
       <div class="pf-hair-card pf-reveal" style="--i:5" data-model-id="hair" data-hair-idx="5" role="button" tabindex="0" aria-label="Hair Look 06">
-        <img src="ASSETS/hair/hair6.jpeg" alt="Hair styling by ARM Artistry" loading="lazy">
+        <img src="assets-avif/hair/hair6.avif" alt="Hair styling by ARM Artistry" loading="lazy">
       </div>
     </div>
     <div class="pf-hair-nav">
@@ -277,13 +408,13 @@
   </div>
   <div class="pf-glam-grid" style="max-width:1400px;margin:0 auto;">
 
-    <!-- Model 11 -->
+        <!-- Model 11 -->
     <div class="pf-glam-card pf-reveal" style="--i:0"
          data-category="glam" data-model-id="model11"
          role="button" tabindex="0" aria-label="Glam Look 01 — open video">
-      <div class="pf-glam-card-bg"></div>
-      <video muted loop playsinline preload="none" aria-hidden="true">
-        <source src="ASSETS/model11.mp4" type="video/mp4">
+      <img class="pf-glam-img w-full h-full object-cover" src="assets-avif/model11_thumbnail.avif" alt="Glam Look 01 Thumbnail">
+      <video class="pf-glam-video w-full h-full object-cover hidden" muted loop playsinline preload="none" aria-hidden="true">
+        <source src="assets-avif/model11.mp4" type="video/mp4">
       </video>
       <div class="pf-card-play">
         <div class="pf-play-icon">
@@ -301,9 +432,9 @@
     <div class="pf-glam-card pf-reveal" style="--i:1"
          data-category="glam" data-model-id="model8"
          role="button" tabindex="0" aria-label="Glam Look 02 — open video">
-      <div class="pf-glam-card-bg"></div>
-      <video muted loop playsinline preload="none" aria-hidden="true">
-        <source src="ASSETS/model8.mp4" type="video/mp4">
+      <img class="pf-glam-img w-full h-full object-cover" src="assets-avif/model8_thumbnail.avif" alt="Glam Look 02 Thumbnail">
+      <video class="pf-glam-video w-full h-full object-cover hidden" muted loop playsinline preload="none" aria-hidden="true">
+        <source src="assets-avif/model8.mp4" type="video/mp4">
       </video>
       <div class="pf-card-play">
         <div class="pf-play-icon">
@@ -321,9 +452,9 @@
     <div class="pf-glam-card pf-reveal" style="--i:2"
          data-category="glam" data-model-id="model10"
          role="button" tabindex="0" aria-label="Glam Look 03 — open video">
-      <div class="pf-glam-card-bg"></div>
-      <video muted loop playsinline preload="none" aria-hidden="true">
-        <source src="ASSETS/model10.mp4" type="video/mp4">
+      <img class="pf-glam-img w-full h-full object-cover" src="assets-avif/model10_thumbnail.avif" alt="Glam Look 03 Thumbnail">
+      <video class="pf-glam-video w-full h-full object-cover hidden" muted loop playsinline preload="none" aria-hidden="true">
+        <source src="assets-avif/model10.mp4" type="video/mp4">
       </video>
       <div class="pf-card-play">
         <div class="pf-play-icon">
@@ -341,9 +472,9 @@
     <div class="pf-glam-card pf-reveal" style="--i:3"
          data-category="glam" data-model-id="model9"
          role="button" tabindex="0" aria-label="Glam Look 04 — open video">
-      <div class="pf-glam-card-bg"></div>
-      <video muted loop playsinline preload="none" aria-hidden="true">
-        <source src="ASSETS/model9.mp4" type="video/mp4">
+      <img class="pf-glam-img w-full h-full object-cover" src="assets-avif/model9_thumbnail.avif" alt="Glam Look 04 Thumbnail">
+      <video class="pf-glam-video w-full h-full object-cover hidden" muted loop playsinline preload="none" aria-hidden="true">
+        <source src="assets-avif/model9.mp4" type="video/mp4">
       </video>
       <div class="pf-card-play">
         <div class="pf-play-icon">
@@ -452,18 +583,18 @@
 <script>
 // ── Model data ──────────────────────────────────────────────────────────────
 var MODELS = {
-  model6:  { cat:'Bridal', title:'Look 01', images:['ASSETS/model6_1.png','ASSETS/model6_2.png'], video:'ASSETS/model6.mp4' },
-  model4:  { cat:'Bridal', title:'Look 02', images:['ASSETS/model4_1.jpeg','ASSETS/model4_2.jpeg','ASSETS/model4_3.jpeg'], video:null },
-  model1:  { cat:'Bridal', title:'Look 03', images:['ASSETS/model1_1.jpeg','ASSETS/model1_3.jpeg','ASSETS/model1_4.jpeg'], video:'ASSETS/model1.mp4' },
-  model5:  { cat:'Bridal', title:'Look 04', images:['ASSETS/model5_1.jpeg','ASSETS/model5_2.png','ASSETS/model5_3.jpeg','ASSETS/model5_4.jpeg'], video:'ASSETS/model5.mp4' },
-  model3:  { cat:'Bridal', title:'Look 05', images:['ASSETS/model3_1.jpeg','ASSETS/model3_2.jpeg','ASSETS/model3_3.jpeg'], video:'ASSETS/model3.mp4' },
-  model2:  { cat:'Bridal', title:'Look 06', images:['ASSETS/model2_1.jpeg','ASSETS/model2_2.jpeg'], video:'ASSETS/model2.mp4' },
-  model7:  { cat:'Bridal', title:'Look 07', images:['ASSETS/model7_1.png','ASSETS/model7_2.png'], video:null },
-  model11: { cat:'Glam',   title:'Look 01', images:[], video:'ASSETS/model11.mp4' },
-  model8:  { cat:'Glam',   title:'Look 02', images:[], video:'ASSETS/model8.mp4' },
-  model10: { cat:'Glam',   title:'Look 03', images:[], video:'ASSETS/model10.mp4' },
-  model9:  { cat:'Glam',   title:'Look 04', images:[], video:'ASSETS/model9.mp4' },
-  hair:    { cat:'Hair',   title:'Hair Styling', images:['ASSETS/hair/hair2.jpeg','ASSETS/hair/hair3.jpeg','ASSETS/hair/hair4.jpeg','ASSETS/hair/hair5.jpeg','ASSETS/hair/hair1.jpeg','ASSETS/hair/hair6.jpeg'], video:null }
+  model6:  { cat:'Bridal', title:'Look 01', images:['assets-avif/model6_1_thumbnail.avif','assets-avif/model6_2.avif'], video:'assets-avif/model6.mp4' },
+  model4:  { cat:'Bridal', title:'Look 02', images:['assets-avif/model4_2_thumbnail.avif','assets-avif/model4_1.avif','assets-avif/model4_3.avif'], video:'assets-avif/model4.mp4' },
+  model1:  { cat:'Bridal', title:'Look 03', images:['assets-avif/model1_1_thumbnail.avif','assets-avif/model1_2.avif','assets-avif/model1_3.avif'], video:'assets-avif/model1.mp4' },
+  model5:  { cat:'Bridal', title:'Look 04', images:['assets-avif/model5_1_thumbnail.avif','assets-avif/model5_2.avif','assets-avif/model5_3.avif','assets-avif/model5_4.avif'], video:'assets-avif/model5.mp4' },
+  model3:  { cat:'Bridal', title:'Look 05', images:['assets-avif/model3_3_thubnail.avif','assets-avif/model3_1.avif','assets-avif/model3_2.avif'], video:'assets-avif/model3.mp4' },
+  model2:  { cat:'Bridal', title:'Look 06', images:['assets-avif/model2_1_thumbnail.avif','assets-avif/model2_2.avif'], video:'assets-avif/model2.mp4' },
+  model7:  { cat:'Bridal', title:'Look 07', images:['assets-avif/model7_1_thumbnail.avif','assets-avif/model7_2.avif'], video:null },
+  model11: { cat:'Glam',   title:'Look 01', images:[], video:'assets-avif/model11.mp4', thumbnail:'assets-avif/model11_thumbnail.avif' },
+  model8:  { cat:'Glam',   title:'Look 02', images:[], video:'assets-avif/model8.mp4', thumbnail:'assets-avif/model8_thumbnail.avif' },
+  model10: { cat:'Glam',   title:'Look 03', images:[], video:'assets-avif/model10.mp4', thumbnail:'assets-avif/model10_thumbnail.avif' },
+  model9:  { cat:'Glam',   title:'Look 04', images:[], video:'assets-avif/model9.mp4', thumbnail:'assets-avif/model9_thumbnail.avif' },
+  hair:    { cat:'Hair',   title:'Hair Styling', images:['assets-avif/hair/hair2.avif','assets-avif/hair/hair3.avif','assets-avif/hair/hair4.avif','assets-avif/hair/hair5.avif','assets-avif/hair/hair1.avif','assets-avif/hair/hair6.avif'], video:null }
 };
 
 // ── Mobile Menu ──────────────────────────────────────────────────────────────
@@ -509,40 +640,80 @@ document.querySelectorAll('.pf-reveal').forEach(function(el) {
   revObserver.observe(el);
 });
 
-// ── Video hover on bento cards ───────────────────────────────────────────────
-document.querySelectorAll('.pf-card').forEach(function(card) {
-  var vid = card.querySelector('.pf-card-video');
-  if (!vid) return;
+// ── Interactive Look Card Thumbnail Swap ─────────────────────────────────────
+function swapLookCardMedia(btn, idx, type, src) {
+  event.stopPropagation(); // prevent card click / lightbox opening
+  var card = btn.closest('.pf-look-card');
+  if (!card) return;
 
+  // Toggle active styling
+  card.querySelectorAll('.pf-look-thumb-btn').forEach(function(t) {
+    t.classList.remove('active');
+    t.setAttribute('aria-selected', 'false');
+  });
+  btn.classList.add('active');
+  btn.setAttribute('aria-selected', 'true');
+
+  // Update card active state index
+  card.setAttribute('data-active-idx', idx);
+
+  var img = card.querySelector('.pf-look-img');
+  var video = card.querySelector('.pf-look-video');
+
+  if (type === 'img') {
+    img.src = src;
+    img.classList.remove('hidden');
+    if (video) {
+      video.classList.add('hidden');
+      video.pause();
+      video.removeAttribute('src');
+    }
+  } else {
+    if (video) {
+      video.src = src;
+      video.load();
+      video.classList.remove('hidden');
+      img.classList.add('hidden');
+    }
+  }
+}
+
+function openLookLightbox(modelId, wrapEl) {
+  var card = wrapEl.closest('.pf-look-card');
+  var activeIdx = parseInt(card.getAttribute('data-active-idx') || 0);
+  openLightbox(modelId, activeIdx);
+}
+
+// ── Video hover play on Look Cards ───────────────────────────────────────────
+document.querySelectorAll('.pf-look-media-wrap').forEach(function(wrap) {
+  var video = wrap.querySelector('.pf-look-video');
   var isHovered = false;
 
-  card.addEventListener('mouseenter', function() {
+  wrap.addEventListener('mouseenter', function() {
     isHovered = true;
-    if (!vid.src) {
-      var source = vid.querySelector('source');
-      if (source) vid.src = source.src;
+    if (video && !video.classList.contains('hidden')) {
+      video.play().then(function() {
+        if (!isHovered) {
+          video.pause();
+          video.currentTime = 0;
+        }
+      }).catch(function() {});
     }
-    vid.play().then(function() {
-      if (isHovered) {
-        card.classList.add('video-playing');
-      } else {
-        vid.pause();
-        vid.currentTime = 0;
-      }
-    }).catch(function() {});
   });
 
-  card.addEventListener('mouseleave', function() {
+  wrap.addEventListener('mouseleave', function() {
     isHovered = false;
-    card.classList.remove('video-playing');
-    vid.pause();
-    vid.currentTime = 0;
+    if (video && !video.classList.contains('hidden')) {
+      video.pause();
+      video.currentTime = 0;
+    }
   });
 });
 
-// ── Video hover on glam cards ─────────────────────────────────────────────
+// ── Video hover play on Glam Cards ───────────────────────────────────────────
 document.querySelectorAll('.pf-glam-card').forEach(function(card) {
-  var vid = card.querySelector('video');
+  var img = card.querySelector('.pf-glam-img');
+  var vid = card.querySelector('.pf-glam-video');
   if (!vid) return;
 
   var isHovered = false;
@@ -555,10 +726,14 @@ document.querySelectorAll('.pf-glam-card').forEach(function(card) {
     }
     vid.play().then(function() {
       if (isHovered) {
+        vid.classList.remove('hidden');
+        if (img) img.classList.add('hidden');
         card.classList.add('video-playing');
       } else {
         vid.pause();
         vid.currentTime = 0;
+        vid.classList.add('hidden');
+        if (img) img.classList.remove('hidden');
       }
     }).catch(function() {});
   });
@@ -568,6 +743,8 @@ document.querySelectorAll('.pf-glam-card').forEach(function(card) {
     card.classList.remove('video-playing');
     vid.pause();
     vid.currentTime = 0;
+    vid.classList.add('hidden');
+    if (img) img.classList.remove('hidden');
   });
 });
 
@@ -714,11 +891,16 @@ lb.addEventListener('close', function() {
   lbImg.style.display = 'block';
 });
 
-// Attach click to all gallery cards (bento + hair + glam)
-document.querySelectorAll('.pf-card[data-model-id]').forEach(function(card) {
-  card.addEventListener('click', function() { openLightbox(card.dataset.modelId, 0); });
-  card.addEventListener('keydown', function(e) {
-    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openLightbox(card.dataset.modelId, 0); }
+// Accessibility keydown for Look Card media wrappers
+document.querySelectorAll('.pf-look-media-wrap').forEach(function(wrap) {
+  wrap.setAttribute('tabindex', '0');
+  wrap.setAttribute('role', 'button');
+  wrap.setAttribute('aria-label', 'Open image viewer');
+  wrap.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      openLookLightbox(wrap.closest('.pf-look-card').dataset.modelId, wrap);
+    }
   });
 });
 
