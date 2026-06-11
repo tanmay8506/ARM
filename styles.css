@@ -2253,6 +2253,8 @@ body.menu-open {
 /* ── Bento Gallery ── */
 .pf-gallery-section {
   padding: clamp(3rem,6vw,5rem) clamp(1.5rem,5vw,5rem);
+  /* Extra top padding = sticky filter bar height so content doesn't hide under it */
+  padding-top: calc(clamp(2.5rem,5vw,4rem) + 56px);
   scroll-margin-top: 128px;
 }
 /* ── Look Grid ── */
