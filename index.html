@@ -80,10 +80,21 @@
             .hero-text-col {
                 grid-column: 8 / 13;
                 padding: clamp(3rem, 5vw, 6rem) clamp(2rem, 3vw, 4rem);
-                min-height: 100vh;
-                min-height: 100dvh;
-            }
-        }
+       .editorial-portrait-img-col {
+        min-height: unset !important;
+        width: 100% !important;
+        /* Landscape frame for the artist photo on mobile */
+        aspect-ratio: 16 / 9;
+        overflow: hidden;
+        position: relative;
+    }
+    .editorial-portrait-img-col img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: center top;
+        display: block;
+    }    }
 
         .hero-img {
             width: 100%;
@@ -288,7 +299,7 @@
     <!-- ── Image Column: 7 of 12 grid columns on desktop ── -->
     <div class="hero-image-col">
         <img
-            src="assets-avif/model1_1_thumbnail.avif"
+            src="assets-avif/model5_1_thumbnail.avif"
             alt="Luxury bridal portrait — soft glam finish by ARM Artistry"
             class="hero-img"
             fetchpriority="high"
@@ -392,12 +403,13 @@
     <!-- editorial-portrait-grid class enables the mobile CSS reflow -->
     <div class="editorial-portrait-grid grid grid-cols-1 md:grid-cols-12">
 
-        <!-- Full-bleed image: rigid heights removed — aspect-ratio handles it -->
-        <div class="editorial-portrait-img-col md:col-span-8 relative" style="min-height:clamp(240px,40vw,55vh);">
+        <!-- Full-bleed image — artist portrait, landscape frame -->
+        <div class="editorial-portrait-img-col md:col-span-8 relative" style="min-height:clamp(380px,55vw,65vh);">
             <img
                 src="assets-avif/ayushi2.avif"
                 alt="Ayushi Rai — Founder of ARM Artistry"
-                class="w-full h-full object-cover object-[center_20%] block absolute inset-0"
+                class="w-full h-full object-cover block absolute inset-0"
+                style="object-position: center top;"
                 loading="lazy"
             >
             <div class="absolute inset-0 bg-gradient-to-r from-transparent via-transparent to-bone/40 dark:to-stone/40 pointer-events-none hidden md:block" aria-hidden="true"></div>
