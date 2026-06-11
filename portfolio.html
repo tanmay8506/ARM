@@ -654,8 +654,9 @@ function swapLookCardMedia(btn, idx, type, src) {
   btn.classList.add('active');
   btn.setAttribute('aria-selected', 'true');
 
-  // Update card active state index
+  // Update card active state index and type
   card.setAttribute('data-active-idx', idx);
+  card.setAttribute('data-active-type', type);
 
   var img = card.querySelector('.pf-look-img');
   var video = card.querySelector('.pf-look-video');
@@ -663,6 +664,7 @@ function swapLookCardMedia(btn, idx, type, src) {
   if (type === 'img') {
     img.src = src;
     img.classList.remove('hidden');
+    img.style.opacity = '';
     if (video) {
       video.classList.add('hidden');
       video.pause();
@@ -674,6 +676,7 @@ function swapLookCardMedia(btn, idx, type, src) {
       video.load();
       video.classList.remove('hidden');
       img.classList.add('hidden');
+      img.style.opacity = '';
     }
   }
 }
@@ -686,26 +689,43 @@ function openLookLightbox(modelId, wrapEl) {
 
 // ── Video hover play on Look Cards ───────────────────────────────────────────
 document.querySelectorAll('.pf-look-media-wrap').forEach(function(wrap) {
+  var img   = wrap.querySelector('.pf-look-img');
   var video = wrap.querySelector('.pf-look-video');
   var isHovered = false;
+  var hoverTimeout = null;
 
   wrap.addEventListener('mouseenter', function() {
     isHovered = true;
-    if (video && !video.classList.contains('hidden')) {
-      video.play().then(function() {
-        if (!isHovered) {
-          video.pause();
-          video.currentTime = 0;
+    if (!video) return;
+    // Always preview the video on hover — regardless of which thumb is active
+    hoverTimeout = setTimeout(function() {
+      if (!isHovered) return;
+      // Lazy-load the video src from its <source> tag if not already loaded
+      if (!video.src || video.src === window.location.href) {
+        var source = video.querySelector('source');
+        if (source && source.getAttribute('src')) {
+          video.src = source.getAttribute('src');
+          video.load();
         }
-      }).catch(function() {});
-    }
+      }
+      video.classList.remove('hidden');
+      if (img) img.style.opacity = '0';
+      video.play().catch(function() {});
+    }, 120); // small delay so quick mouse-overs don't trigger
   });
 
   wrap.addEventListener('mouseleave', function() {
     isHovered = false;
-    if (video && !video.classList.contains('hidden')) {
+    clearTimeout(hoverTimeout);
+    if (!video) return;
+    var card = wrap.closest('.pf-look-card');
+    var activeType = card ? card.getAttribute('data-active-type') : 'img';
+    // Only hide the video if the user hadn't explicitly selected the video thumb
+    if (activeType !== 'video') {
       video.pause();
       video.currentTime = 0;
+      video.classList.add('hidden');
+      if (img) img.style.opacity = '';
     }
   });
 });
@@ -754,6 +774,14 @@ var bridal = document.querySelector('[data-filter-group="bridal"]');
 var hair   = document.getElementById('pf-hair-section');
 var glam   = document.getElementById('pf-glam-section');
 
+// Helper: scroll an element into view accounting for fixed navbar (72px) + sticky filter bar (56px)
+function scrollToSection(el) {
+  if (!el) return;
+  var offset = 72 + 56 + 16; // navbar + filterbar + breathing room
+  var top = el.getBoundingClientRect().top + window.pageYOffset - offset;
+  window.scrollTo({ top: top, behavior: 'smooth' });
+}
+
 filterBtns.forEach(function(btn) {
   btn.addEventListener('click', function() {
     filterBtns.forEach(function(b) { b.classList.remove('active'); b.setAttribute('aria-selected','false'); });
@@ -767,10 +795,12 @@ filterBtns.forEach(function(btn) {
     hair.style.display   = (f === 'all' || f === 'hair')   ? '' : 'none';
     glam.style.display   = (f === 'all' || f === 'glam')   ? '' : 'none';
 
-    // scroll to first visible section
-    if (f === 'all' || f === 'bridal') { bridal.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-    if (f === 'hair')   { hair.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-    if (f === 'glam')   { glam.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+    // scroll to first visible section — use offset-aware scroll
+    setTimeout(function() {
+      if (f === 'all' || f === 'bridal') { scrollToSection(bridal); }
+      else if (f === 'hair') { scrollToSection(hair); }
+      else if (f === 'glam') { scrollToSection(glam); }
+    }, 30); // tiny delay so display:none changes take effect first
   });
 });
 
