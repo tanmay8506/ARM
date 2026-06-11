@@ -2572,12 +2572,17 @@ body.menu-open {
   background: #0e0906;
   cursor: pointer;
 }
+.pf-glam-img,
+.pf-glam-video {
+  object-position: center top !important;
+}
 .pf-glam-card video {
   position: absolute;
   inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
+  object-position: center top;
   opacity: 0;
   transition: opacity 0.55s ease;
 }
