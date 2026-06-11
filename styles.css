@@ -2601,12 +2601,12 @@ body.menu-open {
   max-width: 1400px;
   margin: 0 auto;
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(2, clamp(240px, 36vw, 420px));
-  gap: 6px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
 }
 .pf-glam-card {
   position: relative;
+  aspect-ratio: 3 / 4; /* Portrait aspect ratio to match assets and prevent crop */
   overflow: hidden;
   background: #0e0906;
   cursor: pointer;
@@ -2875,6 +2875,10 @@ body.menu-open {
     grid-template-columns: repeat(2, 1fr);
     gap: 32px 16px;
   }
+  .pf-glam-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 16px;
+  }
 }
 @media (max-width: 640px) {
   .pf-look-grid {
@@ -2883,7 +2887,7 @@ body.menu-open {
   }
   .pf-glam-grid {
     grid-template-columns: 1fr;
-    grid-template-rows: repeat(4, 260px);
+    gap: 32px;
   }
   .pf-cta-inner { flex-direction: column; align-items: flex-start; }
 }
