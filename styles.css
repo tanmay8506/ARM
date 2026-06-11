@@ -386,13 +386,16 @@ body.menu-open {
 
 /* =========================================================
    PAGE ENTER ANIMATION
+   NOTE: Must NOT use transform on body — any transform on a
+   parent breaks position:fixed on all children (CSS spec).
+   Opacity-only fade is safe.
    ========================================================= */
 .page-enter {
-    animation: pageEnter 0.55s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    animation: pageEnter 0.45s ease forwards;
 }
 @keyframes pageEnter {
-    from { opacity: 0; transform: translateY(16px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 /* =========================================================
