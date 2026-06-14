@@ -2896,3 +2896,46 @@ body.menu-open {
   }
   .pf-cta-inner { flex-direction: column; align-items: flex-start; }
 }
+
+/* ── Testimonials Carousel ── */
+.testimonials-container {
+  position: relative;
+  width: 100%;
+}
+.testimonial-slide {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(0.98) translateY(12px);
+  transition: opacity 0.7s cubic-bezier(0.4, 0, 0.2, 1), transform 0.7s cubic-bezier(0.4, 0, 0.2, 1), visibility 0.7s;
+  pointer-events: none;
+}
+.testimonial-slide.active {
+  position: relative;
+  opacity: 1;
+  visibility: visible;
+  transform: scale(1) translateY(0);
+  pointer-events: auto;
+}
+.testimonial-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.2);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  border: none;
+  padding: 0;
+}
+.testimonial-dot.active {
+  background-color: #f2a65a;
+  width: 24px;
+  border-radius: 4px;
+}
+.testimonial-dot:hover:not(.active) {
+  background-color: rgba(255, 255, 255, 0.4);
+}
+
