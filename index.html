@@ -49,8 +49,11 @@
         @media (min-width: 768px) {
             .hero-grid {
                 grid-template-columns: repeat(12, 1fr);
-                min-height: 100vh;
-                min-height: 100dvh;
+                height: 100vh;
+                height: 100dvh;
+                max-height: 100vh;
+                max-height: 100dvh;
+                overflow: hidden;
             }
         }
 
@@ -64,8 +67,10 @@
         @media (min-width: 768px) {
             .hero-image-col {
                 grid-column: 1 / 8;
-                min-height: 100vh;
-                min-height: 100dvh;
+                height: 100vh;
+                height: 100dvh;
+                max-height: 100vh;
+                max-height: 100dvh;
             }
         }
 
@@ -75,13 +80,16 @@
             flex-direction: column;
             justify-content: center;
             padding: clamp(2.5rem, 6vw, 5rem) clamp(1.5rem, 4vw, 4rem);
+            position: relative;
         }
         @media (min-width: 768px) {
             .hero-text-col {
                 grid-column: 8 / 13;
                 padding: clamp(3rem, 5vw, 6rem) clamp(2rem, 3vw, 4rem);
-                min-height: 100vh;
-                min-height: 100dvh;
+                height: 100vh;
+                height: 100dvh;
+                max-height: 100vh;
+                max-height: 100dvh;
             }
         }
 
@@ -320,12 +328,12 @@
                     View Portfolio
                 </a>
             </div>
+        </div>
 
-            <!-- Scroll Prompt -->
-            <div class="hidden md:flex items-center gap-3 mt-20 text-[#9a8a7a]">
-                <span class="block w-8 h-px bg-[#9a8a7a]"></span>
-                <span class="text-[0.5625rem] font-bold tracking-[0.3em] uppercase scroll-prompt">Scroll to Explore</span>
-            </div>
+        <!-- Scroll Prompt -->
+        <div class="hidden md:flex items-center gap-3 absolute text-[#9a8a7a]" style="left: clamp(2rem, 3vw, 4rem); bottom: clamp(2rem, 5vh, 4.5rem);">
+            <span class="block w-8 h-px bg-[#9a8a7a]"></span>
+            <span class="text-[0.5625rem] font-bold tracking-[0.3em] uppercase scroll-prompt">Scroll to Explore</span>
         </div>
     </div>
 </section>
