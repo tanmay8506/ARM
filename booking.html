@@ -641,6 +641,9 @@
                 card.addEventListener('click', function() {
                     var service = card.dataset.service;
                     currentService = service; currentFinish = null;
+                    currentHair = 'none';
+                    if (customSelectLabel) customSelectLabel.textContent = 'None (₹0)';
+                    if (hairstyleSelect) hairstyleSelect.value = 'none';
                     finishInputs.forEach(function(r) { r.checked = false; });
                     document.querySelectorAll('.finish-toggle').forEach(function(t) { t.classList.remove('selected'); });
                     serviceCards.forEach(function(c) { c.classList.remove('selected'); });
@@ -648,8 +651,7 @@
                     show(commonFields); show(submitSection); show(priceEstimate);
                     document.getElementById('hairstyleTitle').textContent = service === 'hairstyle' ? 'Hairstyle Selection' : 'Hairstyle Add-on';
                     if (service === 'hairstyle') { show(eventDateFields); hide(finishTypeFields); hide(partyFields); show(hairstyleFields); }
-                    else if (service === 'party') { show(eventDateFields); show(finishTypeFields); show(partyFields); show(hairstyleFields); }
-                    else { show(eventDateFields); show(finishTypeFields); hide(partyFields); show(hairstyleFields); }
+                    else { show(eventDateFields); show(finishTypeFields); if(service === 'party') { show(partyFields); } else { hide(partyFields); } hide(hairstyleFields); }
                     updateFinishPriceLabels(service); recalcPrice();
                 });
             });
@@ -751,7 +753,7 @@
                 var notes       = (document.getElementById('additionalNotes').value || '').trim();
                 var serviceLabel = { bridal:'Bridal Makeup', engagement:'Engagement / Roka', haldi:'Haldi / Mehandi Makeup', party:'Party Makeup', hairstyle:'Hairstyle Only' }[currentService] || currentService;
                 var finishLabel  = { sd:'Standard', hd:'HD', luxury:'Luxury' }[currentFinish] || '';
-                var hairLabel    = customSelectLabel ? customSelectLabel.textContent : 'None';
+                var hairLabel    = (currentService === 'hairstyle') ? (customSelectLabel ? customSelectLabel.textContent : 'None') : 'None';
 
                 var params = { to_email:'tanmay8506@gmail.com', full_name:clientName, email:clientEmail, phone:clientPhone, service:serviceLabel, finish:finishLabel, hairstyle:hairLabel, event_date:eventDate, venue:eventVenue, notes:notes, estimated_total:priceDisplay.textContent };
 
