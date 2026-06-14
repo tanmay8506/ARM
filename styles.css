@@ -2025,7 +2025,7 @@ body.menu-open {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  object-position: center 10%;
+  object-position: center bottom;
   opacity: 0.72;
 }
 .pf-hero-scrim {
