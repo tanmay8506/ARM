@@ -2791,13 +2791,125 @@ body.menu-open {
   display: block;
   transition: opacity 0.25s ease;
 }
-.pf-lb-main-video {
+.pf-lb-video-wrapper {
+  position: relative;
   max-width: 100%;
   max-height: calc(100dvh - 140px);
   display: none;
   border: 1px solid rgba(242,166,90,0.15);
+  background: #000;
+  overflow: hidden;
 }
-.pf-lb-main-video.active { display: block; }
+.pf-lb-video-wrapper.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pf-lb-main-video {
+  max-width: 100%;
+  max-height: calc(100dvh - 140px);
+  display: block;
+  object-fit: contain;
+}
+
+/* Elegant custom overlay play button (visible when paused) */
+.pf-lb-video-play-overlay {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) scale(0.9);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(27, 20, 13, 0.7);
+  border: 1px solid rgba(242, 166, 90, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #f2a65a;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  z-index: 12;
+}
+.pf-lb-video-play-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translate(-50%, -50%) scale(1);
+}
+.pf-lb-video-play-overlay:hover {
+  background: #f2a65a;
+  color: #1c1917;
+  border-color: #f2a65a;
+  box-shadow: 0 0 20px rgba(242, 166, 90, 0.4);
+}
+.pf-lb-video-play-overlay span {
+  font-size: 2rem;
+  margin-left: 2px; /* visual alignment shift for play triangle */
+}
+
+/* Elegant custom control bar at the bottom */
+.pf-lb-video-controls {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to top, rgba(27,20,13,0.9) 0%, transparent 100%);
+  padding: 2rem 1.25rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 11;
+  pointer-events: auto;
+}
+.pf-lb-video-wrapper:hover .pf-lb-video-controls,
+.pf-lb-video-wrapper.controls-visible .pf-lb-video-controls {
+  opacity: 1;
+}
+.pf-lb-video-controls button {
+  background: none;
+  border: none;
+  color: rgba(245,242,237,0.8);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  transition: color 0.2s, transform 0.1s;
+  width: 32px;
+  height: 32px;
+}
+.pf-lb-video-controls button:hover {
+  color: #f2a65a;
+  transform: scale(1.1);
+}
+.pf-lb-video-controls button:active {
+  transform: scale(0.95);
+}
+.pf-lb-video-timeline-bg {
+  flex: 1;
+  height: 4px;
+  background: rgba(255,255,255,0.2);
+  position: relative;
+  cursor: pointer;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  transition: height 0.2s;
+}
+.pf-lb-video-timeline-bg:hover {
+  height: 6px;
+}
+.pf-lb-video-timeline-progress {
+  height: 100%;
+  background: #f2a65a;
+  width: 0%;
+  border-radius: 2px;
+  pointer-events: none;
+}
 /* Top bar */
 .pf-lb-topbar {
   width: 100%;

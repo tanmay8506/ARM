@@ -571,9 +571,25 @@
   <div class="pf-lb-viewer">
     <button class="pf-lb-nav pf-lb-prev" id="pf-lb-prev" aria-label="Previous">&#8592;</button>
     <img src="" alt="" id="pf-lb-img" class="pf-lb-main-img">
-    <video id="pf-lb-video" class="pf-lb-main-video" controls playsinline>
-      <source src="" type="video/mp4">
-    </video>
+    <div id="pf-lb-video-wrapper" class="pf-lb-video-wrapper">
+      <video id="pf-lb-video" class="pf-lb-main-video" playsinline>
+        <source src="" type="video/mp4">
+      </video>
+      <button id="pf-lb-video-play-overlay" class="pf-lb-video-play-overlay" aria-label="Play video">
+        <span class="material-symbols-outlined">play_arrow</span>
+      </button>
+      <div class="pf-lb-video-controls">
+        <button id="pf-lb-video-play-toggle" aria-label="Pause video">
+          <span class="material-symbols-outlined" style="font-size:1.5rem">pause</span>
+        </button>
+        <div class="pf-lb-video-timeline-bg" id="pf-lb-video-timeline" role="slider" aria-label="Video timeline">
+          <div class="pf-lb-video-timeline-progress" id="pf-lb-video-progress"></div>
+        </div>
+        <button id="pf-lb-video-mute-toggle" aria-label="Mute video">
+          <span class="material-symbols-outlined" style="font-size:1.5rem">volume_up</span>
+        </button>
+      </div>
+    </div>
     <button class="pf-lb-nav pf-lb-next" id="pf-lb-next" aria-label="Next">&#8594;</button>
   </div>
 
@@ -823,6 +839,7 @@ filterBtns.forEach(function(btn) {
 var lb        = document.getElementById('pf-lightbox');
 var lbImg     = document.getElementById('pf-lb-img');
 var lbVideo   = document.getElementById('pf-lb-video');
+var lbVidWrap = document.getElementById('pf-lb-video-wrapper');
 var lbCat     = document.getElementById('pf-lb-cat');
 var lbTitle   = document.getElementById('pf-lb-title');
 var lbThumbs  = document.getElementById('pf-lb-thumbs');
@@ -851,12 +868,12 @@ function lbRender(idx) {
     lbImg.src = item.src;
     lbImg.alt = lbTitle.textContent + ' - Image ' + (lbCurrent + 1);
     lbImg.style.display = 'block';
-    lbVideo.classList.remove('active');
+    lbVidWrap.classList.remove('active');
     lbVideo.pause();
     lbVideo.removeAttribute('src');
   } else {
     lbVideo.src = item.src;
-    lbVideo.classList.add('active');
+    lbVidWrap.classList.add('active');
     lbImg.style.display = 'none';
     lbVideo.play().catch(function(){});
   }
@@ -918,7 +935,7 @@ lb.addEventListener('close', function() {
   lbVideo.pause();
   lbVideo.removeAttribute('src');
   lbVideo.load();
-  lbVideo.classList.remove('active');
+  if (lbVidWrap) lbVidWrap.classList.remove('active');
   lbImg.style.display = 'block';
 });
 
@@ -968,6 +985,102 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'ArrowRight') lbRender(lbCurrent + 1);
   if (e.key === 'ArrowLeft')  lbRender(lbCurrent - 1);
 });
+
+// ── Custom Lightbox Video Controls ───────────────────────────────────────────
+(function() {
+  var video       = document.getElementById('pf-lb-video');
+  var wrapper     = document.getElementById('pf-lb-video-wrapper');
+  var playOverlay = document.getElementById('pf-lb-video-play-overlay');
+  var playToggle  = document.getElementById('pf-lb-video-play-toggle');
+  var timeline    = document.getElementById('pf-lb-video-timeline');
+  var progress    = document.getElementById('pf-lb-video-progress');
+  var muteToggle  = document.getElementById('pf-lb-video-mute-toggle');
+
+  if (!video || !wrapper || !playOverlay || !playToggle || !timeline || !progress || !muteToggle) return;
+
+  function togglePlay() {
+    if (video.paused) {
+      video.play().catch(function(){});
+    } else {
+      video.pause();
+    }
+  }
+
+  function toggleMute() {
+    video.muted = !video.muted;
+    updateMuteUI();
+  }
+
+  function updateMuteUI() {
+    var icon = muteToggle.querySelector('.material-symbols-outlined');
+    if (icon) {
+      icon.textContent = video.muted ? 'volume_off' : 'volume_up';
+    }
+  }
+
+  // Event Listeners
+  playOverlay.addEventListener('click', function(e) {
+    e.stopPropagation();
+    togglePlay();
+  });
+
+  playToggle.addEventListener('click', function(e) {
+    e.stopPropagation();
+    togglePlay();
+  });
+
+  video.addEventListener('click', function(e) {
+    e.stopPropagation();
+    togglePlay();
+  });
+
+  muteToggle.addEventListener('click', function(e) {
+    e.stopPropagation();
+    toggleMute();
+  });
+
+  // Update play/pause state UI
+  video.addEventListener('play', function() {
+    playOverlay.classList.remove('visible');
+    var icon = playToggle.querySelector('.material-symbols-outlined');
+    if (icon) icon.textContent = 'pause';
+  });
+
+  video.addEventListener('pause', function() {
+    playOverlay.classList.add('visible');
+    var icon = playToggle.querySelector('.material-symbols-outlined');
+    if (icon) icon.textContent = 'play_arrow';
+  });
+
+  // Timeline Progress
+  video.addEventListener('timeupdate', function() {
+    if (video.duration) {
+      var pct = (video.currentTime / video.duration) * 100;
+      progress.style.width = pct + '%';
+    }
+  });
+
+  // Seek Timeline
+  timeline.addEventListener('click', function(e) {
+    e.stopPropagation();
+    var rect = timeline.getBoundingClientRect();
+    var clickX = e.clientX - rect.left;
+    var pct = Math.max(0, Math.min(1, clickX / rect.width));
+    if (video.duration) {
+      video.currentTime = pct * video.duration;
+    }
+  });
+
+  // Mobile menu control visibility toggle on wrapper click
+  var mobileControlsTimeout;
+  wrapper.addEventListener('click', function() {
+    wrapper.classList.add('controls-visible');
+    clearTimeout(mobileControlsTimeout);
+    mobileControlsTimeout = setTimeout(function() {
+      wrapper.classList.remove('controls-visible');
+    }, 3000);
+  });
+})();
 </script>
 </body>
 </html>
