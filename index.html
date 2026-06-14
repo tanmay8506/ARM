@@ -920,9 +920,8 @@
     
     if (slides.length > 0) {
         var currentIndex = 0;
-        var isHovered = false;
-        var intervalDuration = 5000; // 5 seconds
-        var slideInterval = null;
+        var autoplayTimer = null;
+        var slideDuration = 5000; // 5 seconds
 
         function showSlide(index) {
             slides.forEach(function (slide, i) {
@@ -942,35 +941,41 @@
             });
 
             currentIndex = index;
+            resetAutoplay();
         }
 
         function nextSlide() {
-            if (!isHovered) {
-                var nextIndex = (currentIndex + 1) % slides.length;
-                showSlide(nextIndex);
+            var nextIndex = (currentIndex + 1) % slides.length;
+            showSlide(nextIndex);
+        }
+
+        function resetAutoplay() {
+            if (autoplayTimer) {
+                clearTimeout(autoplayTimer);
+            }
+            autoplayTimer = setTimeout(nextSlide, slideDuration);
+        }
+
+        function stopAutoplay() {
+            if (autoplayTimer) {
+                clearTimeout(autoplayTimer);
+                autoplayTimer = null;
             }
         }
 
-        // Setup the interval once
-        slideInterval = setInterval(nextSlide, intervalDuration);
+        // Start autoplay on load
+        resetAutoplay();
 
         // Pause on hover / touch
         if (container) {
-            container.addEventListener('mouseenter', function () {
-                isHovered = true;
-            });
-            container.addEventListener('mouseleave', function () {
-                isHovered = false;
-            });
-            // Handle touch events for mobile devices to prevent permanent freeze
-            container.addEventListener('touchstart', function () {
-                isHovered = true;
-            }, { passive: true });
+            container.addEventListener('mouseenter', stopAutoplay);
+            container.addEventListener('mouseleave', resetAutoplay);
+            
+            // Handle touch events for mobile devices
+            container.addEventListener('touchstart', stopAutoplay, { passive: true });
             container.addEventListener('touchend', function () {
                 // Resume after a short delay on touch end
-                setTimeout(function () {
-                    isHovered = false;
-                }, 2000);
+                setTimeout(resetAutoplay, 1500);
             }, { passive: true });
         }
 
@@ -980,9 +985,6 @@
                 var index = parseInt(dot.getAttribute('data-slide'), 10);
                 if (!isNaN(index) && index !== currentIndex) {
                     showSlide(index);
-                    // Reset the interval timer so clicking doesn't cut a slide short
-                    clearInterval(slideInterval);
-                    slideInterval = setInterval(nextSlide, intervalDuration);
                 }
             });
         });
