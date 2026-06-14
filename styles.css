@@ -2026,7 +2026,7 @@ body.menu-open {
   width: 100%;
   height: calc(100% - 72px);
   object-fit: cover;
-  object-position: center top;
+  object-position: center 20%;
   opacity: 0.72;
 }
 @media (max-width: 768px) {
