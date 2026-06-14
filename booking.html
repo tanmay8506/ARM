@@ -130,25 +130,27 @@
     </div>
 
     <!-- ===================== HEADER ===================== -->
-    <header id="navbar"
-        class="fixed top-0 left-0 right-0 z-50 bg-[#fcfaf8]/90 dark:bg-[#1b140d]/90 backdrop-blur-md border-b border-transparent transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-            <a href="index.html" class="logo-font text-2xl font-bold text-[#1b140d] dark:text-white tracking-tight">
-                ARM <span class="text-primary">Artistry</span>
+    <header id="navbar" class="fixed top-0 left-0 right-0 z-50 bg-bone/90 dark:bg-stone/90 backdrop-blur-md border-b border-stone/5 dark:border-white/5 transition-all duration-300">
+        <div class="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 py-4 flex items-center justify-between">
+            <a href="index.html" class="flex items-center gap-3" aria-label="ARM Artistry — Home">
+                <div class="w-5 h-5 text-primary">
+                    <svg fill="none" viewBox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M24 4C25.7818 14.2173 33.7827 22.2182 44 24C33.7827 25.7818 25.7818 33.7827 24 44C22.2182 33.7827 14.2173 25.7818 4 24C14.2173 22.2182 22.2182 14.2173 24 4Z" fill="currentColor"></path>
+                    </svg>
+                </div>
+                <span class="font-headline text-xl font-bold text-stone dark:text-white tracking-[0.18em]">ARM</span>
             </a>
-            <nav class="hidden md:flex items-center gap-10">
-                <a href="index.html" class="nav-link text-[#1b140d] dark:text-white">Home</a>
-                <a href="portfolio.html" class="nav-link text-[#1b140d] dark:text-white">Portfolio</a>
-                <a href="service.html" class="nav-link text-[#1b140d] dark:text-white">Services</a>
+            <nav class="hidden md:flex items-center gap-10" aria-label="Primary navigation">
+                <a href="index.html" class="nav-link text-stone dark:text-white">Home</a>
+                <a href="portfolio.html" class="nav-link text-stone dark:text-white">Portfolio</a>
+                <a href="service.html" class="nav-link text-stone dark:text-white">Services</a>
             </nav>
             <div class="flex items-center gap-4">
-                <button id="darkToggle" aria-label="Toggle dark mode"
-                    class="w-9 h-9 rounded-full border border-[#1b140d]/15 dark:border-white/15 flex items-center justify-center text-[#1b140d] dark:text-white hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+                <button id="darkToggle" aria-label="Toggle dark mode" class="w-9 h-9 rounded-full border border-stone/15 dark:border-white/15 flex items-center justify-center text-stone dark:text-white hover:bg-stone/5 dark:hover:bg-white/10 transition-colors">
                     <span class="material-symbols-outlined" style="font-size:1.1rem">dark_mode</span>
                 </button>
                 <a href="#form" class="header-book-btn hidden md:block">Begin Booking</a>
-                <button class="flex items-center justify-center md:hidden text-[#1b140d] dark:text-white p-1"
-                    onclick="openMobileMenu()" aria-label="Open menu" style="min-width:44px;min-height:44px;">
+                <button class="flex items-center justify-center md:hidden text-stone dark:text-white p-1" onclick="openMobileMenu()" aria-label="Open navigation menu" style="min-width:44px;min-height:44px;">
                     <span class="material-symbols-outlined" style="font-size:1.75rem">menu</span>
                 </button>
             </div>

@@ -42,9 +42,10 @@ a { text-decoration: none; }
    ========================================================= */
 .nav-link {
     position: relative;
-    font-size: 0.8125rem;
-    font-weight: 700;
-    letter-spacing: 0.06em;
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.875rem;
+    font-weight: 600;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
     transition: color 0.25s ease;
     padding-bottom: 4px;
@@ -53,48 +54,62 @@ a { text-decoration: none; }
     content: '';
     position: absolute;
     bottom: -2px;
-    left: 0;
+    left: 50%;
     width: 0;
-    height: 2px;
-    background: #f2a65a;
-    border-radius: 2px;
-    transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 1px;
+    background: #c97b4a;
+    transition: width 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94), left 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
-.nav-link:hover::after { width: 100%; }
-.nav-link.active::after { width: 100%; }
-.nav-link.active { color: #f2a65a; }
+.nav-link:hover::after,
+.nav-link.active::after {
+    width: 100%;
+    left: 0;
+}
+.nav-link.active { color: #c97b4a; }
+.dark .nav-link.active { color: #f2a65a; }
+.dark .nav-link::after { background: #f2a65a; }
 
 /* =========================================================
    HEADER — BOOK NOW CTA (Singular Apex CTA)
-   High-contrast pill button separated visually from all nav
-   text links. Intentionally uses terracotta fill so the eye
-   is drawn to it immediately on page load.
+   Minimal outline layout on load that transitions to full solid color on hover.
+   Uses Cormorant SC font to align with the rest of the navbar.
    ========================================================= */
 .header-book-btn {
     display: inline-flex;
     align-items: center;
-    background: #c97b4a;          /* terracotta — stands out from primary #f2a65a */
-    color: #ffffff;
-    padding: 0.625rem 1.5rem;
-    border-radius: 0.5rem;
-    font-size: 0.75rem;
-    font-weight: 800;
-    letter-spacing: 0.12em;
+    justify-content: center;
+    background: transparent;
+    color: #c97b4a;
+    border: 1px solid rgba(201, 123, 74, 0.4);
+    padding: 0.55rem 1.5rem;
+    border-radius: 2px;
+    font-family: 'Cormorant SC', serif;
+    font-size: 0.8125rem;
+    font-weight: 700;
+    letter-spacing: 0.18em;
     text-transform: uppercase;
     white-space: nowrap;
-    box-shadow: 0 4px 14px -2px rgba(201, 123, 74, 0.45);
-    transition: background 0.22s ease,
-                box-shadow 0.22s ease,
-                transform  0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 }
 .header-book-btn:hover {
-    background: #b36840;
-    box-shadow: 0 8px 22px -4px rgba(201, 123, 74, 0.6);
-    transform: translateY(-2px) scale(1.04);
+    background: #c97b4a;
+    color: #ffffff;
+    border-color: #c97b4a;
+    box-shadow: 0 4px 20px rgba(201, 123, 74, 0.15);
+    transform: translateY(-1px);
 }
 .header-book-btn:active {
-    transform: translateY(0) scale(0.98);
-    box-shadow: 0 2px 8px -2px rgba(201, 123, 74, 0.4);
+    transform: translateY(0);
+}
+.dark .header-book-btn {
+    color: #f2a65a;
+    border-color: rgba(242, 166, 90, 0.4);
+}
+.dark .header-book-btn:hover {
+    background: #f2a65a;
+    color: #1c1917;
+    border-color: #f2a65a;
+    box-shadow: 0 4px 20px rgba(242, 166, 90, 0.2);
 }
 
 /* =========================================================
