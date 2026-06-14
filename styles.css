@@ -2022,10 +2022,9 @@ body.menu-open {
 .pf-hero-video {
   position: absolute;
   top: 72px;
-  margin-top: -60px;
   left: 0;
   width: 100%;
-  height: calc(100% - 72px + 60px);
+  height: calc(100% - 72px);
   object-fit: cover;
   object-position: center top;
   opacity: 0.72;
@@ -2033,8 +2032,7 @@ body.menu-open {
 @media (max-width: 768px) {
   .pf-hero-video {
     top: 64px;
-    margin-top: -14px;
-    height: calc(100% - 64px + 14px);
+    height: calc(100% - 64px);
   }
 }
 .pf-hero-scrim {
