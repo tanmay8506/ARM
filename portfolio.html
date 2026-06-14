@@ -986,6 +986,20 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'ArrowLeft')  lbRender(lbCurrent - 1);
 });
 
+// ── Open Lightbox from URL Parameter ─────────────────────────────────────────
+window.addEventListener('DOMContentLoaded', function() {
+  var params = new URLSearchParams(window.location.search);
+  var look = params.get('look');
+  if (look) {
+    var idx = parseInt(params.get('idx')) || 0;
+    setTimeout(function() {
+      if (MODELS[look]) {
+        openLightbox(look, idx);
+      }
+    }, 400); // 400ms delay to let page transitions finish smoothly
+  }
+});
+
 // ── Custom Lightbox Video Controls ───────────────────────────────────────────
 (function() {
   var video       = document.getElementById('pf-lb-video');

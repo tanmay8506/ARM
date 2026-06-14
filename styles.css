@@ -3110,8 +3110,5 @@ body.menu-open {
     transform: translate3d(-50%, 0, 0);
   }
 }
-.marquee-track:hover {
-  animation-play-state: paused;
-}
 
 
