@@ -920,8 +920,9 @@
     
     if (slides.length > 0) {
         var currentIndex = 0;
-        var slideInterval = null;
+        var isHovered = false;
         var intervalDuration = 5000; // 5 seconds
+        var slideInterval = null;
 
         function showSlide(index) {
             slides.forEach(function (slide, i) {
@@ -944,30 +945,33 @@
         }
 
         function nextSlide() {
-            var nextIndex = (currentIndex + 1) % slides.length;
-            showSlide(nextIndex);
-        }
-
-        function startAutoplay() {
-            if (!slideInterval) {
-                slideInterval = setInterval(nextSlide, intervalDuration);
+            if (!isHovered) {
+                var nextIndex = (currentIndex + 1) % slides.length;
+                showSlide(nextIndex);
             }
         }
 
-        function stopAutoplay() {
-            if (slideInterval) {
-                clearInterval(slideInterval);
-                slideInterval = null;
-            }
-        }
+        // Setup the interval once
+        slideInterval = setInterval(nextSlide, intervalDuration);
 
-        // Initialize autoplay
-        startAutoplay();
-
-        // Pause on hover
+        // Pause on hover / touch
         if (container) {
-            container.addEventListener('mouseenter', stopAutoplay);
-            container.addEventListener('mouseleave', startAutoplay);
+            container.addEventListener('mouseenter', function () {
+                isHovered = true;
+            });
+            container.addEventListener('mouseleave', function () {
+                isHovered = false;
+            });
+            // Handle touch events for mobile devices to prevent permanent freeze
+            container.addEventListener('touchstart', function () {
+                isHovered = true;
+            }, { passive: true });
+            container.addEventListener('touchend', function () {
+                // Resume after a short delay on touch end
+                setTimeout(function () {
+                    isHovered = false;
+                }, 2000);
+            }, { passive: true });
         }
 
         // Click indicators
@@ -976,9 +980,9 @@
                 var index = parseInt(dot.getAttribute('data-slide'), 10);
                 if (!isNaN(index) && index !== currentIndex) {
                     showSlide(index);
-                    // Reset autoplay timer on manual click
-                    stopAutoplay();
-                    startAutoplay();
+                    // Reset the interval timer so clicking doesn't cut a slide short
+                    clearInterval(slideInterval);
+                    slideInterval = setInterval(nextSlide, intervalDuration);
                 }
             });
         });
