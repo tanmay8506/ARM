@@ -2571,6 +2571,7 @@ body.menu-open {
   margin: 0 auto;
   padding: 0 clamp(1.5rem,5vw,5rem);
   position: relative;
+  overflow: hidden;
 }
 .pf-hair-track {
   display: flex;
