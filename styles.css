@@ -2939,3 +2939,28 @@ body.menu-open {
   background-color: rgba(255, 255, 255, 0.4);
 }
 
+/* ── Infinite Marquee ── */
+.marquee-container {
+  overflow: hidden;
+  width: 100%;
+  position: relative;
+}
+.marquee-track {
+  display: flex;
+  gap: 3px;
+  width: max-content;
+  animation: marqueeScroll 25s linear infinite;
+}
+@keyframes marqueeScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+
